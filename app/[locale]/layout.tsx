@@ -34,7 +34,7 @@ export const metadata: Metadata = {
     siteName: "Go Ai",
     images: [
       {
-        url: "/logo/logo-og.png",
+        url: "/logo/logo-light-png.png",
         width: 1200,
         height: 630,
         alt: "Go Ai Logo",
@@ -46,8 +46,8 @@ export const metadata: Metadata = {
   twitter: {
     card: "summary_large_image",
     title: "Go Ai",
-    description: "Go Ai - The Future of development",
-    images: ["/logo/logo-og.png"],
+    description: "Go Ai - Elevate Your Business with AI",
+    images: ["/logo/logo-light-png.png"],
   },
 };
 
