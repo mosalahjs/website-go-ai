@@ -3,7 +3,7 @@ import { Geist, Geist_Mono } from "next/font/google";
 import "../globals.css";
 import Navbar from "@/components/navbar";
 import { NextIntlClientProvider } from "next-intl";
-import { getMessages, getLocale } from "next-intl/server";
+import { getMessages } from "next-intl/server";
 import { getDirection } from "@/i18n/i18n-confige";
 
 const geistSans = Geist({
@@ -17,8 +17,38 @@ const geistMono = Geist_Mono({
 });
 
 export const metadata: Metadata = {
-  title: "Go Ai",
+  title: {
+    default: "Go Ai",
+    template: "%s | Go Ai",
+  },
   description: "Go Ai - The Future of development",
+  icons: {
+    icon: "/logo/logo-light.svg",
+    shortcut: "/logo/logo-light-png.png",
+    apple: "/logo/logo-light-png.png",
+  },
+  openGraph: {
+    title: "Go Ai",
+    description: "Go Ai - The Future of development",
+    url: "https://website-go-ai.vercel.app",
+    siteName: "Go Ai",
+    images: [
+      {
+        url: "/logo/logo-light-png.svg",
+        width: 1200,
+        height: 630,
+        alt: "Go Ai Logo",
+      },
+    ],
+    locale: "en_US",
+    type: "website",
+  },
+  twitter: {
+    card: "summary_large_image",
+    title: "Go Ai",
+    description: "Go Ai - The Future of development",
+    images: ["/logo/logo-light-png.svg"],
+  },
 };
 
 export default async function RootLayout({
@@ -26,18 +56,14 @@ export default async function RootLayout({
   params,
 }: Readonly<{
   children: React.ReactNode;
-  params: Promise<{ locale: string }>;
+  params: { locale: string };
 }>) {
-  // const locale = await getLocale();
   const { locale } = await params;
   const dir = getDirection(locale);
   const messages = await getMessages({ locale });
+
   return (
-    <html
-      lang={locale}
-      suppressHydrationWarning
-      dir={dir === "rtl" ? "rtl" : "ltr"}
-    >
+    <html lang={locale} dir={dir} suppressHydrationWarning>
       <body
         className={`${geistSans.variable} ${geistMono.variable} antialiased`}
       >
