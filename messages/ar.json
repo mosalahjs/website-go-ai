@@ -1,4 +1,14 @@
 {
+  "nav": {
+    "home": "الرئيسية",
+    "products": "المنتجات",
+    "services": "الخدمات",
+    "about": "عنا",
+    "contact": "اتصل بنا"
+  },
+  "landingPage": {
+    "description": "امتلك التكنولوجيا وامتلك الغد"
+  },
   "HomePage": {
     "title": "أهلا وسهلأ"
   }

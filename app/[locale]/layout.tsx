@@ -5,6 +5,7 @@ import Navbar from "@/components/navbar";
 import { NextIntlClientProvider } from "next-intl";
 import { getMessages, getLocale } from "next-intl/server";
 import { getDirection } from "@/i18n/i18n-confige";
+import GlassNavbar from "@/components/navbar/GlassNavbar";
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -21,7 +22,7 @@ export const metadata: Metadata = {
     default: "Go Ai",
     template: "%s | Go Ai",
   },
-  description: "Go Ai - The Future of development",
+  description: "Go Ai - Elevate Your Business with AI",
   icons: {
     icon: "/logo/logo-light.svg",
     shortcut: "/logo/logo-light-png.png",
@@ -29,7 +30,7 @@ export const metadata: Metadata = {
   },
   openGraph: {
     title: "Go Ai",
-    description: "Go Ai - The Future of development",
+    description: "Go Ai - Elevate Your Business with AI",
     url: "https://website-go-ai.vercel.app",
     siteName: "Go Ai",
     images: [
@@ -72,9 +73,9 @@ export default async function RootLayout({
         className={`${geistSans.variable} ${geistMono.variable} antialiased`}
       >
         <NextIntlClientProvider locale={locale} messages={messages}>
-          <Navbar />
-
-          <main className="pt-24 min-h-[400vh]">{children}</main>
+          {/* <Navbar /> */}
+          <GlassNavbar />
+          <main className="pt-18 min-h-[400vh]">{children}</main>
         </NextIntlClientProvider>
       </body>
     </html>

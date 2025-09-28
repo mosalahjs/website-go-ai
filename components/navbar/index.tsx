@@ -3,6 +3,8 @@
 import { motion, useScroll, useSpring } from "framer-motion";
 import { Button } from "@/components/ui/button";
 import { cn } from "@/lib/utils";
+import Image from "next/image";
+import Logoicon from "../assets/Icons";
 
 export default function Navbar() {
   // Scroll progress
@@ -20,17 +22,26 @@ export default function Navbar() {
       transition={{ type: "spring", stiffness: 100, damping: 20 }}
       className={cn(
         "fixed top-0 left-0 w-full z-50 shadow-lg",
-        "bg-white/60 backdrop-blur-xl border-b border-white/20"
+        "bg-white/60 backdrop-blur-xl border-b border-white/20 h-[15vh]"
       )}
     >
-      <div className="max-w-6xl mx-auto flex items-center justify-between px-6 py-4">
+      <div className="max-w-6xl mx-auto flex items-center justify-between px-6 py-4 h-full">
         <motion.h1
           initial={{ opacity: 0, x: -40 }}
           animate={{ opacity: 1, x: 0 }}
           transition={{ delay: 0.2, duration: 0.6 }}
           className="font-extrabold text-2xl tracking-tight text-blue-600"
         >
-         Go Ai
+          {/* <Logoicon width={50} height={50} className="inline-block mr-2" /> */}
+          <div className=" h-[10vh] w-[160px] aspect-square">
+            {/* <Image
+              src="/logo/logo-dark.svg"
+              alt="Logo"
+              width={200}
+              height={50}
+              className="inline-block mr-2"
+            /> */}
+          </div>
         </motion.h1>
 
         <motion.div
@@ -39,13 +50,17 @@ export default function Navbar() {
           transition={{ delay: 0.3, duration: 0.6 }}
           className="flex gap-3"
         >
-          <Button variant="ghost" className="hover:text-blue-600">Home</Button>
-          <Button variant="ghost" className="hover:text-blue-600">About</Button>
-          <Button variant="ghost" className="hover:text-blue-600">Contact</Button>
+          <Button variant="ghost" className="hover:text-blue-600">
+            Home
+          </Button>
+          <Button variant="ghost" className="hover:text-blue-600">
+            About
+          </Button>
+          <Button variant="ghost" className="hover:text-blue-600">
+            Contact
+          </Button>
         </motion.div>
       </div>
-
-      {/* Progress Bar تحت الناف بار */}
       <motion.div
         className="h-1.5 bg-gradient-to-r from-blue-500 to-gray-200 origin-left"
         style={{ scaleX }}

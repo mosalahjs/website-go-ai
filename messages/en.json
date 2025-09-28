@@ -1,4 +1,14 @@
 {
+  "nav": {
+    "home": "Home",
+    "products": "Products",
+    "services": "Services",
+    "about": "About",
+    "contact": "Contact"
+  },
+  "landingPage": {
+    "description": "OWN THE TECHNOLOGY OWN TOMORROW"
+  },
   "HomePage": {
     "title": "Hello world!"
   }
