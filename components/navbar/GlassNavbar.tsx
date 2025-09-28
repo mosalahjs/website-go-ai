@@ -84,7 +84,7 @@ const GlassNavbarComponent: React.FC = () => {
                 width={250}
                 height={250}
                 priority
-                className="object-cover size-56"
+                className="object-cover size-36 md:size-56"
               />
             </motion.div>
 
