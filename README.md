@@ -1,36 +1,54 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+<p align="center">
+  <img src="./public/logo/logo-dark-png.png" alt="Go AI 247 Logo" width="120" />
+</p>
 
-## Getting Started
+<h1 align="center">Go AI 247 Website</h1>
 
-First, run the development server:
+<p align="center">
+  🌍 A modern, multilingual, responsive website for <b>Go AI 247</b>.  
+  Built with the latest technologies: <b>Next.js</b>, <b>TypeScript</b>, <b>next-intl</b>, and <b>shadcn/ui</b>.  
+</p>
 
-```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
-```
+---
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+## 🚀 Live Demo
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+👉 [Go AI 247 Staging Website](https://website-go-ai.vercel.app/en)
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+---
 
-## Learn More
+## ✨ Highlights
 
-To learn more about Next.js, take a look at the following resources:
+- 🌐 **Multilingual** – Seamless language switching with next-intl.
+- 🎨 **Modern UI/UX** – Sleek design with shadcn/ui & Tailwind CSS.
+- 💨 **Smooth Animations** – Powered by Framer Motion.
+- 🌓 **Dark/Light Theme** – With persisted user preference.
+- 📱 **Fully Responsive** – Looks great on all devices.
+- 🚀 **Optimized Performance** – Memoization (`React.memo`, `useMemo`).
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+---
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+## 📸 Preview
 
-## Deploy on Vercel
+| Home Page                              | Dark Mode                              | Mobile View                                |
+| -------------------------------------- | -------------------------------------- | ------------------------------------------ |
+| ![Home](./public/screenshots/home.png) | ![Dark](./public/screenshots/dark.png) | ![Mobile](./public/screenshots/mobile.png) |
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+---
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+## 🛠️ Tech Stack
+
+- [Next.js 15](https://nextjs.org/) + [TypeScript](https://www.typescriptlang.org/)
+- [next-intl](https://next-intl-docs.vercel.app/) – Internationalization
+- [shadcn/ui](https://ui.shadcn.com/) + [Tailwind CSS](https://tailwindcss.com/) – Styling
+- [Framer Motion](https://www.framer.com/motion/) – Animations
+- [Lucide Icons](https://lucide.dev/) – Icon set
+- [next-themes](https://github.com/pacocoursey/next-themes) – Theming
+
+---
+
+## 📬 Contact
+
+💼 Website: [goai247.com](https://goai247.com)  
+✉️ Email: contact@goai247.com  
+🔗 LinkedIn: [Go AI 247](https://linkedin.com/company/goai247)
