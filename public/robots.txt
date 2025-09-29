@@ -1,0 +1,9 @@
+User-agent: *
+Allow: /
+
+# Block admin or private routes
+Disallow: /admin
+Disallow: /dashboard
+Disallow: /api
+
+Sitemap: https://website-go-ai.vercel.app/sitemap.xml

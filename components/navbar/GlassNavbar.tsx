@@ -1,5 +1,4 @@
 "use client";
-
 import React, { useState, useMemo } from "react";
 import { Menu, X } from "lucide-react";
 import { Button } from "@/components/ui/button";
@@ -169,6 +168,5 @@ const GlassNavbarComponent: React.FC = () => {
   );
 };
 
-// ✅ Wrap with React.memo
 const GlassNavbar = React.memo(GlassNavbarComponent);
 export default GlassNavbar;
