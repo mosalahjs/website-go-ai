@@ -1,5 +1,5 @@
 <p align="center">
-  <img src="./public/logo/logo-dark-png.png" alt="Go AI 247 Logo" width="120" />
+  <img src="/logo/logo-dark-png.png" alt="Go AI 247 Logo" width="120" />
 </p>
 
 <h1 align="center">Go AI 247 Website</h1>
