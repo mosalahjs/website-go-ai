@@ -1,7 +1,8 @@
 "use client";
 
 import { motion } from "framer-motion";
-import React from "react";
+
+import React, { ComponentProps } from "react";
 
 type BurgerButtonProps = {
   isOpen: boolean;
@@ -9,7 +10,7 @@ type BurgerButtonProps = {
   toggle: () => void;
 };
 
-const Path = (props: any) => (
+const Path = (props: ComponentProps<typeof motion.path>) => (
   <motion.path
     fill="transparent"
     strokeWidth="2.5"
