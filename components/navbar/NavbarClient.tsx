@@ -40,7 +40,7 @@ const GlassNavbarClient: React.FC = () => {
   const navHeight = useTransform(
     scrollYProgress,
     [0, 0.12],
-    ["4rem", "3.4rem"]
+    ["4.4rem", "4rem"]
   );
 
   const t = useTranslations("nav");
@@ -48,7 +48,7 @@ const GlassNavbarClient: React.FC = () => {
   const navLinks = useMemo(
     () => [
       { name: t("home"), href: "/" },
-      { name: t("products"), href: "/products" },
+      { name: t("projects"), href: "/projects" },
       { name: t("services"), href: "/services" },
       { name: t("about"), href: "/about" },
       { name: t("contact"), href: "/contact" },
@@ -58,23 +58,13 @@ const GlassNavbarClient: React.FC = () => {
 
   return (
     <>
-      {/* Progress bar */}
-      <div className="fixed top-0 right-0 h-1.5 w-full dark:!bg-zinc-800 z-[60] origin-left">
-        <motion.div
-          aria-hidden
-          style={{ width: progressWidth }}
-          className="h-full bg-gradient-to-r from-blue-500 to-gray-200 
-               dark:from-blue-400 dark:to-gray-700 origin-left"
-        />
-      </div>
-
       <motion.nav
         style={{
           backgroundColor: navBg,
           backdropFilter: navBackdrop,
           height: navHeight,
         }}
-        className="fixed top-[6px] left-0 right-0 z-50 border-b border-glass-border shadow-glass transition-[height] duration-200 bg-navbar dark:!bg-zinc-800 "
+        className="fixed top-0 left-0 right-0 z-50 border-b border-glass-border shadow-glass transition-[height] duration-200 bg-navbar dark:!bg-zinc-800 "
       >
         <Container className="h-full">
           <div className="flex justify-between items-center h-full">
@@ -98,6 +88,15 @@ const GlassNavbarClient: React.FC = () => {
             </div>
           </div>
         </Container>
+
+        <div className="absolute -bottom-2 left-0 right-0 h-1.5 dark:!bg-zinc-800">
+          <motion.div
+            aria-hidden
+            style={{ width: progressWidth }}
+            className="h-full bg-gradient-to-r from-blue-500 to-gray-200 
+                 dark:from-blue-400 dark:to-gray-700 origin-left"
+          />
+        </div>
 
         {/* Mobile menu */}
         <MobileMenu isOpen={isOpen} navLinks={navLinks} />

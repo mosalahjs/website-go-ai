@@ -6,6 +6,7 @@ import { getMessages } from "next-intl/server";
 import { getDirection } from "@/i18n/i18n-confige";
 import Navbar from "@/components/navbar";
 import { ThemeProvider } from "@/components/theme/ThemeProvider";
+import { Footer } from "@/components/footer";
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -79,7 +80,8 @@ export default async function RootLayout({
         >
           <NextIntlClientProvider locale={locale} messages={messages}>
             <Navbar />
-            <main className="pt-18 min-h-[400vh]">{children}</main>
+            <main className="pt-18 min-h-screen">{children}</main>
+            <Footer />
           </NextIntlClientProvider>
         </ThemeProvider>
       </body>

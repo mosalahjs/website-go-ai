@@ -4,10 +4,14 @@
     "products": "Products",
     "services": "Services",
     "about": "About",
-    "contact": "Contact"
+    "contact": "Contact",
+    "projects": "Projects"
   },
   "landingPage": {
-    "description": "OWN THE TECHNOLOGY OWN TOMORROW"
+    "description": "OWN THE TECHNOLOGY OWN TOMORROW",
+    "subDescription": "At GoAI247, we believe that embracing cutting-edge technology is the key to shaping a successful future. By leveraging the transformative power of artificial intelligence, we empower businesses to innovate, adapt, and thrive in an ever-evolving digital landscape. Our solutions are designed to enable organizations to stay ahead of the curve, redefine possibilities, and unlock tomorrow's opportunities today.",
+    "getStarted": "Get Started",
+    "viewProjects": "View Projects"
   },
   "HomePage": {
     "title": "Hello world!"

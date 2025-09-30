@@ -43,6 +43,7 @@
   --radius-xl: calc(var(--radius) + 4px);
   --background-lang-gradient: var(--lang-gradient);
   --color-navbar: var(--navbar-bg);
+  --background-gradient-primary: var(--gradient-primary);
 }
 
 :root {
@@ -85,6 +86,19 @@
   );
   --navbar-bg: rgba(255, 255, 255, 0.92);
   --navbar-bg-scrolled: rgba(255, 255, 255, 0.92);
+  --gradient-primary: linear-gradient(to right, #0c73e3, #b4cbe3, #d9dee2);
+  --gradient-secondary: linear-gradient(
+    135deg,
+    hsl(195 100% 50%) 0%,
+    hsl(240 100% 60%) 50%,
+    hsl(270 100% 65%) 100%
+  );
+  --gradient-third: linear-gradient(
+    135deg,
+    #0c73e3 0%,
+    #3fa9f5 50%,
+    #b4cbe3 100%
+  );
 }
 
 .dark {
@@ -126,6 +140,19 @@
   );
   --navbar-bg: rgba(36, 25, 55, 0.92);
   --primary-foreground: oklch(0.985 0 0);
+  --gradient-primary: linear-gradient(to right, #1f1e24, #525456, #8e969b);
+  --gradient-secondary: linear-gradient(
+    135deg,
+    hsl(195 100% 50%) 0%,
+    hsl(240 100% 60%) 50%,
+    hsl(270 100% 65%) 100%
+  );
+  --gradient-third: linear-gradient(
+    135deg,
+    #ffffff 0%,
+    #9ca3af 50%,
+    #374151 100%
+  );
 }
 
 @layer base {
@@ -135,4 +162,78 @@
   body {
     @apply bg-background text-foreground;
   }
+}
+
+.main-gradient-primary {
+  background: var(--background-gradient-primary);
+  -webkit-background-clip: text;
+  background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+
+.btn-gradient-primary {
+  background: var(--background-gradient-secondary);
+  color: white;
+  &:hover {
+    box-shadow: 0 4px 14px 0 rgba(12, 115, 227, 0.39);
+  }
+}
+
+.btn-gradient-secondary {
+  background: var(--gradient-primary);
+  color: white;
+  transition: all 0.3s ease;
+}
+
+.btn-gradient-secondary:hover {
+  box-shadow: 0 4px 14px 0 rgba(12, 115, 227, 0.39);
+}
+
+.card-gradient-border {
+  position: relative;
+  background-clip: padding-box;
+  overflow: hidden;
+}
+
+.card-gradient-border::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  border-radius: inherit;
+  padding: 2px;
+  background: var(--gradient-third);
+  -webkit-mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
+  mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
+  -webkit-mask-composite: xor;
+  mask-composite: exclude;
+  opacity: 0;
+  transition: opacity 0.4s ease;
+  border-radius: inherit;
+  pointer-events: none;
+}
+
+.card-gradient-border:hover::before {
+  opacity: 1;
+  transform: scale(1);
+}
+
+/* class to use on text */
+.text-gradient-third {
+  background-image: var(--gradient-third);
+  background-size: 200% 100;
+  background-position: 0% 50%;
+  -webkit-background-clip: text;
+  background-clip: text;
+  -webkit-text-fill-color: transparent;
+  transition: background-position 0.6s ease, opacity 0.25s ease;
+}
+
+/* optional: slide gradient on hover (if parent .group hovered) */
+.group:hover .text-gradient-third {
+  background-position: 100% 50%;
+}
+
+/* fallback color if browser doesn't support background-clip text */
+.text-gradient-third-fallback {
+  color: #0c73e3; /* choose a fallback solid color */
 }
