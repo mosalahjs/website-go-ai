@@ -112,10 +112,26 @@ export function FeaturedProjects() {
           transition={{ delay: 0.4 }}
           className="text-center"
         >
-          <Button asChild size="lg" variant="outline" className="group">
-            <Link href="/projects">
+          <Button
+            asChild
+            size="lg"
+            className="group relative rounded-full shadow-xl 
+             bg-gradient-to-r from-blue-500 to-indigo-600 
+             hover:from-indigo-600 hover:to-blue-500 
+             dark:from-gray-700 dark:to-gray-900 
+             dark:hover:from-gray-900 dark:hover:to-gray-700
+             text-white transition-transform duration-300 
+             hover:scale-105 overflow-hidden"
+          >
+            <Link href="/projects" className="flex items-center relative z-10">
               View All Projects
               <ArrowRight className="ml-2 h-4 w-4 group-hover:translate-x-1 transition-transform" />
+              {/* Glow / ripple effect */}
+              <span
+                className="absolute inset-0 rounded-full 
+                 bg-blue-500/30 dark:bg-gray-600/30
+                 blur-xl opacity-50 animate-pulse pointer-events-none"
+              />
             </Link>
           </Button>
         </motion.div>

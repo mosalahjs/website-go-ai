@@ -7,6 +7,7 @@ import { getDirection } from "@/i18n/i18n-confige";
 import Navbar from "@/components/navbar";
 import { ThemeProvider } from "@/components/theme/ThemeProvider";
 import { Footer } from "@/components/footer";
+import ScrollToTop from "@/components/shared/ScrollToTop";
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -82,6 +83,7 @@ export default async function RootLayout({
             <Navbar />
             <main className="pt-18 min-h-screen">{children}</main>
             <Footer />
+            <ScrollToTop />
           </NextIntlClientProvider>
         </ThemeProvider>
       </body>
