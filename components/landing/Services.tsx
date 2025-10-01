@@ -63,16 +63,10 @@ export default function Services() {
           transition={{ duration: 0.6 }}
           className="text-center mb-16"
         >
-          <h2 className="text-3xl sm:text-4xl lg:text-5xl font-bold mb-4">
-            Our{" "}
-            <span
-              className="bg-gradient-to-r from-[#0C73E3] via-[#B4CBE3] to-[#D9DEE2]
-        dark:from-[#1F1E24] dark:via-[#525456] dark:to-[#8E969B] bg-clip-text text-transparent"
-            >
-              Services
-            </span>
+          <h2 className="text-3xl sm:text-4xl lg:text-5xl font-bold mb-4 text-gradient-third">
+            Our <span className="">Services</span>
           </h2>
-          <p className="text-lg text-muted-foreground max-w-2xl mx-auto">
+          <p className="text-lg text-main-muted-foreground  max-w-2xl mx-auto">
             Comprehensive technology solutions tailored to your business needs
           </p>
         </motion.div>
@@ -86,7 +80,7 @@ export default function Services() {
         >
           {services.map((service, index) => (
             <motion.div key={index} variants={item} className="h-full">
-              <Card className="group h-full border-2 border-border/40 hover:border-primary/60 transition-all duration-500 hover:shadow-intense backdrop-blur-sm bg-card/80 relative overflow-hidden">
+              <Card className="group h-full border-2 border-main/20 hover:border-main/60 hover:cursor-pointer transition-all duration-500 hover:shadow-intense backdrop-blur-sm bg-card/80 relative overflow-hidden">
                 {/* Background gradient on hover */}
                 <div
                   className={`absolute inset-0 bg-gradient-to-br ${service.color} opacity-0 group-hover:opacity-10 transition-opacity duration-500 pointer-events-none z-0`}
@@ -101,11 +95,11 @@ export default function Services() {
                     <service.icon className="h-7 w-7 text-white" />
                   </motion.div>
 
-                  <h3 className="text-xl font-bold group-hover:text-primary transition-colors relative z-10">
+                  <h3 className="text-xl text-gradient-third font-bold group-hover:text-primary transition-colors relative z-10">
                     {service.title}
                   </h3>
 
-                  <p className="text-muted-foreground leading-relaxed relative z-10">
+                  <p className=" text-main-muted-foreground leading-relaxed relative z-10">
                     {service.description}
                   </p>
 

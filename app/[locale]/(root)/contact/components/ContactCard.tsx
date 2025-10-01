@@ -14,23 +14,25 @@ export function ContactCard({
   link,
 }: ContactCardProps) {
   return (
-    <Card className="border-border/40 hover:border-primary/40 transition-all duration-300">
-      <CardContent className="p-6">
+    <Card className="border border-gray-300 hover:border-primary/40 transition-all duration-300 py-3">
+      <CardContent className="p-2">
         <div className="flex items-start space-x-4">
-          <div className="flex-shrink-0 p-3 rounded-lg bg-primary/10">
-            <Icon className="h-6 w-6 text-primary" />
+          <div className="flex-shrink-0 p-3 rounded-lg bg-main/10">
+            <Icon className="h-6 w-6 text-main" />
           </div>
           <div>
-            <div className="font-semibold mb-1">{title}</div>
+            <div className="font-semibold mb-1 text-gradient-third">
+              {title}
+            </div>
             {link ? (
               <a
                 href={link}
-                className="text-muted-foreground hover:text-primary transition-colors"
+                className="text-main-muted-foreground hover:text-primary transition-colors"
               >
                 {value}
               </a>
             ) : (
-              <div className="text-muted-foreground">{value}</div>
+              <div className="text-main-muted-foreground">{value}</div>
             )}
           </div>
         </div>

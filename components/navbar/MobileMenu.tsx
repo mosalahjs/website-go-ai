@@ -11,11 +11,11 @@ type MobileMenuProps = {
 const menuVariants: Variants = {
   hidden: {
     opacity: 0,
-    clipPath: "inset(0% 0% 100% 0%)", // مقفول بالكامل من تحت
+    clipPath: "inset(0% 0% 100% 0%)",
   },
   visible: {
     opacity: 1,
-    clipPath: "inset(0% 0% 0% 0%)", // مفتوح بالكامل
+    clipPath: "inset(0% 0% 0% 0%)",
     transition: {
       duration: 0.45,
       ease: cubicBezier(0.22, 1, 0.36, 1),
@@ -23,7 +23,7 @@ const menuVariants: Variants = {
   },
   exit: {
     opacity: 0,
-    clipPath: "inset(0% 0% 100% 0%)", // يقفل لتحت
+    clipPath: "inset(0% 0% 100% 0%)",
     transition: {
       duration: 0.35,
       ease: "easeInOut",

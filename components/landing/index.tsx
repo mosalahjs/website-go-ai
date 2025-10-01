@@ -14,7 +14,7 @@ export default function Landing() {
     <div className="h-[70vh] flex flex-col items-center w-full lg:px-44 py-16">
       <motion.h1
         className="text-2xl sm:text-3xl md:text-5xl lg:text-7xl xl:text-9xl mx-auto font-bold bg-clip-text text-transparent
-       main-gradient-primary"
+       text-gradient-third"
         initial={{ opacity: 0, scale: 0.9 }}
         animate={{ opacity: 1, scale: 1 }}
         transition={{ duration: 1, ease: "easeOut" }}
@@ -24,7 +24,7 @@ export default function Landing() {
 
       <motion.h3
         className="text-lg md:text-xl font-semibold text-center mt-4 mb-6 bg-clip-text text-transparent
-        bg-gradient-to-r from-[#0C73E3] to-[#B4CBE3]
+       text-gradient-third
         dark:from-[#8E969B] dark:to-[#525456]"
         initial={{ opacity: 0, y: 40 }}
         animate={{ opacity: 1, y: 0 }}
@@ -34,8 +34,8 @@ export default function Landing() {
       </motion.h3>
 
       <motion.p
-        className="text-lg md:text-xl font-semibold text-center mt-4 mb-6 bg-clip-text text-transparent
-        bg-gradient-to-r from-[#0C73E3] to-[#B4CBE3]
+        className="text-lg md:text-xl font-semibold text-center mb-6 bg-clip-text text-transparent
+text-gradient-third
         dark:from-[#8E969B] dark:to-[#525456]"
         initial={{ opacity: 0, y: 40 }}
         animate={{ opacity: 1, y: 0 }}

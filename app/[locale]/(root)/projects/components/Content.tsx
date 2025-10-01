@@ -76,7 +76,7 @@ export default function Content() {
   return (
     <div className="pt-16">
       {/* Hero Section */}
-      <section className="py-24 bg-gradient-hero">
+      <section className="py-12 bg-gradient-hero">
         <div className="container mx-auto px-4 sm:px-6 lg:px-8">
           <motion.div
             initial={{ opacity: 0, y: 30 }}
@@ -84,16 +84,10 @@ export default function Content() {
             transition={{ duration: 0.8 }}
             className="max-w-4xl mx-auto text-center space-y-6"
           >
-            <h1 className="text-4xl sm:text-5xl lg:text-6xl font-bold">
-              Our{" "}
-              <span
-                className="bg-gradient-to-r from-[#0C73E3] via-[#B4CBE3] to-[#D9DEE2]
-        dark:from-[#1F1E24] dark:via-[#525456] dark:to-[#8E969B] bg-clip-text text-transparent"
-              >
-                Projects
-              </span>
+            <h1 className="text-4xl sm:text-5xl lg:text-6xl font-bold text-gradient-third">
+              Our <span className="">Projects</span>
             </h1>
-            <p className="text-xl text-muted-foreground">
+            <p className="text-xl text-main-muted-foreground">
               Explore our portfolio of successful projects across various
               industries and technologies
             </p>
@@ -102,7 +96,7 @@ export default function Content() {
       </section>
 
       {/* Projects Section */}
-      <section className="py-16">
+      <section className="py-0">
         <div className="container mx-auto px-4 sm:px-6 lg:px-8">
           {/* Category Filter */}
           <motion.div
@@ -116,9 +110,7 @@ export default function Content() {
                 key={category}
                 variant={selectedCategory === category ? "default" : "outline"}
                 onClick={() => setSelectedCategory(category)}
-                className={
-                  selectedCategory === category ? "bg-gradient-primary" : ""
-                }
+                className={selectedCategory === category ? "bg-main" : ""}
               >
                 {category}
               </Button>
@@ -140,7 +132,10 @@ export default function Content() {
                   exit={{ opacity: 0, scale: 0.9 }}
                   transition={{ duration: 0.4 }}
                 >
-                  <Card className="group h-full border-border/40 hover:border-primary/40 transition-all duration-300 hover:shadow-card overflow-hidden">
+                  <Card
+                    variant={"shadow"}
+                    className="group py-0 border hover:border-blue-500"
+                  >
                     <div
                       className={`h-48 bg-gradient-to-br ${project.gradient} relative overflow-hidden`}
                     >

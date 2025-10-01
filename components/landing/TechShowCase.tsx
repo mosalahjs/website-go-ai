@@ -46,19 +46,19 @@ export default function TechShowcase() {
             whileInView={{ opacity: 1, scale: 1 }}
             viewport={{ once: true }}
             transition={{ delay: 0.2, duration: 0.6 }}
-            className="inline-flex items-center space-x-2 px-6 py-3 rounded-full bg-gradient-primary/20 border-2 border-primary/30 backdrop-blur-xl"
+            className="inline-flex items-center space-x-2 px-6 py-3 rounded-full text-gradient-third border-2 border-main/80 backdrop-blur-xl"
           >
-            <div className="h-2 w-2 rounded-full bg-primary animate-pulse" />
+            <div className="h-2 w-2 rounded-full bg-main animate-pulse" />
             <span className="text-sm font-bold text-primary">
               Powered by Advanced AI
             </span>
           </motion.div>
 
-          <h2 className="text-4xl sm:text-5xl lg:text-6xl font-bold">
-            Why Choose <span className="main-gradient-primary">Go Ai 247</span>
+          <h2 className="text-4xl sm:text-5xl lg:text-6xl leading-20 font-bold text-gradient-third">
+            Why Choose <span className="">Go Ai 247</span>
           </h2>
 
-          <p className="text-xl text-muted-foreground max-w-3xl mx-auto leading-relaxed">
+          <p className="text-xl text-main-muted-foreground max-w-3xl mx-auto leading-relaxed">
             We combine cutting-edge AI technology with proven software
             development practices to deliver solutions that don&apos;t just meet
             expectations—they exceed them.
@@ -101,8 +101,10 @@ export default function TechShowcase() {
                     {stat.value}
                   </motion.div>
 
-                  <div className="text-lg font-semibold mb-2">{stat.label}</div>
-                  <div className="text-sm text-muted-foreground">
+                  <div className="text-lg font-semibold mb-2 text-main-muted-foreground">
+                    {stat.label}
+                  </div>
+                  <div className="text-sm text-main-muted-foreground">
                     {stat.description}
                   </div>
                 </div>

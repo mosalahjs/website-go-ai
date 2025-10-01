@@ -27,7 +27,7 @@ import { Card, CardContent } from "@/components/ui/card";
 
 const contactSchema = z.object({
   name: z.string().min(2, "Name must be at least 2 characters"),
-  email: z.string().email("Invalid email address"),
+  email: z.email("Invalid email address"),
   company: z.string().optional(),
   budget: z.string().optional(),
   message: z.string().min(10, "Message must be at least 10 characters"),
@@ -58,9 +58,9 @@ export function ContactForm() {
       initial={{ opacity: 0, x: 30 }}
       animate={{ opacity: 1, x: 0 }}
       transition={{ duration: 0.8 }}
-      className="lg:col-span-2"
+      className="md:col-span-2"
     >
-      <Card className="border-border/40">
+      <Card className="border border-gray-200">
         <CardContent className="p-8">
           <Form {...form}>
             <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-6">
@@ -170,7 +170,7 @@ export function ContactForm() {
               <Button
                 type="submit"
                 size="lg"
-                className="w-full bg-gradient-primary"
+                className="w-full bg-main hover:bg-main-muted-foreground cursor-pointer"
               >
                 Send Message
               </Button>

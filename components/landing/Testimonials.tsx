@@ -39,10 +39,10 @@ export function Testimonials() {
           transition={{ duration: 0.6 }}
           className="text-center mb-16"
         >
-          <h2 className="text-3xl sm:text-4xl lg:text-5xl font-bold mb-4">
-            Client <span className="main-gradient-primary">Testimonials</span>
+          <h2 className="text-3xl sm:text-4xl lg:text-5xl font-bold mb-4 text-gradient-third">
+            Client <span className="">Testimonials</span>
           </h2>
-          <p className="text-lg text-muted-foreground max-w-2xl mx-auto">
+          <p className="text-lg text-main-muted-foreground max-w-2xl mx-auto">
             Don&apos;t just take our word for it - hear from our satisfied
             clients
           </p>
@@ -59,10 +59,10 @@ export function Testimonials() {
               transition={{ delay: index * 0.2, duration: 0.6 }}
               className="will-change-transform"
             >
-              <Card className="h-full border bg-card/50 backdrop-blur-xl shadow-sm hover:shadow-xl transition-all duration-500 overflow-hidden relative">
+              <Card className="h-full border bg-card/50 backdrop-blur-xl shadow-sm hover:shadow-xl hover:shadow-main/10 transition-all duration-500 overflow-hidden relative">
                 <CardContent className="p-6 space-y-4 relative z-10">
-                  <Quote className="h-8 w-8 text-gradient-third" />
-                  <p className="text-muted-foreground leading-relaxed">
+                  <Quote className="h-8 w-8 text-main" />
+                  <p className="text-main-muted-foreground leading-relaxed">
                     &quot;{testimonial.content}&quot;
                   </p>
 
@@ -75,8 +75,10 @@ export function Testimonials() {
 
                   {/* Author */}
                   <div className="pt-4 border-t border-border/40">
-                    <div className="font-semibold">{testimonial.name}</div>
-                    <div className="text-sm text-muted-foreground">
+                    <div className="font-semibold text-gradient-third">
+                      {testimonial.name}
+                    </div>
+                    <div className="text-sm text-main-muted-foreground">
                       {testimonial.role}
                     </div>
                   </div>

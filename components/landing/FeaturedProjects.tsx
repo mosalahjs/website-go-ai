@@ -44,16 +44,16 @@ export function FeaturedProjects() {
           transition={{ duration: 0.6 }}
           className="text-center mb-16"
         >
-          <h2 className="text-3xl sm:text-4xl lg:text-5xl font-bold mb-4">
-            Featured <span className="main-gradient-primary">Projects</span>
+          <h2 className="text-3xl sm:text-4xl lg:text-5xl leading-16 font-bold mb-4 text-gradient-third">
+            Featured <span className="">Projects</span>
           </h2>
-          <p className="text-lg text-muted-foreground max-w-2xl mx-auto">
+          <p className="text-lg text-main-muted-foreground max-w-2xl mx-auto">
             Explore our portfolio of successful projects and innovative
             solutions
           </p>
         </motion.div>
 
-        <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8 mb-12">
+        <div className="grid lg:grid-cols-2 xl:grid-cols-3 gap-8 mb-12">
           {projects.map((project, index) => (
             <motion.div
               key={project.id}
@@ -62,9 +62,13 @@ export function FeaturedProjects() {
               viewport={{ once: true }}
               transition={{ delay: index * 0.2, duration: 0.6 }}
             >
-              <Card className="group h-full border-border/40 hover:border-primary/40 transition-all duration-300 hover:shadow-card overflow-hidden">
+              <Card
+                variant={"shadow"}
+                className="group py-0 border hover:border-blue-500"
+              >
+                {/* Top Gradient Header */}
                 <div
-                  className={`relative aspect-[16/9] bg-gradient-to-br ${project.gradient}  overflow-hidden`}
+                  className={`relative h-40 bg-gradient-to-br ${project.gradient} overflow-hidden rounded-t-xl`}
                 >
                   <motion.div
                     whileHover={{ scale: 1.1 }}
@@ -74,16 +78,23 @@ export function FeaturedProjects() {
                     <ExternalLink className="h-12 w-12 text-white/80" />
                   </motion.div>
                 </div>
+
+                {/* Card Content */}
                 <CardContent className="p-6 space-y-4">
-                  <h3 className="text-xl font-semibold group-hover:text-primary transition-colors">
+                  {/* Title */}
+                  <h3 className="text-xl font-semibold text-gradient transition-colors">
                     {project.title}
                   </h3>
+
+                  {/* Description */}
                   <p className="text-muted-foreground text-sm leading-relaxed">
                     {project.description}
                   </p>
+
+                  {/* Tags */}
                   <div className="flex flex-wrap gap-2">
                     {project.tags.map((tag, i) => (
-                      <Badge key={i} variant="secondary">
+                      <Badge key={i} className="badge-custom">
                         {tag}
                       </Badge>
                     ))}
