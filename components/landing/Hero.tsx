@@ -90,7 +90,9 @@ export function Hero() {
                   background:
                     theme === "light"
                       ? "linear-gradient(90deg, #4F46E5, #3B82F6, #06B6D4)"
-                      : "linear-gradient(135deg, #ffffff, #9ca3af, #374151)",
+                      : theme === "dark"
+                      ? "linear-gradient(135deg, #ffffff, #9ca3af, #374151)"
+                      : "linear-gradient(90deg, #4F46E5, #3B82F6, #06B6D4)",
                 }}
                 className="inline-flex cursor-pointer items-center space-x-2 px-5 py-2.5 rounded-full bg-gradient-primary shadow-glow backdrop-blur-sm"
               >
