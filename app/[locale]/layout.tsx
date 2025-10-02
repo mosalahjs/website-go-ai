@@ -1,14 +1,17 @@
+import "../globals.css";
 import type { Metadata } from "next";
 import { Geist_Mono, Inter } from "next/font/google";
 import { IBM_Plex_Sans_Arabic } from "next/font/google";
-import "../globals.css";
 import { NextIntlClientProvider } from "next-intl";
 import { getMessages } from "next-intl/server";
 import { getDirection } from "@/i18n/i18n-confige";
+// Components
 import Navbar from "@/components/navbar";
 import { ThemeProvider } from "@/components/theme/ThemeProvider";
 import { Footer } from "@/components/footer";
 import ScrollToTop from "@/components/shared/ScrollToTop";
+import TransitionOverlay from "@/components/theme/TransitionOverlay";
+import PageWrapper from "@/components/theme/PageWrapper";
 
 const geistMono = Geist_Mono({
   variable: "--font-geist-mono",
@@ -91,9 +94,15 @@ export default async function RootLayout({
           disableTransitionOnChange
         >
           <NextIntlClientProvider locale={locale} messages={messages}>
-            <Navbar />
-            <main className="pt-18 min-h-screen">{children}</main>
-            <Footer />
+            {/* <main className="pt-18 min-h-screen">{children}</main> */}
+            <div className="relative">
+              <PageWrapper>
+                <Navbar />
+                <main className="pt-18 min-h-screen">{children}</main>
+                <Footer />
+              </PageWrapper>
+              <TransitionOverlay />
+            </div>
             <ScrollToTop />
           </NextIntlClientProvider>
         </ThemeProvider>
