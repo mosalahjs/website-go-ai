@@ -36,7 +36,7 @@ const ScrollToTop = () => {
             aria-label="Scroll to top"
             onClick={scrollToTop}
             size="icon"
-            className="relative rounded-full shadow-xl 
+            className="relative rounded-full shadow-xl size-11
                        bg-gradient-to-r from-blue-500 to-indigo-600 
                        hover:from-indigo-600 hover:to-blue-500 
                        text-white dark:from-gray-700 dark:to-gray-900 
@@ -52,7 +52,7 @@ const ScrollToTop = () => {
                 ease: "easeInOut",
               }}
             >
-              <ArrowUp className="h-5 w-5" />
+              <ArrowUp className="size-6" />
             </motion.div>
 
             {/* Glow / ripple effect */}

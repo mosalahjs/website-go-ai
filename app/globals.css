@@ -321,3 +321,8 @@
   background: var(--gradient-secondary);
   color: white;
 }
+
+.border-b-gradient {
+  border-bottom: 16px solid;
+  border-image: linear-gradient(to top, #3b82f6, #6366f1) 1;
+}

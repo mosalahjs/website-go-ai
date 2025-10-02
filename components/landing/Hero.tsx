@@ -1,4 +1,6 @@
 "use client";
+
+import { memo, useEffect, useMemo, useState } from "react";
 import { Button } from "@/components/ui/button";
 import { Link } from "@/i18n/routing";
 import { ArrowRight, Sparkles, Zap } from "lucide-react";
@@ -9,9 +11,27 @@ import { useTranslations } from "next-intl";
 import { useTheme } from "next-themes";
 import Container from "../shared/Container";
 
-export function Hero() {
+function HeroComponent() {
   const t = useTranslations("landingPage");
   const { theme } = useTheme();
+
+  // prevent hydration mismatch
+  const [mounted, setMounted] = useState(false);
+  useEffect(() => setMounted(true), []);
+
+  // memoized background style
+  const backgroundStyle = useMemo(() => {
+    if (!mounted) return {}; // render empty until mounted
+    return {
+      background:
+        theme === "light"
+          ? "linear-gradient(90deg, #4F46E5, #3B82F6, #06B6D4)"
+          : theme === "dark"
+          ? "linear-gradient(135deg, #ffffff, #9ca3af, #374151)"
+          : "linear-gradient(90deg, #4F46E5, #3B82F6, #06B6D4)",
+    };
+  }, [theme, mounted]);
+
   return (
     <section className="relative min-h-screen flex items-center justify-center overflow-hidden">
       {/* Background image with overlay */}
@@ -21,6 +41,7 @@ export function Hero() {
           src={heroImage}
           alt="Hero Background"
           className="w-full h-full object-cover opacity-40 dark:opacity-20"
+          priority
         />
         <div className="absolute inset-0 bg-gradient-to-b from-background/60 via-background/80 to-background z-10" />
       </div>
@@ -35,11 +56,7 @@ export function Hero() {
               scale: [1, 1.2, 1],
               opacity: [0.4, 0.6, 0.4],
             }}
-            transition={{
-              duration: 12,
-              repeat: Infinity,
-              ease: "easeInOut",
-            }}
+            transition={{ duration: 12, repeat: Infinity, ease: "easeInOut" }}
             className="absolute top-20 right-20 w-[500px] h-[500px] bg-primary/30 rounded-full blur-3xl"
           />
           <motion.div
@@ -76,36 +93,31 @@ export function Hero() {
 
         <div className="container mx-auto px-4 sm:px-6 lg:px-8 relative z-30">
           <div className="grid lg:grid-cols-2 gap-12 items-center">
+            {/* Left section */}
             <motion.div
               initial={{ opacity: 0, y: 30 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.8, ease: "easeOut" }}
               className="space-y-8"
             >
-              <motion.div
-                initial={{ opacity: 0, scale: 0.9 }}
-                animate={{ opacity: 1, scale: 1 }}
-                transition={{ delay: 0.2, duration: 0.6 }}
-                style={{
-                  background:
-                    theme === "light"
-                      ? "linear-gradient(90deg, #4F46E5, #3B82F6, #06B6D4)"
-                      : theme === "dark"
-                      ? "linear-gradient(135deg, #ffffff, #9ca3af, #374151)"
-                      : "linear-gradient(90deg, #4F46E5, #3B82F6, #06B6D4)",
-                }}
-                className="inline-flex cursor-pointer items-center space-x-2 px-5 py-2.5 rounded-full bg-gradient-primary shadow-glow backdrop-blur-sm"
-              >
-                <Zap className="h-4 w-4 text-white" />
-                <span className="text-sm font-semibold text-white">
-                  AI-Powered Solutions
-                </span>
-              </motion.div>
+              {mounted && (
+                <motion.div
+                  initial={{ opacity: 0, scale: 0.9 }}
+                  animate={{ opacity: 1, scale: 1 }}
+                  transition={{ delay: 0.2, duration: 0.6 }}
+                  style={backgroundStyle}
+                  className="inline-flex cursor-pointer items-center space-x-2 px-5 py-2.5 rounded-full shadow-glow backdrop-blur-sm"
+                >
+                  <Zap className="h-4 w-4 text-white" />
+                  <span className="text-sm font-semibold text-white">
+                    AI-Powered Solutions
+                  </span>
+                </motion.div>
+              )}
 
               <div className="space-y-4">
                 <motion.h1
-                  className="text-2xl sm:text-3xl md:text-5xl lg:text-7xl xl:text-9xl mx-auto font-bold bg-clip-text text-transparent
-       text-gradient-third"
+                  className="text-2xl sm:text-3xl md:text-5xl lg:text-7xl xl:text-9xl mx-auto font-bold bg-clip-text text-transparent text-gradient-third"
                   initial={{ opacity: 0, scale: 0.9 }}
                   animate={{ opacity: 1, scale: 1 }}
                   transition={{ duration: 1, ease: "easeOut" }}
@@ -113,9 +125,7 @@ export function Hero() {
                   Go AI 247
                 </motion.h1>
                 <motion.h3
-                  className="text-lg md:text-xl font-semibold text-center mt-4 mb-6 bg-clip-text text-transparent
-       text-gradient-third
-        dark:from-[#8E969B] dark:to-[#525456]"
+                  className="text-lg md:text-xl font-semibold text-center mt-4 mb-6 bg-clip-text text-transparent text-gradient-third dark:from-[#8E969B] dark:to-[#525456]"
                   initial={{ opacity: 0, y: 40 }}
                   animate={{ opacity: 1, y: 0 }}
                   transition={{ duration: 1, delay: 0.4, ease: "easeOut" }}
@@ -133,14 +143,7 @@ export function Hero() {
                 <Button
                   asChild
                   size="lg"
-                  className="
-      text-white text-base px-8 py-6 rounded-2xl
-      bg-gradient-to-r from-blue-600 via-blue-500 to-blue-400
-      hover:from-blue-500 hover:via-blue-400 hover:to-blue-300
-      shadow-lg hover:shadow-xl transition-all duration-500 group
-      dark:from-gray-900 dark:via-gray-800 dark:to-gray-700
-      dark:hover:from-gray-800 dark:hover:via-gray-700 dark:hover:to-gray-600
-    "
+                  className="text-white text-base px-8 py-6 rounded-2xl bg-gradient-to-r from-blue-600 via-blue-500 to-blue-400 hover:from-blue-500 hover:via-blue-400 hover:to-blue-300 shadow-lg hover:shadow-xl transition-all duration-500 group dark:from-gray-900 dark:via-gray-800 dark:to-gray-700 dark:hover:from-gray-800 dark:hover:via-gray-700 dark:hover:to-gray-600"
                 >
                   <Link href="/contact">
                     {t("getStarted")}
@@ -152,18 +155,7 @@ export function Hero() {
                   asChild
                   size="lg"
                   variant="outline"
-                  className="
-      text-base px-8 py-6 rounded-2xl 
-      border-2 border-transparent
-      text-blue-600 bg-white bg-clip-padding backdrop-blur-sm
-      hover:text-white hover:bg-gradient-to-r 
-      hover:from-blue-600 hover:to-blue-400
-      transition-all duration-500
-      
-      dark:text-gray-200 dark:bg-black/30 
-      dark:hover:bg-gradient-to-r dark:hover:from-gray-200 dark:hover:to-gray-400 
-      dark:hover:text-black
-    "
+                  className="text-base px-8 py-6 rounded-2xl border-2 border-transparent text-blue-600 bg-white bg-clip-padding backdrop-blur-sm hover:text-white hover:bg-gradient-to-r hover:from-blue-600 hover:to-blue-400 transition-all duration-500 dark:text-gray-200 dark:bg-black/30 dark:hover:bg-gradient-to-r dark:hover:from-gray-200 dark:hover:to-gray-400 dark:hover:text-black"
                 >
                   <Link href="/projects">{t("viewProjects")}</Link>
                 </Button>
@@ -196,6 +188,7 @@ export function Hero() {
               </motion.div>
             </motion.div>
 
+            {/* Right section */}
             <motion.div
               initial={{ opacity: 0, scale: 0.9 }}
               animate={{ opacity: 1, scale: 1 }}
@@ -203,20 +196,14 @@ export function Hero() {
               className="relative lg:block hidden"
             >
               <motion.div
-                animate={{
-                  y: [0, -30, 0],
-                  rotateY: [0, 5, 0],
-                }}
+                animate={{ y: [0, -30, 0], rotateY: [0, 5, 0] }}
                 transition={{
                   duration: 8,
                   repeat: Infinity,
                   ease: "easeInOut",
                 }}
-                className="relative rounded-3xl overflow-hidden shadow-intense border-4 border-primary/20"
-                style={{
-                  transformStyle: "preserve-3d",
-                  perspective: "1000px",
-                }}
+                className="relative rounded-3xl overflow-hidden shadow-intense border-4 border-main-muted-foreground/20"
+                style={{ transformStyle: "preserve-3d", perspective: "1000px" }}
               >
                 <div className="absolute inset-0 bg-gradient-primary opacity-20 mix-blend-overlay z-10" />
                 <div className="absolute inset-0 bg-gradient-to-br from-primary/30 via-transparent to-secondary/30 z-10" />
@@ -228,7 +215,7 @@ export function Hero() {
                 <div className="absolute inset-0 bg-gradient-to-t from-background via-transparent to-transparent z-10" />
               </motion.div>
 
-              {/* Enhanced Floating elements */}
+              {/* Floating elements */}
               <motion.div
                 animate={{
                   y: [0, -20, 0],
@@ -240,15 +227,17 @@ export function Hero() {
                   repeat: Infinity,
                   ease: "easeInOut",
                 }}
-                className="absolute -top-8 -right-8 bg-card/90 border-2 border-primary/30 backdrop-blur-xl rounded-3xl p-6 shadow-intense"
+                className="absolute -top-8 -right-8 bg-card/90 border-2 border-main-muted-foreground/30 backdrop-blur-xl rounded-3xl p-6 shadow-intense"
               >
                 <div className="flex items-center space-x-4">
                   <div className="h-14 w-14 rounded-2xl bg-gradient-primary shadow-glow flex items-center justify-center">
-                    <Sparkles className="h-7 w-7 text-white" />
+                    <Sparkles className="h-7 w-7 text-main-muted-foreground" />
                   </div>
                   <div>
-                    <div className="text-base font-bold">AI Integration</div>
-                    <div className="text-sm text-muted-foreground">
+                    <div className="text-base font-bold text-gradient-third">
+                      AI Integration
+                    </div>
+                    <div className="text-sm text-main-muted-foreground">
                       Neural Networks
                     </div>
                   </div>
@@ -267,32 +256,28 @@ export function Hero() {
                   ease: "easeInOut",
                   delay: 1,
                 }}
-                className="absolute -bottom-8 -left-8 bg-card/90 border-2 border-secondary/30 backdrop-blur-xl rounded-3xl p-6 shadow-intense"
+                className="absolute -bottom-8 -left-8 bg-card/90 border-2 border-main-muted-foreground/30 backdrop-blur-xl rounded-3xl p-6 shadow-intense"
               >
                 <div className="space-y-2">
-                  <div className="text-base font-bold">99.9% Uptime</div>
-                  <div className="text-sm text-muted-foreground">
+                  <div className="text-base font-bold text-gradient-third">
+                    99.9% Uptime
+                  </div>
+                  <div className="text-sm text-main-muted-foreground">
                     Enterprise Ready
                   </div>
                   <div className="flex items-center space-x-2">
-                    <div className="h-2 w-2 rounded-full bg-green-500 animate-pulse" />
-                    <span className="text-xs font-medium text-green-500">
+                    <div className="h-2 w-2 rounded-full bg-main-muted-foreground animate-pulse" />
+                    <span className="text-xs font-medium text-main-muted-foreground">
                       Active
                     </span>
                   </div>
                 </div>
               </motion.div>
 
-              {/* Additional decorative element */}
+              {/* Decorative element */}
               <motion.div
-                animate={{
-                  rotate: [0, 360],
-                }}
-                transition={{
-                  duration: 20,
-                  repeat: Infinity,
-                  ease: "linear",
-                }}
+                animate={{ rotate: [0, 360] }}
+                transition={{ duration: 20, repeat: Infinity, ease: "linear" }}
                 className="absolute top-1/2 right-0 w-32 h-32 bg-gradient-primary opacity-20 rounded-full blur-2xl -z-10"
               />
             </motion.div>
@@ -302,3 +287,5 @@ export function Hero() {
     </section>
   );
 }
+
+export const Hero = memo(HeroComponent);

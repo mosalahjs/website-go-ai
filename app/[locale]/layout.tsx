@@ -20,6 +20,7 @@ const geistMono = Geist_Mono({
 });
 
 export const metadata: Metadata = {
+  metadataBase: new URL("https://website-go-ai.vercel.app"),
   title: {
     default: "Go Ai",
     template: "%s | Go Ai",

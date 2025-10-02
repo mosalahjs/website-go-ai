@@ -1,5 +1,11 @@
 "use client";
-import React, { useState, useMemo, useEffect } from "react";
+import React, {
+  useState,
+  useMemo,
+  useEffect,
+  useCallback,
+  useRef,
+} from "react";
 import { motion, useScroll, useTransform } from "framer-motion";
 import { useTranslations } from "next-intl";
 import { useTheme } from "next-themes";
@@ -14,10 +20,7 @@ import Container from "../shared/Container";
 const GlassNavbarClient: React.FC = () => {
   const { theme } = useTheme();
   const [mounted, setMounted] = useState(false);
-
-  useEffect(() => {
-    setMounted(true);
-  }, []);
+  const burgerRef = useRef<HTMLButtonElement>(null);
 
   const [isOpen, setIsOpen] = useState(false);
 
@@ -55,6 +58,14 @@ const GlassNavbarClient: React.FC = () => {
     [t]
   );
 
+  useEffect(() => {
+    setMounted(true);
+  }, []);
+
+  const handleClose = useCallback(() => {
+    setIsOpen(false);
+  }, []);
+
   return (
     <>
       <motion.nav
@@ -70,7 +81,7 @@ const GlassNavbarClient: React.FC = () => {
             <Logo />
 
             {/* Desktop nav */}
-            <div className="hidden md:block">
+            <div className="hidden lg:block">
               <NavLinks links={navLinks} />
             </div>
 
@@ -78,8 +89,10 @@ const GlassNavbarClient: React.FC = () => {
             <Actions />
 
             {/* Mobile toggle */}
-            <div className="md:hidden">
+            <div className="lg:hidden">
               <BurgerButton
+                ref={burgerRef}
+                id="burger-button"
                 isOpen={isOpen}
                 size={34}
                 toggle={() => setIsOpen((s) => !s)}
@@ -98,7 +111,12 @@ const GlassNavbarClient: React.FC = () => {
         </div>
 
         {/* Mobile menu */}
-        <MobileMenu isOpen={isOpen} navLinks={navLinks} />
+        <MobileMenu
+          isOpen={isOpen}
+          navLinks={navLinks}
+          onClose={handleClose}
+          burgerRef={burgerRef as React.RefObject<HTMLButtonElement>}
+        />
       </motion.nav>
     </>
   );

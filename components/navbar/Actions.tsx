@@ -7,7 +7,7 @@ import ThemeToggle from "./ThemeToggle";
 const Actions: React.FC = () => {
   return (
     <motion.div
-      className="hidden md:flex items-cente gap-4 space-x-4 space-x-reverse"
+      className="hidden lg:flex items-cente gap-4 space-x-4 space-x-reverse"
       initial={{ opacity: 0 }}
       animate={{ opacity: 1 }}
       transition={{ delay: 0.35 }}

@@ -4,7 +4,7 @@ import Image from "next/image";
 import React from "react";
 import { Link } from "@/i18n/routing";
 
-const MotionLink = motion(Link);
+const MotionLink = motion.create(Link);
 
 const Logo: React.FC = () => {
   return (

@@ -5,7 +5,7 @@ import clsx from "clsx";
 import { Link } from "@/i18n/routing";
 import { usePathname } from "next/navigation";
 
-const MotionLink = motion(Link);
+const MotionLink = motion.create(Link);
 
 type NavLinkProps = {
   href: string;
