@@ -79,7 +79,7 @@ const MobileMenu: React.FC<MobileMenuProps> = ({
           animate="visible"
           exit="exit"
           ref={menuRef}
-          className="md:hidden overflow-hidden"
+          className="lg:hidden overflow-hidden"
         >
           <div className="px-2 pt-2 pb-3 space-y-1 bg-gray-100 text-white backdrop-blur-glass border-t border-glass-border shadow-lg rounded-b-2xl">
             {navLinks.map((link, i) => (
