@@ -84,7 +84,7 @@ export default function Content() {
             transition={{ duration: 0.8 }}
             className="max-w-4xl mx-auto text-center space-y-6"
           >
-            <h1 className="text-4xl sm:text-5xl lg:text-6xl font-bold text-gradient-third">
+            <h1 className="text-4xl sm:text-5xl lg:text-6xl leading-20 font-bold text-gradient-third">
               Our <span className="">Projects</span>
             </h1>
             <p className="text-xl text-main-muted-foreground">
@@ -96,7 +96,7 @@ export default function Content() {
       </section>
 
       {/* Projects Section */}
-      <section className="py-0">
+      <section className="pt-0 pb-12">
         <div className="container mx-auto px-4 sm:px-6 lg:px-8">
           {/* Category Filter */}
           <motion.div
