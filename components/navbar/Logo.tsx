@@ -1,12 +1,26 @@
 "use client";
 import { motion } from "framer-motion";
 import Image from "next/image";
-import React from "react";
+import React, { useEffect, useState } from "react";
 import { Link } from "@/i18n/routing";
+import { useTheme } from "next-themes";
 
 const MotionLink = motion.create(Link);
 
 const Logo: React.FC = () => {
+  const { theme } = useTheme();
+  const [mounted, setMounted] = useState(false);
+
+  useEffect(() => {
+    setMounted(true);
+  }, []);
+
+  const logoSrc = !mounted
+    ? "/logo/logo-light-png.png" // fallback
+    : theme === "dark"
+    ? "/logo/logo-dark.png"
+    : "/logo/logo-light-png.png";
+
   return (
     <MotionLink
       href="/"
@@ -15,14 +29,15 @@ const Logo: React.FC = () => {
       animate={{ opacity: 1, y: 0 }}
       transition={{ duration: 0.45 }}
     >
-      <Image
-        src={`/logo/main-logo.png`}
-        alt="logo"
-        width={250}
-        height={250}
-        priority
-        className="object-cover size-36 md:size-56"
-      />
+      <div className="relative h-16 w-40 sm:w-48">
+        <Image
+          src={logoSrc}
+          alt="logo"
+          fill
+          priority
+          className="object-cover"
+        />
+      </div>
     </MotionLink>
   );
 };
