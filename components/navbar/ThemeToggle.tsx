@@ -25,7 +25,7 @@ function ThemeToggle() {
         animate={{ opacity: 1, scale: 1, rotate: 0 }}
         exit={{ opacity: 0, scale: 0.6, rotate: 90 }}
         transition={{ duration: 0.45, ease: "easeInOut" }}
-        className="absolute inset-0 flex items-center justify-center"
+        className="absolute inset-0 flex items-center justify-center cursor-pointer"
       >
         <Moon className="size-6 text-blue-500" />
       </motion.span>
@@ -36,9 +36,9 @@ function ThemeToggle() {
         animate={{ opacity: 1, scale: 1, rotate: 0 }}
         exit={{ opacity: 0, scale: 0.6, rotate: -90 }}
         transition={{ duration: 0.45, ease: "easeInOut" }}
-        className="absolute inset-0 flex items-center justify-center"
+        className="absolute inset-0 flex items-center justify-center cursor-pointer"
       >
-        <Sun className="size-6 text-yellow-400" />
+        <Sun className="size-6 text-zinc-300" />
       </motion.span>
     );
   }, [isLight, mounted]);
