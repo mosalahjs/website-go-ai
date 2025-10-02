@@ -103,6 +103,8 @@
     #3fa9f5 50%,
     #b4cbe3 100%
   );
+  --font-sans: var(--font-inter);
+  --font-arabic: var(--font-arabic);
 }
 
 .dark {
@@ -168,6 +170,14 @@
   body {
     @apply bg-background text-foreground;
   }
+}
+
+html[lang="en"] body {
+  font-family: var(--font-inter), "Segoe UI", Roboto, sans-serif;
+}
+
+html[lang="ar"] body {
+  font-family: var(--font-arabic), "Segoe UI", Tahoma, sans-serif;
 }
 
 .main-gradient-primary {
