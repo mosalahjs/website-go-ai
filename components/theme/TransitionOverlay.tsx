@@ -39,6 +39,15 @@ const TransitionOverlayComponent: React.FC = () => {
     return () => clearTimeout(timeout);
   }, [pathname]);
 
+  useEffect(() => {
+    if (isAnimating) {
+      window.scrollTo(0, 0);
+      document.body.style.overflow = "hidden";
+    } else {
+      document.body.style.overflow = "";
+    }
+  }, [isAnimating]);
+
   const layers = useMemo(
     () =>
       COLORS.map((color, i) => (

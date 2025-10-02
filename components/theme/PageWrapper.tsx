@@ -14,7 +14,8 @@ const PageWrapperComponent: React.FC<PageWrapperProps> = ({ children }) => {
   useEffect(() => {
     setShowPage(false);
 
-    const timeout = setTimeout(() => setShowPage(true), 600);
+    const timeout = setTimeout(() => setShowPage(true), 1500);
+    document.body.style.overflow = "hidden";
     return () => clearTimeout(timeout);
   }, [pathname]);
 
