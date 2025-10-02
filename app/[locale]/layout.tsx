@@ -22,18 +22,18 @@ const geistMono = Geist_Mono({
 export const metadata: Metadata = {
   metadataBase: new URL("https://website-go-ai.vercel.app"),
   title: {
-    default: "Go Ai",
-    template: "%s | Go Ai",
+    default: "Go AI 247",
+    template: "%s | Go AI 247",
   },
-  description: "Go Ai - Elevate Your Business with AI",
+  description: "Go AI 247 - Elevate Your Business with AI",
   icons: {
     icon: "/logo/logo-light.svg",
     shortcut: "/logo/logo-light-png.png",
     apple: "/logo/logo-light-png.png",
   },
   openGraph: {
-    title: "Go Ai",
-    description: "Go Ai - Elevate Your Business with AI",
+    title: "Go AI 247",
+    description: "Go AI 247 - Elevate Your Business with AI",
     url: "https://website-go-ai.vercel.app",
     siteName: "Go Ai",
     images: [
@@ -49,8 +49,8 @@ export const metadata: Metadata = {
   },
   twitter: {
     card: "summary_large_image",
-    title: "Go Ai",
-    description: "Go Ai - Elevate Your Business with AI",
+    title: "Go AI 247",
+    description: "Go AI 247 - Elevate Your Business with AI",
     images: ["/logo/logo-light-png.png"],
   },
 };
