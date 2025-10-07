@@ -71,5 +71,11 @@
     "contact": "Contact",
     "rights": "All rights reserved.",
     "builtBy": "Built with ❤️ by"
+  },
+  "NotFound": {
+    "pageNotFound": "Page Not Found",
+    "message": "Oops! It seems the page you’re looking for doesn’t exist or has been moved.",
+    "backToHome": "Back to Home",
+    "backgroundAlt": "Background"
   }
 }
