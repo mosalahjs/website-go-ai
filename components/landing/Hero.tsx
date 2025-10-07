@@ -117,7 +117,7 @@ function HeroComponent() {
 
               <div className="space-y-4">
                 <motion.h1
-                  className="text-2xl sm:text-3xl md:text-5xl lg:text-7xl xl:text-9xl mx-auto font-bold bg-clip-text text-transparent text-gradient-third"
+                  className="text-2xl sm:text-3xl md:text-5xl lg:text-7xl xl:text-8xl text-center mx-auto font-bold bg-clip-text text-transparent text-gradient-third"
                   initial={{ opacity: 0, scale: 0.9 }}
                   animate={{ opacity: 1, scale: 1 }}
                   transition={{ duration: 1, ease: "easeOut" }}

@@ -10,8 +10,7 @@ import Navbar from "@/components/navbar";
 import { ThemeProvider } from "@/components/theme/ThemeProvider";
 import { Footer } from "@/components/footer";
 import ScrollToTop from "@/components/shared/ScrollToTop";
-import TransitionOverlay from "@/components/theme/TransitionOverlay";
-import PageWrapper from "@/components/theme/PageWrapper";
+// import SFooter from "@/components/footer/SFooter";
 
 const geistMono = Geist_Mono({
   variable: "--font-geist-mono",
@@ -89,19 +88,16 @@ export default async function RootLayout({
       >
         <ThemeProvider
           attribute="class"
-          defaultTheme="light"
+          defaultTheme="dark"
           enableSystem={false}
           disableTransitionOnChange
         >
           <NextIntlClientProvider locale={locale} messages={messages}>
-            {/* <main className="pt-18 min-h-screen">{children}</main> */}
             <div className="relative">
-              <PageWrapper>
-                <Navbar />
-                <main className="pt-18 min-h-screen">{children}</main>
-                <Footer />
-              </PageWrapper>
-              <TransitionOverlay />
+              {/* <SFooter /> */}
+              <Navbar />
+              <main className="pt-18 min-h-screen">{children}</main>
+              <Footer />
             </div>
             <ScrollToTop />
           </NextIntlClientProvider>

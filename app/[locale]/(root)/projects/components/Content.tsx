@@ -1,71 +1,16 @@
 "use client";
 import { useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
+import Link from "next/link";
 import { Card, CardContent } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { ExternalLink } from "lucide-react";
+import { projectsData as projects } from "@/constant/Projects";
 
 const categories = ["All", "AI/ML", "Web", "Mobile", "SaaS"];
 
-const projects = [
-  {
-    id: 1,
-    title: "SmartDocs AI",
-    description:
-      "Intelligent document processing platform with NLP for automated data extraction and classification.",
-    category: "AI/ML",
-    tags: ["AI/ML", "Next.js", "Python", "FastAPI"],
-    gradient: "from-cyan-500 to-blue-500",
-  },
-  {
-    id: 2,
-    title: "FinTech Dashboard",
-    description:
-      "Real-time financial analytics with advanced visualization and portfolio management.",
-    category: "Web",
-    tags: ["React", "Node.js", "PostgreSQL", "D3.js"],
-    gradient: "from-blue-500 to-indigo-500",
-  },
-  {
-    id: 3,
-    title: "E-Commerce Platform",
-    description:
-      "Multi-vendor marketplace with AI recommendations and inventory management.",
-    category: "SaaS",
-    tags: ["Next.js", "Stripe", "MongoDB", "Redis"],
-    gradient: "from-indigo-500 to-purple-500",
-  },
-  {
-    id: 4,
-    title: "Healthcare Portal",
-    description:
-      "Patient management system with telemedicine and appointment scheduling.",
-    category: "Web",
-    tags: ["React", "Node.js", "MySQL", "WebRTC"],
-    gradient: "from-purple-500 to-pink-500",
-  },
-  {
-    id: 5,
-    title: "AI Chatbot Platform",
-    description:
-      "Conversational AI platform with custom training and multi-channel deployment.",
-    category: "AI/ML",
-    tags: ["Python", "TensorFlow", "React", "AWS"],
-    gradient: "from-pink-500 to-rose-500",
-  },
-  {
-    id: 6,
-    title: "Mobile Fitness App",
-    description:
-      "Personalized workout tracking with AI-powered form correction and nutrition planning.",
-    category: "Mobile",
-    tags: ["React Native", "Firebase", "TensorFlow Lite"],
-    gradient: "from-rose-500 to-orange-500",
-  },
-];
-
-export default function Content() {
+export default function ProjectsPage() {
   const [selectedCategory, setSelectedCategory] = useState("All");
 
   const filteredProjects =
@@ -132,37 +77,39 @@ export default function Content() {
                   exit={{ opacity: 0, scale: 0.9 }}
                   transition={{ duration: 0.4 }}
                 >
-                  <Card
-                    variant={"shadow"}
-                    className="group py-0 border hover:border-blue-500"
-                  >
-                    <div
-                      className={`h-48 bg-gradient-to-br ${project.gradient} relative overflow-hidden`}
+                  <Link href={`/projects/${project.id}`}>
+                    <Card
+                      variant={"shadow"}
+                      className="group py-0 border hover:border-blue-500 transition-all duration-300 cursor-pointer"
                     >
-                      <motion.div
-                        whileHover={{ scale: 1.1 }}
-                        transition={{ duration: 0.3 }}
-                        className="absolute inset-0 flex items-center justify-center"
+                      <div
+                        className={`h-48 bg-gradient-to-br ${project.gradient} relative overflow-hidden`}
                       >
-                        <ExternalLink className="h-12 w-12 text-white/80" />
-                      </motion.div>
-                    </div>
-                    <CardContent className="p-6 space-y-4">
-                      <h3 className="text-xl font-semibold group-hover:text-primary transition-colors">
-                        {project.title}
-                      </h3>
-                      <p className="text-muted-foreground text-sm leading-relaxed">
-                        {project.description}
-                      </p>
-                      <div className="flex flex-wrap gap-2">
-                        {project.tags.map((tag, i) => (
-                          <Badge key={i} variant="secondary">
-                            {tag}
-                          </Badge>
-                        ))}
+                        <motion.div
+                          whileHover={{ scale: 1.1 }}
+                          transition={{ duration: 0.3 }}
+                          className="absolute inset-0 flex items-center justify-center"
+                        >
+                          <ExternalLink className="h-12 w-12 text-white/80" />
+                        </motion.div>
                       </div>
-                    </CardContent>
-                  </Card>
+                      <CardContent className="p-6 space-y-4">
+                        <h3 className="text-xl font-semibold group-hover:text-primary transition-colors">
+                          {project.title}
+                        </h3>
+                        <p className="text-muted-foreground text-sm leading-relaxed">
+                          {project.description}
+                        </p>
+                        <div className="flex flex-wrap gap-2">
+                          {project.tags.map((tag, i) => (
+                            <Badge key={i} variant="secondary">
+                              {tag}
+                            </Badge>
+                          ))}
+                        </div>
+                      </CardContent>
+                    </Card>
+                  </Link>
                 </motion.div>
               ))}
             </AnimatePresence>

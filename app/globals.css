@@ -364,3 +364,22 @@ html[lang="ar"] body {
   scrollbar-width: 15px;
   scrollbar-color: var(--main) transparent;
 }
+
+/* ================== Video Project =================================*/
+
+@keyframes gradient-spin {
+  0% {
+    background-position: 0% 50%;
+  }
+  50% {
+    background-position: 100% 50%;
+  }
+  100% {
+    background-position: 0% 50%;
+  }
+}
+
+.animate-gradient-spin {
+  background-size: 200% 200%;
+  animation: gradient-spin 6s linear infinite;
+}
