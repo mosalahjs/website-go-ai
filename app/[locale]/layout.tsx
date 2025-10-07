@@ -10,7 +10,6 @@ import Navbar from "@/components/navbar";
 import { ThemeProvider } from "@/components/theme/ThemeProvider";
 import { Footer } from "@/components/footer";
 import ScrollToTop from "@/components/shared/ScrollToTop";
-// import SFooter from "@/components/footer/SFooter";
 
 const geistMono = Geist_Mono({
   variable: "--font-geist-mono",
@@ -88,13 +87,12 @@ export default async function RootLayout({
       >
         <ThemeProvider
           attribute="class"
-          defaultTheme="dark"
+          defaultTheme="light"
           enableSystem={false}
           disableTransitionOnChange
         >
           <NextIntlClientProvider locale={locale} messages={messages}>
             <div className="relative">
-              {/* <SFooter /> */}
               <Navbar />
               <main className="pt-18 min-h-screen">{children}</main>
               <Footer />
