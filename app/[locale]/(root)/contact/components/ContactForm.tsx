@@ -1,10 +1,8 @@
 "use client";
-
 import { motion } from "framer-motion";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import * as z from "zod";
-
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
@@ -16,20 +14,11 @@ import {
   FormLabel,
   FormMessage,
 } from "@/components/ui/form";
-import {
-  Select,
-  SelectContent,
-  SelectItem,
-  SelectTrigger,
-  SelectValue,
-} from "@/components/ui/select";
 import { Card, CardContent } from "@/components/ui/card";
 
 const contactSchema = z.object({
   name: z.string().min(2, "Name must be at least 2 characters"),
   email: z.email("Invalid email address"),
-  company: z.string().optional(),
-  budget: z.string().optional(),
   message: z.string().min(10, "Message must be at least 10 characters"),
 });
 
@@ -41,8 +30,6 @@ export function ContactForm() {
     defaultValues: {
       name: "",
       email: "",
-      company: "",
-      budget: "",
       message: "",
     },
     mode: "onTouched",
@@ -98,55 +85,6 @@ export function ContactForm() {
                   )}
                 />
               </div>
-
-              {/* Company + Budget */}
-              <div className="grid md:grid-cols-2 gap-6">
-                <FormField
-                  control={form.control}
-                  name="company"
-                  render={({ field }) => (
-                    <FormItem>
-                      <FormLabel>Company</FormLabel>
-                      <FormControl>
-                        <Input placeholder="Your Company" {...field} />
-                      </FormControl>
-                      <FormMessage />
-                    </FormItem>
-                  )}
-                />
-
-                <FormField
-                  control={form.control}
-                  name="budget"
-                  render={({ field }) => (
-                    <FormItem>
-                      <FormLabel>Budget Range</FormLabel>
-                      <Select
-                        onValueChange={field.onChange}
-                        defaultValue={field.value}
-                      >
-                        <FormControl>
-                          <SelectTrigger>
-                            <SelectValue placeholder="Select budget" />
-                          </SelectTrigger>
-                        </FormControl>
-                        <SelectContent>
-                          <SelectItem value="< $10k">{"< $10k"}</SelectItem>
-                          <SelectItem value="$10k - $50k">
-                            $10k - $50k
-                          </SelectItem>
-                          <SelectItem value="$50k - $100k">
-                            $50k - $100k
-                          </SelectItem>
-                          <SelectItem value="$100k+">$100k+</SelectItem>
-                        </SelectContent>
-                      </Select>
-                      <FormMessage />
-                    </FormItem>
-                  )}
-                />
-              </div>
-
               {/* Message */}
               <FormField
                 control={form.control}
