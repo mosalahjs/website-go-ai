@@ -77,5 +77,106 @@
     "message": "Oops! It seems the page you’re looking for doesn’t exist or has been moved.",
     "backToHome": "Back to Home",
     "backgroundAlt": "Background"
+  },
+  "About": {
+    "title": "About Us",
+    "intro": "Welcome to GoAI247, your trusted partner in pioneering AI solutions tailored for the Middle East. Born from the success of GoChat247, GoAI247 was established to bridge the gap between global AI advancements and the unique needs of the region. We are committed to redefining the AI landscape by delivering innovative, localized, and impactful solutions that empower businesses to thrive in the digital age.",
+
+    "aboutTitle": "Who We Are",
+    "aboutText": "GoAI247 is dedicated to delivering secure, localized AI solutions designed specifically for the GCC region. From mastering Arabic dialects to ensuring on-premises deployments, we combine innovation, cultural understanding, and cutting-edge technology to help businesses lead confidently in the AI era.",
+
+    "missionTitle": "Our Mission",
+    "missionText": "At GoAI247, our mission is to make artificial intelligence accessible, practical, and transformative for businesses across the Middle East. We strive to enhance regional competitiveness, foster innovation, and drive sustainable growth.",
+
+    "visionTitle": "Our Vision",
+    "visionText": "We envision a Middle East where AI is not just a tool but a cornerstone of innovation, collaboration, and growth. Our goal is to establish the region as a global hub for AI excellence and responsible technology adoption.",
+
+    "valuesTitle": "Our Core Values",
+    "valuesList": [
+      "Innovation with Purpose",
+      "Integrity and Trust",
+      "Cultural Relevance",
+      "Sustainability and Ethics",
+      "Customer-Centric Design",
+      "Excellence and Collaboration"
+    ],
+
+    "strengthsTitle": "Why Choose Us?",
+    "strengthsList": [
+      "Regional Expertise: Deep understanding of GCC markets and cultural context.",
+      "Cutting-Edge Technology: Leveraging advanced AI research for impactful results.",
+      "Customer-Centric Approach: We design solutions around your business goals.",
+      "Sustainability and Ethics: Ensuring responsible, secure, and ethical AI deployment."
+    ],
+
+    "offerTitle": "What We Offer",
+    "offerPoints": [
+      "Localized AI Solutions: Tailored AI systems for the Middle East’s linguistic and cultural context.",
+      "Generative AI Tools: From sentiment analysis to advanced NLP, turning data into insight.",
+      "Industry Applications: AI for fintech, healthcare, e-commerce, and government.",
+      "AI Consulting & Integration: Expert guidance to integrate AI seamlessly into operations."
+    ],
+
+    "storyTitle": "Our Story",
+    "storyText": "GoAI247 was born from a vision to transform the Middle East’s business landscape through AI. Originally part of GoChat247, it evolved into a dedicated AI powerhouse, driving innovation, efficiency, and excellence across industries.",
+
+    "techTitle": "Technology & Security",
+    "techPoints": [
+      "AI Solutions Tailored for the GCC: Secure, On-Premises, and Arabic Dialect Experts.",
+      "We revolutionize businesses through safe and localized AI innovation.",
+      "From data security to on-premises deployments, we ensure full control and compliance."
+    ],
+
+    "valueTitle": "Let’s Shape the Future Together",
+    "valuePoints": [
+      "Partner with GoAI247 to harness the power of AI for transformation and growth.",
+      "Together, we can lead innovation and build a sustainable digital future for the Middle East."
+    ],
+
+    "metrics": [
+      { "number": "10+", "label": "Industries Served" },
+      { "number": "50+", "label": "AI Models Deployed" },
+      { "number": "24/7", "label": "Operational Support" },
+      { "number": "100%", "label": "Client Satisfaction" }
+    ]
+  },
+  "Services": {
+    "title": "Our Services",
+    "intro": "We deliver intelligent and scalable AI-driven solutions that empower businesses to innovate, transform, and grow. From consulting to development, our expertise ensures your organization stays ahead of the curve.",
+    "servicesList": [
+      {
+        "title": "Consulting",
+        "text": "Our AI consulting service empowers organizations to innovate by building tailored AI labs and implementing scalable solutions while educating teams on AI fundamentals and advanced applications through expertise in generative AI and custom implementations."
+      },
+      {
+        "title": "Tailoring",
+        "text": "We specialize in customizing AI technology to meet the unique needs of the GCC region, offering solutions tailored for Arabic dialects, local culture, and business practices, while ensuring on-premises security and compliance for seamless integration and innovation."
+      },
+      {
+        "title": "Developing",
+        "text": "We design and develop complete concepts powered by generative AI, including training models tailored to your business needs, delivering innovative, scalable, and transformative solutions."
+      }
+    ],
+    "processTitle": "How We Work",
+    "processText": "We partner with clients from idea to implementation, combining strategy, creativity, and technology to deliver measurable impact and sustainable innovation.",
+    "processSteps": [
+      "Discovery & Strategy",
+      "Design & Prototyping",
+      "AI Model Development",
+      "Integration & Optimization"
+    ],
+    "ctaTitle": "Let’s Build the Future Together",
+    "ctaText": "Whether you’re exploring AI adoption or ready to scale your innovation, our team is here to help you every step of the way.",
+    "ctaButton": "Start Your Journey"
+  },
+  "Projects": {
+    "heroTitle": "Explore Our Projects",
+    "heroDescription": "A collection of sleek, modern, and innovative digital experiences.",
+    "viewDemo": "View Demo",
+    "viewDetails": "View Details",
+    "ctaBadge": "Start Your Journey",
+    "ctaTitle": "Ready to Build Something Extraordinary?",
+    "ctaSubtitle": "Let's collaborate to transform your vision into a cutting-edge digital solution that drives results.",
+    "ctaButton": "Start Your Project"
   }
 }

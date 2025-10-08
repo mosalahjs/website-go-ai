@@ -1,5 +1,4 @@
 import ClientAbout from "./components/ClientAbout";
-// import ClientAboutTest from "./components/ClientAboutTest";
 
 export const metadata = {
   title: "About",
@@ -11,7 +10,6 @@ export default function AboutPage() {
   return (
     <div className="min-h-screen">
       <ClientAbout />
-      {/* <ClientAboutTest /> */}
     </div>
   );
 }

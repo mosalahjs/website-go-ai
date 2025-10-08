@@ -25,7 +25,8 @@ export const projectsData: IProduct[] = [
     category: "AI/ML",
     tags: ["AI/ML", "Next.js", "Python", "FastAPI"],
     gradient: "from-cyan-500 to-blue-500",
-    image: "/placeholder.svg",
+    image:
+      "https://images.unsplash.com/photo-1551288049-bebda4e38f71?w=800&q=80",
     techStack: [
       "Next.js",
       "TypeScript",
@@ -56,7 +57,8 @@ export const projectsData: IProduct[] = [
     category: "Web",
     tags: ["React", "Node.js", "PostgreSQL", "D3.js"],
     gradient: "from-blue-500 to-indigo-500",
-    image: "/placeholder.svg",
+    image:
+      "https://images.unsplash.com/photo-1576091160399-112ba8d25d1d?w=800&q=80",
     techStack: [
       "React",
       "Node.js",
@@ -87,7 +89,8 @@ export const projectsData: IProduct[] = [
     category: "SaaS",
     tags: ["Next.js", "Stripe", "MongoDB", "Redis"],
     gradient: "from-indigo-500 to-purple-500",
-    image: "/placeholder.svg",
+    image:
+      "https://images.unsplash.com/photo-1563013544-824ae1b704d3?w=800&q=80",
     techStack: [
       "Next.js",
       "TypeScript",
@@ -118,7 +121,8 @@ export const projectsData: IProduct[] = [
     category: "Web",
     tags: ["React", "Node.js", "MySQL", "WebRTC"],
     gradient: "from-purple-500 to-pink-500",
-    image: "/placeholder.svg",
+    image:
+      "https://images.unsplash.com/photo-1576091160399-112ba8d25d1d?w=800&q=80",
     techStack: [
       "React",
       "Node.js",
@@ -149,7 +153,8 @@ export const projectsData: IProduct[] = [
     category: "AI/ML",
     tags: ["Python", "TensorFlow", "React", "AWS"],
     gradient: "from-pink-500 to-rose-500",
-    image: "/placeholder.svg",
+    image:
+      "https://images.unsplash.com/photo-1531746790731-6c087fecd65a?w=800&q=80",
     techStack: [
       "Python",
       "TensorFlow",
@@ -180,7 +185,8 @@ export const projectsData: IProduct[] = [
     category: "Mobile",
     tags: ["React Native", "Firebase", "TensorFlow Lite"],
     gradient: "from-rose-500 to-orange-500",
-    image: "/placeholder.svg",
+    image:
+      "https://images.unsplash.com/photo-1517836357463-d25dfeac3438?w=800&q=80",
     techStack: [
       "React Native",
       "TypeScript",

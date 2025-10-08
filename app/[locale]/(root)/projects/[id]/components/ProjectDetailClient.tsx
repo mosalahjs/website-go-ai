@@ -35,10 +35,14 @@ function ProjectDetailClientComponent({ project }: { project: Project }) {
     gallery && gallery.length > 0
       ? gallery
       : [
-          "https://images.unsplash.com/photo-1504384308090-c894fdcc538d?w=800",
-          "https://images.unsplash.com/photo-1522202176988-66273c2fd55f?w=800",
-          "https://images.unsplash.com/photo-1506765515384-028b60a970df?w=800",
-          "https://images.unsplash.com/photo-1498050108023-c5249f4df085?w=800",
+          // "https://images.unsplash.com/photo-1504384308090-c894fdcc538d?w=800",
+          // "https://images.unsplash.com/photo-1522202176988-66273c2fd55f?w=800",
+          // "https://images.unsplash.com/photo-1506765515384-028b60a970df?w=800",
+          // "https://images.unsplash.com/photo-1498050108023-c5249f4df085?w=800",
+          "/gallery/gallery-ai-neural.jpg",
+          "/gallery/gallery-code-ai.jpg",
+          "/gallery/gallery-ai-cloud.jpg",
+          "/gallery/gallery-dev-dashboard.jpg",
         ];
 
   return (
@@ -51,21 +55,6 @@ function ProjectDetailClientComponent({ project }: { project: Project }) {
         buttonGradientStyles={buttonGradientStyles}
       />
 
-      {/* <section className=" bg-gradient-hero">
-        <div className="container mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="max-w-6xl mx-auto">
-            <VideoPlayer gradient={gradient} />
-          </div>
-        </div>
-      </section>
-
-      <section className=" bg-gradient-hero">
-        <div className="container mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="max-w-6xl mx-auto">
-            <ImageGallery images={fallbackGallery} />
-          </div>
-        </div>
-      </section> */}
       <VideoPlayer gradient={gradient} />
 
       <ImageGallery images={fallbackGallery} />

@@ -101,13 +101,18 @@ function ImageGalleryComponent({ images }: ImageGalleryProps) {
               className="relative group cursor-pointer"
               onClick={() => setSelectedIndex(index)}
             >
-              <div
-                className={`absolute -inset-0.5 bg-gradient-primary rounded-2xl transition-all duration-300 ${
-                  selectedIndex === index
-                    ? "opacity-100 blur-sm"
-                    : "opacity-0 group-hover:opacity-60"
-                }`}
-              />
+              {/* Modern Glow Overlay - FINAL FIX */}
+              <div className="absolute inset-0 flex items-center justify-center pointer-events-none z-[5]">
+                <div
+                  className={`w-20 h-20 rounded-full transition-all duration-700 ease-out
+      ${
+        selectedIndex === index
+          ? "bg-gradient-to-br from-cyan-400/50 via-blue-500/50 to-purple-500/50 blur-2xl animate-pulse opacity-100 shadow-[0_0_40px_-5px_rgba(6,182,212,0.6)]"
+          : "opacity-0 group-hover:opacity-90 group-hover:blur-xl group-hover:bg-gradient-to-br group-hover:from-cyan-400/30 group-hover:via-blue-500/30 group-hover:to-purple-500/30"
+      }`}
+                />
+              </div>
+
               <div className="relative aspect-video rounded-2xl overflow-hidden shadow-card bg-background">
                 <Image
                   src={image}
@@ -118,12 +123,14 @@ function ImageGalleryComponent({ images }: ImageGalleryProps) {
                   width={400}
                   height={225}
                 />
+                {/* Gradient overlay for light/dark mode */}
                 <div
-                  className={`absolute inset-0 transition-all duration-300 ${
-                    selectedIndex === index
-                      ? "bg-gradient-to-br from-cyan-500/20 via-blue-500/20 to-purple-500/20"
-                      : "bg-black/40 group-hover:bg-black/20"
-                  }`}
+                  className={`absolute inset-0  rounded-2xl transition-all duration-300
+            ${
+              selectedIndex === index
+                ? "bg-gradient-to-br from-cyan-500/20 via-blue-500/20 to-purple-500/20"
+                : "bg-black/40 group-hover:bg-black/20 dark:bg-white/10 dark:group-hover:bg-white/20"
+            }`}
                 />
               </div>
             </motion.div>

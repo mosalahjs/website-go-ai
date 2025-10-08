@@ -7,7 +7,7 @@ import { useEffect, useState, memo } from "react";
 
 /* ---------- Main Component ---------- */
 function ClientAbout() {
-  const t = useTranslations("AboutPage");
+  const t = useTranslations("About");
   const { theme } = useTheme();
   const [mounted, setMounted] = useState<boolean>(false);
 
@@ -16,6 +16,7 @@ function ClientAbout() {
 
   return (
     <div className="relative overflow-hidden bg-gradient-to-b from-background via-background/95 to-background text-foreground">
+      {/* Background animated glows */}
       <div className="absolute inset-0 overflow-hidden">
         <motion.div
           className="absolute -top-40 -left-40 w-[400px] h-[400px] rounded-full blur-3xl"
@@ -41,6 +42,7 @@ function ClientAbout() {
         />
       </div>
 
+      {/* Content */}
       <div className="relative z-10 max-w-6xl mx-auto px-6 py-24 space-y-32">
         {/* HERO */}
         <motion.section
@@ -54,6 +56,22 @@ function ClientAbout() {
           </h1>
           <p className="text-lg md:text-xl text-muted-foreground max-w-3xl mx-auto leading-relaxed">
             {t("intro")}
+          </p>
+        </motion.section>
+
+        {/* About + Story (Merged Section) */}
+        <motion.section
+          initial={{ opacity: 0, y: 50 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.8 }}
+          viewport={{ once: true }}
+          className="text-center space-y-6"
+        >
+          <h2 className="text-4xl font-bold bg-gradient-to-r from-purple-400 to-indigo-400 text-transparent bg-clip-text">
+            {t("aboutTitle")}
+          </h2>
+          <p className="text-muted-foreground max-w-4xl mx-auto leading-relaxed">
+            {t("aboutText")}
           </p>
         </motion.section>
 
@@ -74,19 +92,11 @@ function ClientAbout() {
           paragraphs={t.raw("strengthsList") as string[]}
         />
 
-        {/* Story */}
-        <motion.section
-          initial={{ opacity: 0, y: 50 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.8 }}
-          viewport={{ once: true }}
-          className="text-center space-y-6"
-        >
-          <h2 className="text-4xl font-bold">{t("storyTitle")}</h2>
-          <p className="text-muted-foreground max-w-3xl mx-auto leading-relaxed">
-            {t("storyText")}
-          </p>
-        </motion.section>
+        {/* What We Offer */}
+        <ExtraSection
+          title={t("offerTitle")}
+          paragraphs={t.raw("offerPoints") as string[]}
+        />
 
         {/* Technology & Security */}
         <ExtraSection
@@ -94,7 +104,7 @@ function ClientAbout() {
           paragraphs={t.raw("techPoints") as string[]}
         />
 
-        {/* Value Proposition */}
+        {/* Value Proposition / Let's Shape the Future */}
         <ExtraSection
           title={t("valueTitle")}
           paragraphs={t.raw("valuePoints") as string[]}
@@ -148,11 +158,7 @@ const SectionGrid = memo(function SectionGrid({
       {items.map((item, i) => (
         <motion.div
           key={i}
-          whileHover={{
-            scale: 1.05,
-            rotateX: 3,
-            rotateY: -3,
-          }}
+          whileHover={{ scale: 1.05, rotateX: 3, rotateY: -3 }}
           transition={{ type: "spring", stiffness: 200, damping: 15 }}
           className="relative group p-8 rounded-3xl bg-gradient-to-br from-muted/30 to-muted/10 backdrop-blur-lg border border-border/40 shadow-lg overflow-hidden"
         >
@@ -195,10 +201,7 @@ const ValuesSection = memo(function ValuesSection({
         {values.map((v, i) => (
           <motion.div
             key={i}
-            whileHover={{
-              scale: 1.06,
-              rotate: 1.5,
-            }}
+            whileHover={{ scale: 1.06, rotate: 1.5 }}
             transition={{ type: "spring", stiffness: 200, damping: 15 }}
             className="relative group p-6 rounded-2xl bg-card/50 border border-border shadow-md backdrop-blur-md overflow-hidden"
           >
@@ -241,10 +244,7 @@ const ExtraSection = memo(function ExtraSection({
         {paragraphs.map((p, i) => (
           <motion.p
             key={i}
-            whileHover={{
-              scale: 1.02,
-              color: "rgb(99,102,241)",
-            }}
+            whileHover={{ scale: 1.02, color: "rgb(99,102,241)" }}
             transition={{ duration: 0.4 }}
             className="transition-all"
           >

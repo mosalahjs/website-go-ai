@@ -1,10 +1,11 @@
 import React from "react";
-import Content from "./components/Content";
+
+import ProjectsContent from "./components/ProjectsContent";
 
 export default function Projects() {
   return (
     <div>
-      <Content />
+      <ProjectsContent />
     </div>
   );
 }
