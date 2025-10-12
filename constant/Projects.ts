@@ -58,7 +58,7 @@ export const projectsData: IProduct[] = [
     tags: ["React", "Node.js", "PostgreSQL", "D3.js"],
     gradient: "from-blue-500 to-indigo-500",
     image:
-      "https://images.unsplash.com/photo-1576091160399-112ba8d25d1d?w=800&q=80",
+      "https://images.unsplash.com/photo-1460925895917-afdab827c52f?w=800&q=80",
     techStack: [
       "React",
       "Node.js",

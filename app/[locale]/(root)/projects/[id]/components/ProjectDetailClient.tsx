@@ -35,10 +35,6 @@ function ProjectDetailClientComponent({ project }: { project: Project }) {
     gallery && gallery.length > 0
       ? gallery
       : [
-          // "https://images.unsplash.com/photo-1504384308090-c894fdcc538d?w=800",
-          // "https://images.unsplash.com/photo-1522202176988-66273c2fd55f?w=800",
-          // "https://images.unsplash.com/photo-1506765515384-028b60a970df?w=800",
-          // "https://images.unsplash.com/photo-1498050108023-c5249f4df085?w=800",
           "/gallery/gallery-ai-neural.jpg",
           "/gallery/gallery-code-ai.jpg",
           "/gallery/gallery-ai-cloud.jpg",
@@ -53,6 +49,7 @@ function ProjectDetailClientComponent({ project }: { project: Project }) {
         title={title}
         description={description}
         buttonGradientStyles={buttonGradientStyles}
+        image={project.image}
       />
 
       <VideoPlayer gradient={gradient} />

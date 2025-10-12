@@ -1,11 +1,9 @@
 "use client";
-
 import { memo } from "react";
 import { motion } from "framer-motion";
-import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
-import { ArrowLeft } from "lucide-react";
-import { useRouter } from "next/navigation";
+import Image from "next/image";
+import BackToProjectsButton from "./BackToProjectsButton";
 
 interface Props {
   gradient: string;
@@ -13,6 +11,7 @@ interface Props {
   title: string;
   description: string;
   buttonGradientStyles: string;
+  image?: string;
 }
 
 const sectionVariants = {
@@ -20,37 +19,41 @@ const sectionVariants = {
   visible: { opacity: 1, y: 0 },
 };
 
-function ProjectHero({
-  gradient,
-  tags,
-  title,
-  description,
-  buttonGradientStyles,
-}: Props) {
-  const router = useRouter();
-
+function ProjectHero({ tags, title, description, image }: Props) {
   return (
-    <section
-      className={`py-24 bg-gradient-to-br ${gradient} relative overflow-hidden text-white`}
-    >
-      <div className="container mx-auto px-6">
+    <section className="relative overflow-hidden text-white py-24 min-h-[60vh]">
+      {/* ===== Background Image ONLY ===== */}
+      <div className="absolute inset-0 z-0">
+        <Image
+          src={image || "/assets/default-bg.jpg"}
+          alt={title}
+          fill
+          priority
+          sizes="100vw"
+          className="object-cover object-center"
+        />
+      </div>
+
+      {/* ===== Modern Adaptive Overlay (Light/Dark Mode) ===== */}
+      <div
+        className="absolute inset-0 z-0 
+        bg-gradient-to-b from-white/60 via-white/30 to-transparent 
+        dark:from-[#0a0118]/80 dark:via-[#0a0118]/40 dark:to-transparent
+        backdrop-blur-[2px]"
+      />
+
+      {/* ===== Content ===== */}
+      <div className="container mx-auto px-6 relative z-10">
         <motion.div
           initial="hidden"
           animate="visible"
           variants={sectionVariants}
           transition={{ duration: 0.6 }}
         >
-          <Button
-            variant="ghost"
-            onClick={() => router.push("/projects")}
-            className={`mb-6 ${buttonGradientStyles}`}
-          >
-            <ArrowLeft className="mr-2 h-4 w-4" />
-            Back to Projects
-          </Button>
+          <BackToProjectsButton />
 
-          <div className="max-w-4xl mx-auto space-y-6">
-            <div className="flex flex-wrap gap-2 mb-4">
+          <div className="max-w-4xl mx-auto space-y-6 text-white text-center">
+            <div className="flex flex-wrap gap-2 justify-center mb-4">
               {tags.map((tag, i) => (
                 <Badge
                   key={i}
@@ -61,8 +64,11 @@ function ProjectHero({
                 </Badge>
               ))}
             </div>
-            <h1 className="text-5xl font-bold">{title}</h1>
-            <p className="text-lg text-white/80">{description}</p>
+
+            <h1 className="text-5xl font-bold drop-shadow-lg">{title}</h1>
+            <p className="text-lg text-white/85 leading-relaxed max-w-3xl mx-auto">
+              {description}
+            </p>
           </div>
         </motion.div>
       </div>

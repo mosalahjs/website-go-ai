@@ -1,5 +1,4 @@
 "use client";
-
 import { memo, useState, useCallback } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { X, ChevronLeft, ChevronRight } from "lucide-react";
@@ -10,7 +9,7 @@ interface ImageGalleryProps {
   images: string[];
 }
 
-const MotionImage = motion(Image);
+const MotionImage = motion.create(Image);
 
 function ImageGalleryComponent({ images }: ImageGalleryProps) {
   const [selectedIndex, setSelectedIndex] = useState(0);
@@ -101,7 +100,6 @@ function ImageGalleryComponent({ images }: ImageGalleryProps) {
               className="relative group cursor-pointer"
               onClick={() => setSelectedIndex(index)}
             >
-              {/* Modern Glow Overlay - FINAL FIX */}
               <div className="absolute inset-0 flex items-center justify-center pointer-events-none z-[5]">
                 <div
                   className={`w-20 h-20 rounded-full transition-all duration-700 ease-out
@@ -112,6 +110,57 @@ function ImageGalleryComponent({ images }: ImageGalleryProps) {
       }`}
                 />
               </div>
+              {selectedIndex === index && (
+                <span className="absolute inset-0 flex items-center justify-center pointer-events-none z-[6]">
+                  <span
+                    className="relative w-6 h-6 rounded-full"
+                    style={{
+                      background:
+                        "linear-gradient(135deg, #06b6d4 0%, #6366f1 100%)",
+                      boxShadow: "0 0 12px rgba(99,102,241,0.45)",
+                    }}
+                  >
+                    <motion.span
+                      className="absolute inset-0 rounded-full"
+                      style={{
+                        boxShadow: "0 0 0 0 rgba(99,102,241,0.45)",
+                        mixBlendMode: "screen",
+                      }}
+                      initial={{ scale: 1, opacity: 0.8 }}
+                      animate={{
+                        boxShadow: [
+                          "0 0 0 0 rgba(99,102,241,0.45)",
+                          "0 0 0 10px rgba(99,102,241,0.0)",
+                        ],
+                        opacity: [0.8, 0],
+                        scale: [1, 1.25],
+                      }}
+                      transition={{
+                        duration: 1.6,
+                        repeat: Infinity,
+                        ease: "easeOut",
+                      }}
+                    />
+                    <motion.span
+                      className="absolute inset-0 rounded-full"
+                      style={{
+                        border: "2px solid rgba(255,255,255,0.85)",
+                        mixBlendMode: "screen",
+                      }}
+                      initial={{ scale: 0.85, opacity: 0.9 }}
+                      animate={{
+                        scale: [0.85, 1.4],
+                        opacity: [0.9, 0],
+                      }}
+                      transition={{
+                        duration: 1.6,
+                        repeat: Infinity,
+                        ease: "easeOut",
+                      }}
+                    />
+                  </span>
+                </span>
+              )}
 
               <div className="relative aspect-video rounded-2xl overflow-hidden shadow-card bg-background">
                 <Image
@@ -123,7 +172,6 @@ function ImageGalleryComponent({ images }: ImageGalleryProps) {
                   width={400}
                   height={225}
                 />
-                {/* Gradient overlay for light/dark mode */}
                 <div
                   className={`absolute inset-0  rounded-2xl transition-all duration-300
             ${

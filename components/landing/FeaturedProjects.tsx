@@ -1,102 +1,114 @@
 "use client";
-import { motion } from "framer-motion";
-import { ArrowRight, ExternalLink } from "lucide-react";
-import { Button } from "@/components/ui/button";
+import { memo, useMemo } from "react";
+import { motion, useReducedMotion, type Variants } from "framer-motion";
+import Link from "next/link";
 import { Card, CardContent } from "@/components/ui/card";
-import { Badge } from "@/components/ui/badge";
-import { Link } from "@/i18n/routing";
+import { CTAButton } from "@/components/ui/cta-button";
+import { projectsData } from "@/constant/Projects";
+import { ProjectMediaCTA } from "../shared/ProjectMediaCTA";
+import { TagPill } from "@/components/ui/tag-pill";
 
-const projects = [
-  {
-    id: 1,
-    title: "SmartDocs AI",
-    description:
-      "Intelligent document processing platform with NLP capabilities for automated data extraction.",
-    tags: ["AI/ML", "Next.js", "Python"],
-    gradient: "from-cyan-500 to-blue-500",
-  },
-  {
-    id: 2,
-    title: "FinTech Dashboard",
-    description:
-      "Real-time financial analytics platform with advanced data visualization and reporting.",
-    tags: ["React", "Node.js", "PostgreSQL"],
-    gradient: "from-blue-500 to-indigo-500",
-  },
-  {
-    id: 3,
-    title: "E-Commerce Platform",
-    description:
-      "Scalable multi-vendor marketplace with AI-powered recommendations and inventory management.",
-    tags: ["Next.js", "Stripe", "MongoDB"],
-    gradient: "from-indigo-500 to-purple-500",
-  },
-];
+function FeaturedProjectsComponent() {
+  const reducedMotion = useReducedMotion();
+  const items = useMemo(() => projectsData.slice(0, 3), []);
 
-export function FeaturedProjects() {
+  const EASE_OUT: [number, number, number, number] = [0.16, 1, 0.3, 1];
+
+  const fadeInUp: Variants = {
+    hidden: { opacity: 0, y: 30 },
+    visible: (i: number) => ({
+      opacity: 1,
+      y: 0,
+      transition: { delay: i * 0.15, duration: 0.6, ease: EASE_OUT },
+    }),
+  };
+
   return (
     <section className="py-24">
       <div className="container mx-auto px-4 sm:px-6 lg:px-8">
-        <motion.div
-          initial={{ opacity: 0, y: 20 }}
-          whileInView={{ opacity: 1, y: 0 }}
+        {/* Header */}
+        <motion.header
+          initial={reducedMotion ? undefined : { opacity: 0, y: 20 }}
+          whileInView={reducedMotion ? undefined : { opacity: 1, y: 0 }}
           viewport={{ once: true }}
           transition={{ duration: 0.6 }}
           className="text-center mb-16"
         >
-          <h2 className="text-3xl sm:text-4xl lg:text-5xl leading-16 font-bold mb-4 text-gradient-third">
-            Featured <span className="">Projects</span>
+          <h2 className="text-3xl sm:text-4xl lg:text-5xl font-bold mb-4 text-blue-500">
+            Featured <span className="text-blue-500">Projects</span>
           </h2>
-          <p className="text-lg text-main-muted-foreground max-w-2xl mx-auto">
+          <p className="text-lg text-blue-400/80 max-w-2xl mx-auto">
             Explore our portfolio of successful projects and innovative
             solutions
           </p>
-        </motion.div>
+        </motion.header>
 
+        {/* Project Cards */}
         <div className="grid lg:grid-cols-2 xl:grid-cols-3 gap-8 mb-12">
-          {projects.map((project, index) => (
+          {items.map((p, index) => (
             <motion.div
-              key={project.id}
-              initial={{ opacity: 0, y: 30 }}
-              whileInView={{ opacity: 1, y: 0 }}
+              key={p.id}
+              custom={index}
+              variants={fadeInUp}
+              initial={reducedMotion ? undefined : "hidden"}
+              whileInView={reducedMotion ? undefined : "visible"}
               viewport={{ once: true }}
-              transition={{ delay: index * 0.2, duration: 0.6 }}
             >
               <Card
-                variant={"shadow"}
-                className="group py-0 border hover:border-blue-500"
+                variant="shadow"
+                className={[
+                  "group relative border border-border/40 rounded-2xl overflow-hidden",
+                  "transition-all duration-500 will-change-transform",
+                  reducedMotion ? "" : "hover:-translate-y-1",
+                  "shadow-sm hover:shadow-[0_18px_50px_-15px_rgba(59,130,246,0.35)] dark:hover:shadow-[0_18px_50px_-18px_rgba(99,102,241,0.35)]",
+                  "before:content-[''] before:absolute before:inset-0 before:rounded-2xl before:pointer-events-none",
+                  "before:opacity-0 hover:before:opacity-100 before:transition-opacity before:duration-500",
+                  "before:bg-[radial-gradient(120%_60%_at_50%_-20%,rgba(99,102,241,0.12),transparent_60%)]",
+                ].join(" ")}
               >
-                {/* Top Gradient Header */}
-                <div
-                  className={`relative h-40 bg-gradient-to-br ${project.gradient} overflow-hidden rounded-t-xl`}
-                >
-                  <motion.div
-                    whileHover={{ scale: 1.1 }}
-                    transition={{ duration: 0.3 }}
-                    className="absolute inset-0 flex items-center justify-center"
-                  >
-                    <ExternalLink className="h-12 w-12 text-white/80" />
-                  </motion.div>
-                </div>
+                {/* Reusable Project Image + CTA Section */}
+                <ProjectMediaCTA
+                  src={p.image}
+                  alt={p.title}
+                  title={p.title}
+                  demoHref={p.demoLink}
+                  detailsHref={`/projects/${p.id}`}
+                  demoLabel="View Demo"
+                  detailsLabel="View Details"
+                  index={index}
+                  priorityFirst={2}
+                  ctaSize="md"
+                  heightClass="h-48"
+                  className="rounded-t-2xl"
+                />
 
-                {/* Card Content */}
+                {/* Card Body */}
                 <CardContent className="p-6 space-y-4">
-                  {/* Title */}
-                  <h3 className="text-xl font-semibold text-gradient transition-colors">
-                    {project.title}
-                  </h3>
+                  <Link
+                    href={`/projects/${p.id}`}
+                    className="block focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-blue-500/50 rounded"
+                    prefetch={false}
+                  >
+                    <h3 className="text-xl font-semibold text-blue-500 hover:text-blue-600 transition-colors">
+                      {p.title}
+                    </h3>
+                  </Link>
 
-                  {/* Description */}
                   <p className="text-muted-foreground text-sm leading-relaxed">
-                    {project.description}
+                    {p.description}
                   </p>
 
-                  {/* Tags */}
                   <div className="flex flex-wrap gap-2">
-                    {project.tags.map((tag, i) => (
-                      <Badge key={i} className="badge-custom">
-                        {tag}
-                      </Badge>
+                    {p.tags.slice(0, 3).map((tag) => (
+                      <TagPill
+                        key={tag}
+                        label={tag}
+                        size="sm"
+                        from="#3479fe"
+                        to="#4898ff"
+                        fromDark="#222834"
+                        toDark="#343f4f"
+                      />
                     ))}
                   </div>
                 </CardContent>
@@ -106,36 +118,22 @@ export function FeaturedProjects() {
         </div>
 
         <motion.div
-          initial={{ opacity: 0 }}
-          whileInView={{ opacity: 1 }}
+          initial={reducedMotion ? undefined : { opacity: 0 }}
+          whileInView={reducedMotion ? undefined : { opacity: 1 }}
           viewport={{ once: true }}
-          transition={{ delay: 0.4 }}
+          transition={{ delay: 0.2 }}
           className="text-center"
         >
-          <Button
-            asChild
-            size="lg"
-            className="group relative rounded-full shadow-xl 
-             bg-gradient-to-r from-blue-500 to-indigo-600 
-             hover:from-indigo-600 hover:to-blue-500 
-             dark:from-gray-700 dark:to-gray-900 
-             dark:hover:from-gray-900 dark:hover:to-gray-700
-             text-white transition-transform duration-300 
-             hover:scale-105 overflow-hidden"
-          >
-            <Link href="/projects" className="flex items-center relative z-10">
+          <CTAButton asChild size="lg" className="group">
+            <Link href="/projects" className="flex items-center justify-center">
               View All Projects
-              <ArrowRight className="ml-2 h-4 w-4 group-hover:translate-x-1 transition-transform" />
-              {/* Glow / ripple effect */}
-              <span
-                className="absolute inset-0 rounded-full 
-                 bg-blue-500/30 dark:bg-gray-600/30
-                 blur-xl opacity-50 animate-pulse pointer-events-none"
-              />
             </Link>
-          </Button>
+          </CTAButton>
         </motion.div>
       </div>
     </section>
   );
 }
+
+export const FeaturedProjects = memo(FeaturedProjectsComponent);
+export default FeaturedProjects;
