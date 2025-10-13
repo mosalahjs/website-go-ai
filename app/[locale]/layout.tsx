@@ -10,6 +10,7 @@ import Navbar from "@/components/navbar";
 import { ThemeProvider } from "@/components/theme/ThemeProvider";
 import { Footer } from "@/components/footer";
 import ScrollToTop from "@/components/shared/ScrollToTop";
+import ChatbotAnimated from "@/components/shared/ChatbotAnimated";
 
 const geistMono = Geist_Mono({
   variable: "--font-geist-mono",
@@ -98,6 +99,7 @@ export default async function RootLayout({
               <Footer />
             </div>
             <ScrollToTop />
+            <ChatbotAnimated />
           </NextIntlClientProvider>
         </ThemeProvider>
       </body>

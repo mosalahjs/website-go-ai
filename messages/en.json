@@ -178,5 +178,20 @@
     "ctaTitle": "Ready to Build Something Extraordinary?",
     "ctaSubtitle": "Let's collaborate to transform your vision into a cutting-edge digital solution that drives results.",
     "ctaButton": "Start Your Project"
+  },
+  "ChatBot": {
+    "chat": {
+      "open": "Open chat",
+      "close": "Close chat"
+    },
+    "tooltip": {
+      "needHelp": "Need Help?"
+    },
+    "assistant": {
+      "title": "AI Assistant",
+      "status": "Online now",
+      "hello": "👋 Hello! How can I help you today?",
+      "cta": "Start Chat"
+    }
   }
 }
