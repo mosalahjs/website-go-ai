@@ -5,7 +5,6 @@ import { motion, AnimatePresence, useReducedMotion } from "framer-motion";
 import { MessageCircle, Sparkles, Zap, X } from "lucide-react";
 import { useTranslations, useLocale } from "next-intl";
 
-// ---- Window typings to avoid `any` ----
 declare global {
   interface Window {
     webkitAudioContext?: typeof AudioContext;
