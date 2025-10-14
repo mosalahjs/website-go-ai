@@ -193,5 +193,16 @@
       "hello": "👋 Hello! How can I help you today?",
       "cta": "Start Chat"
     }
+  },
+  "Partners": {
+    "badge": "TRUSTED PARTNERS",
+    "badge_label": "Trusted partners",
+    "title": "Strategic Partnerships",
+    "subtitle": "Partnering with leaders to co-build modern software and AI solutions—accelerating delivery, improving scalability, and delivering real business impact.",
+    "established": "Established",
+    "est_prefix": "EST.",
+    "explore": "EXPLORE PARTNERSHIP",
+    "explore_aria": "Explore partnership",
+    "cta": "Building the Future Together"
   }
 }

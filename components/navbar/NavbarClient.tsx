@@ -117,7 +117,7 @@ const GlassNavbarClient: React.FC = () => {
           backdropFilter: navBackdrop,
           height: navHeight,
         }}
-        className="border-b border-glass-border shadow-glass transition-[height] duration-200 bg-navbar dark:!bg-zinc-800"
+        className="border-b border-glass-border shadow-glass transition-[height] duration-200 bg-navbar dark:!bg-black"
         aria-label="Main"
       >
         <Container className="h-full">
