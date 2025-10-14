@@ -265,7 +265,7 @@ const ChatbotAnimated: React.FC = React.memo(() => {
             animate={{ scale: 1, opacity: 1, y: 0 }}
             exit={{ scale: 0, opacity: 0, y: 100 }}
             transition={containerTransition}
-            className={`fixed bottom-8 ${anchorClass} z-50`}
+            className={`fixed bottom-11 ${anchorClass} z-50`}
           >
             <div className="relative">
               {/* Floating Particles */}
