@@ -80,6 +80,12 @@ export default async function RootLayout({
       suppressHydrationWarning
       dir={dir === "rtl" ? "rtl" : "ltr"}
     >
+      <head>
+        <meta
+          name="description"
+          content="Learn more about Go AI 247 — AI-driven software solutions that accelerate business growth across the Middle East."
+        />
+      </head>
       <body
         className={`
     ${geistMono.variable} antialiased
