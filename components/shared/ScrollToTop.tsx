@@ -19,7 +19,7 @@ const BUTTON_CLS = `
 `;
 
 const CHEVRON_LINE_CLS = "absolute w-4 h-0.5 left-1/2 -translate-x-1/2";
-const CHEVRON_SEG_BASE_CLS = "absolute top-0 w-1/2 h-full";
+const CHEVRON_SEG_BASE_CLS = "absolute top-2 w-1/2 h-full";
 const GLOW_CLS =
   "pointer-events-none absolute inset-0 rounded-full bg-white/10 blur-lg";
 
