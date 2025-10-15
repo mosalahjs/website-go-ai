@@ -73,7 +73,7 @@ export default function TechShowcase() {
               },
               {
                 value: "99.9%",
-                label: "Uptime Guarantee",
+                label: "On Prem For Data Sovereignty",
                 description: "Enterprise-grade reliability",
               },
               {

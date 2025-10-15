@@ -1,93 +1,132 @@
 "use client";
-
-import { memo, useEffect, useMemo, useState } from "react";
-import { Button } from "@/components/ui/button";
-import { Link } from "@/i18n/routing";
-import { ArrowRight, Sparkles, Zap } from "lucide-react";
-import { motion } from "framer-motion";
-import heroImage from "@/public/assets/hero-coding.jpg";
+import { memo } from "react";
 import Image from "next/image";
 import { useTranslations } from "next-intl";
-import { useTheme } from "next-themes";
+import { motion, useReducedMotion } from "framer-motion";
+import type { TargetAndTransition, Transition } from "framer-motion";
+import { ArrowRight } from "lucide-react";
+import heroImage from "@/public/assets/hero-coding.jpg";
+import { Button } from "@/components/ui/button";
 import Container from "../shared/Container";
+import { Link } from "@/i18n/routing";
+import { WEBSITE_NAME } from "@/constant";
+import { CTAButton } from "../ui/cta-button";
+
+// =====================
+// Motion constants (stable refs to avoid re-creation each render)
+// =====================
+export const FLOAT_PRIMARY_ANIMATE = {
+  x: [0, 100, 0],
+  y: [0, -100, 0],
+  scale: [1, 1.2, 1],
+  opacity: [0.4, 0.6, 0.4],
+} satisfies TargetAndTransition;
+
+export const FLOAT_PRIMARY_TRANSITION: Transition = {
+  duration: 12,
+  repeat: Infinity,
+  ease: "easeInOut",
+};
+
+export const FLOAT_SECONDARY_ANIMATE = {
+  x: [0, -100, 0],
+  y: [0, 100, 0],
+  scale: [1, 1.4, 1],
+  opacity: [0.3, 0.5, 0.3],
+} satisfies TargetAndTransition;
+
+export const FLOAT_SECONDARY_TRANSITION: Transition = {
+  duration: 15,
+  repeat: Infinity,
+  ease: "easeInOut",
+  delay: 2,
+};
+
+export const FLOAT_ACCENT_ANIMATE = {
+  x: [0, 50, 0],
+  y: [0, -50, 0],
+  scale: [1, 1.3, 1],
+  opacity: [0.2, 0.4, 0.2],
+} satisfies TargetAndTransition;
+
+export const FLOAT_ACCENT_TRANSITION: Transition = {
+  duration: 10,
+  repeat: Infinity,
+  ease: "easeInOut",
+  delay: 4,
+};
+
+export const CARD_FLOAT_ANIMATE = {
+  y: [0, -30, 0],
+  rotateY: [0, 5, 0],
+} satisfies TargetAndTransition;
+
+export const CARD_FLOAT_TRANSITION: Transition = {
+  duration: 8,
+  repeat: Infinity,
+  ease: "easeInOut",
+};
+
+// helper: respect prefers-reduced-motion
+const maybeAnimate = (
+  reduce: boolean,
+  animate: Record<string, any> | undefined
+) => (reduce ? undefined : animate);
+const maybeTransition = (
+  reduce: boolean,
+  transition: Record<string, any> | undefined
+) => (reduce ? undefined : transition);
 
 function HeroComponent() {
   const t = useTranslations("landingPage");
-  const { theme } = useTheme();
-
-  // prevent hydration mismatch
-  const [mounted, setMounted] = useState(false);
-  useEffect(() => setMounted(true), []);
-
-  // memoized background style
-  const backgroundStyle = useMemo(() => {
-    if (!mounted) return {}; // render empty until mounted
-    return {
-      background:
-        theme === "light"
-          ? "linear-gradient(90deg, #4F46E5, #3B82F6, #06B6D4)"
-          : theme === "dark"
-          ? "linear-gradient(135deg, #ffffff, #9ca3af, #374151)"
-          : "linear-gradient(90deg, #4F46E5, #3B82F6, #06B6D4)",
-    };
-  }, [theme, mounted]);
+  const reduce = !!useReducedMotion();
 
   return (
-    <section className="relative min-h-screen flex items-center justify-center overflow-hidden">
+    <section className="relative min-h-[80vh] flex items-center justify-center overflow-hidden">
       {/* Background image with overlay */}
       <div className="absolute inset-0">
-        <div className="absolute inset-0 bg-gradient-mesh z-10" />
+        <div
+          className="absolute inset-0 bg-gradient-mesh z-10"
+          aria-hidden="true"
+        />
+        {/* Decorative background image is presentational */}
         <Image
           src={heroImage}
-          alt="Hero Background"
-          className="w-full h-full object-cover opacity-40 dark:opacity-20"
+          alt=""
+          role="presentation"
+          aria-hidden
+          fill
+          sizes="100vw"
+          placeholder="blur"
+          className="object-cover opacity-40 dark:opacity-20"
           priority
         />
-        <div className="absolute inset-0 bg-gradient-to-b from-background/60 via-background/80 to-background z-10" />
+        <div
+          className="absolute inset-0 bg-gradient-to-b from-background/60 via-background/80 to-background z-10"
+          aria-hidden="true"
+        />
       </div>
 
-      <Container>
+      <Container className="">
         {/* Animated background elements */}
-        <div className="absolute inset-0 overflow-hidden z-20">
+        <div
+          className="absolute inset-0 overflow-hidden z-20"
+          aria-hidden="true"
+        >
           <motion.div
-            animate={{
-              x: [0, 100, 0],
-              y: [0, -100, 0],
-              scale: [1, 1.2, 1],
-              opacity: [0.4, 0.6, 0.4],
-            }}
-            transition={{ duration: 12, repeat: Infinity, ease: "easeInOut" }}
-            className="absolute top-20 right-20 w-[500px] h-[500px] bg-primary/30 rounded-full blur-3xl"
+            animate={maybeAnimate(reduce, FLOAT_PRIMARY_ANIMATE)}
+            transition={maybeTransition(reduce, FLOAT_PRIMARY_TRANSITION)}
+            className="absolute top-20 right-20 w-[500px] h-[500px] bg-primary/30 rounded-full blur-3xl will-change-transform"
           />
           <motion.div
-            animate={{
-              x: [0, -100, 0],
-              y: [0, 100, 0],
-              scale: [1, 1.4, 1],
-              opacity: [0.3, 0.5, 0.3],
-            }}
-            transition={{
-              duration: 15,
-              repeat: Infinity,
-              ease: "easeInOut",
-              delay: 2,
-            }}
-            className="absolute bottom-20 left-20 w-[600px] h-[600px] bg-secondary/30 rounded-full blur-3xl"
+            animate={maybeAnimate(reduce, FLOAT_SECONDARY_ANIMATE)}
+            transition={maybeTransition(reduce, FLOAT_SECONDARY_TRANSITION)}
+            className="absolute bottom-20 left-20 w-[600px] h-[600px] bg-secondary/30 rounded-full blur-3xl will-change-transform"
           />
           <motion.div
-            animate={{
-              x: [0, 50, 0],
-              y: [0, -50, 0],
-              scale: [1, 1.3, 1],
-              opacity: [0.2, 0.4, 0.2],
-            }}
-            transition={{
-              duration: 10,
-              repeat: Infinity,
-              ease: "easeInOut",
-              delay: 4,
-            }}
-            className="absolute top-1/2 left-1/2 w-[400px] h-[400px] bg-accent/20 rounded-full blur-3xl"
+            animate={maybeAnimate(reduce, FLOAT_ACCENT_ANIMATE)}
+            transition={maybeTransition(reduce, FLOAT_ACCENT_TRANSITION)}
+            className="absolute top-1/2 left-1/2 w-[400px] h-[400px] bg-accent/20 rounded-full blur-3xl will-change-transform"
           />
         </div>
 
@@ -100,21 +139,6 @@ function HeroComponent() {
               transition={{ duration: 0.8, ease: "easeOut" }}
               className="space-y-8"
             >
-              {mounted && (
-                <motion.div
-                  initial={{ opacity: 0, scale: 0.9 }}
-                  animate={{ opacity: 1, scale: 1 }}
-                  transition={{ delay: 0.2, duration: 0.6 }}
-                  style={backgroundStyle}
-                  className="inline-flex cursor-pointer items-center space-x-2 px-5 py-2.5 rounded-full shadow-glow backdrop-blur-sm"
-                >
-                  <Zap className="h-4 w-4 text-white" />
-                  <span className="text-sm font-semibold text-white">
-                    AI-Powered Solutions
-                  </span>
-                </motion.div>
-              )}
-
               <div className="space-y-4">
                 <motion.h1
                   className="text-2xl sm:text-3xl md:text-5xl lg:text-7xl xl:text-8xl text-center mx-auto font-bold bg-clip-text text-transparent text-gradient-third"
@@ -122,9 +146,12 @@ function HeroComponent() {
                   animate={{ opacity: 1, scale: 1 }}
                   transition={{ duration: 1, ease: "easeOut" }}
                 >
-                  Go AI 247
+                  {WEBSITE_NAME}
                 </motion.h1>
+                {/* Keep visual h3 but correct heading semantics for SRs */}
                 <motion.h3
+                  role="heading"
+                  aria-level={2}
                   className="text-lg md:text-xl font-semibold text-center mt-4 mb-6 bg-clip-text text-transparent text-gradient-third dark:from-[#8E969B] dark:to-[#525456]"
                   initial={{ opacity: 0, y: 40 }}
                   animate={{ opacity: 1, y: 0 }}
@@ -140,25 +167,17 @@ function HeroComponent() {
                 transition={{ delay: 0.5, duration: 0.8 }}
                 className="flex flex-col sm:flex-row sm:justify-center sm:items-center gap-4"
               >
-                <Button
+                <CTAButton asChild size="lg">
+                  <Link href="/contact">{t("getStarted")}</Link>
+                </CTAButton>
+                <CTAButton
                   asChild
                   size="lg"
-                  className="text-white text-base px-8 py-6 rounded-2xl bg-gradient-to-r from-blue-600 via-blue-500 to-blue-400 hover:from-blue-500 hover:via-blue-400 hover:to-blue-300 shadow-lg hover:shadow-xl transition-all duration-500 group dark:from-gray-900 dark:via-gray-800 dark:to-gray-700 dark:hover:from-gray-800 dark:hover:via-gray-700 dark:hover:to-gray-600"
-                >
-                  <Link href="/contact">
-                    {t("getStarted")}
-                    <ArrowRight className="ml-2 h-5 w-5 group-hover:translate-x-2 transition-transform" />
-                  </Link>
-                </Button>
-
-                <Button
-                  asChild
-                  size="lg"
+                  showArrow={false}
                   variant="outline"
-                  className="text-base px-8 py-6 rounded-2xl border-2 border-transparent text-blue-600 bg-white bg-clip-padding backdrop-blur-sm hover:text-white hover:bg-gradient-to-r hover:from-blue-600 hover:to-blue-400 transition-all duration-500 dark:text-gray-200 dark:bg-black/30 dark:hover:bg-gradient-to-r dark:hover:from-gray-200 dark:hover:to-gray-400 dark:hover:text-black"
                 >
                   <Link href="/projects">{t("viewProjects")}</Link>
-                </Button>
+                </CTAButton>
               </motion.div>
 
               <motion.div
@@ -167,24 +186,36 @@ function HeroComponent() {
                 transition={{ delay: 0.6, duration: 0.8 }}
                 className="flex items-center justify-center space-x-8 pt-4"
               >
-                <div>
-                  <div className="text-3xl font-bold text-main">50+</div>
-                  <div className="text-sm text-main-muted-foreground">
-                    {t("Projects Delivered")}
+                {/* Use definition list for better semantics without visual change */}
+                <dl className="flex items-center justify-center space-x-8">
+                  <div className="text-center">
+                    <dt className="sr-only">{t("Projects Delivered")}</dt>
+                    <dd>
+                      <div className="text-3xl font-bold text-main">50+</div>
+                      <div className="text-sm text-main-muted-foreground">
+                        {t("Projects Delivered")}
+                      </div>
+                    </dd>
                   </div>
-                </div>
-                <div>
-                  <div className="text-3xl font-bold text-main">98%</div>
-                  <div className="text-sm text-main-muted-foreground">
-                    {t("Client Satisfaction")}
+                  <div className="text-center">
+                    <dt className="sr-only">{t("Client Satisfaction")}</dt>
+                    <dd>
+                      <div className="text-3xl font-bold text-main">98%</div>
+                      <div className="text-sm text-main-muted-foreground">
+                        {t("Client Satisfaction")}
+                      </div>
+                    </dd>
                   </div>
-                </div>
-                <div>
-                  <div className="text-3xl font-bold text-main">24/7</div>
-                  <div className="text-sm text-main-muted-foreground">
-                    {t("Support")}
+                  <div className="text-center">
+                    <dt className="sr-only">{t("Support")}</dt>
+                    <dd>
+                      <div className="text-3xl font-bold text-main">24/7</div>
+                      <div className="text-sm text-main-muted-foreground">
+                        {t("Support")}
+                      </div>
+                    </dd>
                   </div>
-                </div>
+                </dl>
               </motion.div>
             </motion.div>
 
@@ -196,89 +227,42 @@ function HeroComponent() {
               className="relative lg:block hidden"
             >
               <motion.div
-                animate={{ y: [0, -30, 0], rotateY: [0, 5, 0] }}
-                transition={{
-                  duration: 8,
-                  repeat: Infinity,
-                  ease: "easeInOut",
-                }}
-                className="relative rounded-3xl overflow-hidden shadow-intense border-4 border-main-muted-foreground/20"
+                animate={maybeAnimate(reduce, CARD_FLOAT_ANIMATE)}
+                transition={maybeTransition(reduce, CARD_FLOAT_TRANSITION)}
+                className="relative rounded-3xl overflow-hidden shadow-intense border-4 border-main-muted-foreground/20 will-change-transform"
                 style={{ transformStyle: "preserve-3d", perspective: "1000px" }}
+                aria-hidden="true"
               >
-                <div className="absolute inset-0 bg-gradient-primary opacity-20 mix-blend-overlay z-10" />
-                <div className="absolute inset-0 bg-gradient-to-br from-primary/30 via-transparent to-secondary/30 z-10" />
+                <div
+                  className="absolute inset-0 bg-gradient-primary opacity-20 mix-blend-overlay z-10"
+                  aria-hidden="true"
+                />
+                <div
+                  className="absolute inset-0 bg-gradient-to-br from-primary/30 via-transparent to-secondary/30 z-10"
+                  aria-hidden="true"
+                />
                 <Image
                   src={heroImage}
                   alt="AI Technology Workspace"
                   className="w-full h-auto rounded-3xl"
+                  sizes="(min-width:1024px) 560px, 100vw"
+                  placeholder="blur"
                 />
-                <div className="absolute inset-0 bg-gradient-to-t from-background via-transparent to-transparent z-10" />
+                <div
+                  className="absolute inset-0 bg-gradient-to-t from-background via-transparent to-transparent z-10"
+                  aria-hidden="true"
+                />
               </motion.div>
-
-              {/* Floating elements */}
-              <motion.div
-                animate={{
-                  y: [0, -20, 0],
-                  rotate: [0, 8, 0],
-                  scale: [1, 1.05, 1],
-                }}
-                transition={{
-                  duration: 5,
-                  repeat: Infinity,
-                  ease: "easeInOut",
-                }}
-                className="absolute -top-8 -right-8 bg-card/90 border-2 border-main-muted-foreground/30 backdrop-blur-xl rounded-3xl p-6 shadow-intense"
-              >
-                <div className="flex items-center space-x-4">
-                  <div className="h-14 w-14 rounded-2xl bg-gradient-primary shadow-glow flex items-center justify-center">
-                    <Sparkles className="h-7 w-7 text-main-muted-foreground" />
-                  </div>
-                  <div>
-                    <div className="text-base font-bold text-gradient-third">
-                      AI Integration
-                    </div>
-                    <div className="text-sm text-main-muted-foreground">
-                      Neural Networks
-                    </div>
-                  </div>
-                </div>
-              </motion.div>
-
-              <motion.div
-                animate={{
-                  y: [0, 20, 0],
-                  rotate: [0, -8, 0],
-                  scale: [1, 1.05, 1],
-                }}
-                transition={{
-                  duration: 6,
-                  repeat: Infinity,
-                  ease: "easeInOut",
-                  delay: 1,
-                }}
-                className="absolute -bottom-8 -left-8 bg-card/90 border-2 border-main-muted-foreground/30 backdrop-blur-xl rounded-3xl p-6 shadow-intense"
-              >
-                <div className="space-y-2">
-                  <div className="text-base font-bold text-gradient-third">
-                    99.9% Uptime
-                  </div>
-                  <div className="text-sm text-main-muted-foreground">
-                    Enterprise Ready
-                  </div>
-                  <div className="flex items-center space-x-2">
-                    <div className="h-2 w-2 rounded-full bg-main-muted-foreground animate-pulse" />
-                    <span className="text-xs font-medium text-main-muted-foreground">
-                      Active
-                    </span>
-                  </div>
-                </div>
-              </motion.div>
-
               {/* Decorative element */}
               <motion.div
-                animate={{ rotate: [0, 360] }}
-                transition={{ duration: 20, repeat: Infinity, ease: "linear" }}
-                className="absolute top-1/2 right-0 w-32 h-32 bg-gradient-primary opacity-20 rounded-full blur-2xl -z-10"
+                animate={maybeAnimate(reduce, { rotate: [0, 360] })}
+                transition={maybeTransition(reduce, {
+                  duration: 20,
+                  repeat: Infinity,
+                  ease: "linear",
+                })}
+                className="absolute top-1/2 right-0 w-32 h-32 bg-gradient-primary opacity-20 rounded-full blur-2xl -z-10 will-change-transform"
+                aria-hidden="true"
               />
             </motion.div>
           </div>
@@ -287,5 +271,7 @@ function HeroComponent() {
     </section>
   );
 }
+
+HeroComponent.displayName = "HeroComponent";
 
 export const Hero = memo(HeroComponent);

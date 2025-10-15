@@ -82,26 +82,26 @@ const Partners: React.FC = () => {
               damping: 20,
               delay: 0.2,
             }}
-            className="inline-flex items-center gap-2 px-5 py-2.5 rounded-full bg-gradient-to-r from-primary/10 via-primary/5 to-primary/10 border border-primary/20 mb-8 backdrop-blur-sm"
+            className="inline-flex items-center gap-2 px-5 py-2.5 rounded-full bg-main border border-primary/20 mb-8 backdrop-blur-sm"
             aria-label={t("badge_label", { default: "Trusted partners" })}
           >
-            <Award className="w-5 h-5 text-primary" aria-hidden />
-            <span className="text-sm font-bold text-primary tracking-wide">
+            <Award className="w-5 h-5 text-white" aria-hidden />
+            <span className="text-sm font-bold text-white tracking-wide">
               {t("badge", { default: "TRUSTED PARTNERS" })}
             </span>
             <Sparkles
-              className="w-4 h-4 text-primary animate-pulse"
+              className="w-4 h-4 text-white animate-pulse"
               aria-hidden
             />
           </motion.div>
 
           <h2
             id="partners-heading"
-            className="text-5xl md:text-6xl font-bold mb-6 bg-gradient-to-r from-foreground via-foreground/90 to-foreground/70 bg-clip-text text-transparent leading-tight"
+            className="text-5xl md:text-6xl font-bold mb-6 text-gradient-third leading-tight"
           >
             {t("title", { default: "Strategic Partnerships" })}
           </h2>
-          <p className="text-xl text-muted-foreground max-w-3xl mx-auto leading-relaxed">
+          <p className="text-xl text-main-muted-foreground max-w-3xl mx-auto leading-relaxed">
             {t("subtitle", {
               default:
                 "Partnering with leaders to co-build modern software and AI solutions—accelerating delivery, improving scalability, and delivering real business impact.",

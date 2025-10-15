@@ -26,11 +26,11 @@ export default function Home() {
     <section>
       <Hero />
       <Container>
-        <Services />
         <TechShowcase />
+        <Services />
         <FeaturedProjects />
         <Partners />
-        <Testimonials />
+        {/* <Testimonials /> */}
       </Container>
     </section>
   );

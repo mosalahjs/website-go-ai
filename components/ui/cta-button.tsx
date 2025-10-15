@@ -11,6 +11,7 @@ type CTAButtonProps = React.ComponentProps<typeof GlowButton> & {
   arrowIcon?: React.ReactNode;
   alignIconRight?: boolean;
   preset?: "demo" | "default";
+  variant?: "default" | "outline";
 };
 
 export function CTAButton({
@@ -21,6 +22,7 @@ export function CTAButton({
   arrowIcon,
   alignIconRight = true,
   preset = "default",
+  variant = "default",
   sheen = true,
   size = "lg",
   glowFrom,
@@ -51,6 +53,27 @@ export function CTAButton({
       />
     ));
 
+  const baseClasses =
+    variant === "outline"
+      ? [
+          "group",
+          "bg-blue-50 dark:bg-transparent",
+          "text-blue-500",
+          "dark:text-white",
+          "border-2 border-[#3479fe] dark:border-[#4898ff]",
+          "shadow-md hover:shadow-xl",
+          "hover:bg-gradient-to-r hover:from-[#3479fe] hover:to-[#4898ff]",
+          "hover:dark:from-[#222834] hover:dark:to-[#343f4f]",
+          "hover:text-white dark:hover:text-white hover:border-transparent",
+          "transition-all duration-300",
+        ].join(" ")
+      : [
+          "group",
+          "bg-gradient-to-r from-[#3479fe] to-[#4898ff]",
+          "dark:from-[#222834] dark:to-[#343f4f]",
+          "text-white border-0 shadow-lg hover:shadow-xl",
+        ].join(" ");
+
   return (
     <GlowButton
       sheen={sheen}
@@ -59,13 +82,7 @@ export function CTAButton({
       loading={loading}
       glowFrom={glowFrom ?? "rgba(52,121,254,0.45)"}
       glowTo={glowTo ?? "rgba(72,152,255,0.45)"}
-      className={[
-        "group",
-        "bg-gradient-to-r from-[#3479fe] to-[#4898ff]",
-        "dark:from-[#222834] dark:to-[#343f4f]",
-        "text-white border-0 shadow-lg hover:shadow-xl",
-        className ?? "",
-      ].join(" ")}
+      className={[baseClasses, className ?? ""].join(" ")}
       {...rest}
     >
       <span className="flex items-center gap-2">

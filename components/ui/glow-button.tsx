@@ -153,7 +153,7 @@ export const GlowButton = React.memo(
                   "before:bg-gradient-to-r before:from-transparent before:via-white/60 before:to-transparent",
                   reducedMotion
                     ? "before:opacity-0"
-                    : "hover:before:animate-[glowSheenMove_1.5s_ease-in-out_1]"
+                    : "hover:before:animate-[glowSheenMove_1.4s_ease-in-out_2_alternate]"
                 )
               : "",
             className

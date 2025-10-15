@@ -46,6 +46,7 @@
   --background-lang-gradient: var(--lang-gradient);
   --color-navbar: var(--navbar-bg);
   --background-gradient-primary: var(--gradient-primary);
+  --background-main: var(--main);
 }
 
 :root {
