@@ -4,9 +4,7 @@ import Image from "next/image";
 import { useTranslations } from "next-intl";
 import { motion, useReducedMotion } from "framer-motion";
 import type { TargetAndTransition, Transition } from "framer-motion";
-import { ArrowRight } from "lucide-react";
 import heroImage from "@/public/assets/hero-coding.jpg";
-import { Button } from "@/components/ui/button";
 import Container from "../shared/Container";
 import { Link } from "@/i18n/routing";
 import { WEBSITE_NAME } from "@/constant";
@@ -70,12 +68,13 @@ export const CARD_FLOAT_TRANSITION: Transition = {
 // helper: respect prefers-reduced-motion
 const maybeAnimate = (
   reduce: boolean,
-  animate: Record<string, any> | undefined
-) => (reduce ? undefined : animate);
+  animate: TargetAndTransition | undefined
+): TargetAndTransition | undefined => (reduce ? undefined : animate);
+
 const maybeTransition = (
   reduce: boolean,
-  transition: Record<string, any> | undefined
-) => (reduce ? undefined : transition);
+  transition: Transition | undefined
+): Transition | undefined => (reduce ? undefined : transition);
 
 function HeroComponent() {
   const t = useTranslations("landingPage");
