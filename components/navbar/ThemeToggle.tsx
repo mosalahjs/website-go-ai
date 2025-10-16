@@ -1,20 +1,18 @@
 "use client";
+
+import React, { useEffect, useMemo, useState } from "react";
 import { useTheme } from "next-themes";
 import { Sun, Moon } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { motion, AnimatePresence } from "framer-motion";
-import { useState, useEffect, useMemo } from "react";
-import React from "react";
 
 function ThemeToggle() {
-  const { theme, setTheme } = useTheme();
+  const { resolvedTheme, setTheme } = useTheme();
   const [mounted, setMounted] = useState(false);
 
-  useEffect(() => {
-    setMounted(true);
-  }, []);
+  useEffect(() => setMounted(true), []);
 
-  const isLight = theme === "light";
+  const isLight = resolvedTheme === "light";
 
   const icon = useMemo(() => {
     if (!mounted) return null;
@@ -49,6 +47,7 @@ function ThemeToggle() {
       size="icon"
       onClick={() => setTheme(isLight ? "dark" : "light")}
       className="relative overflow-hidden"
+      aria-label="Toggle theme"
     >
       <AnimatePresence mode="wait" initial={false}>
         {icon}

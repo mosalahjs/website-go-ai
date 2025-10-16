@@ -8,7 +8,7 @@ import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { projectsData as projects } from "@/constant/Projects";
 import { Zap } from "lucide-react";
-import { CTAButton } from "@/components/ui/cta-button"; // ← توحيد الأزرار
+import { CTAButton } from "@/components/ui/cta-button";
 
 /* ===========================
    Motion Variants
@@ -98,7 +98,7 @@ function ProjectsContentComponent() {
           variants={heroTitleVariants}
           initial="hidden"
           animate="show"
-          className="text-5xl font-extrabold leading-16 bg-clip-text text-transparent bg-gradient-to-r from-blue-500 to-purple-600"
+          className="text-5xl font-extrabold leading-16 bg-clip-text text-transparent bg-gradient-to-r from-secondary-from to-secondary-to"
         >
           {t("heroTitle")}
         </motion.h1>
@@ -249,7 +249,7 @@ function ProjectsContentComponent() {
 
                 {/* Info */}
                 <div className="p-6 space-y-3">
-                  <h3 className="text-xl font-semibold group-hover:text-primary transition-colors">
+                  <h3 className="text-xl font-semibold leading-14 bg-clip-text text-transparent bg-gradient-to-r from-secondary-from to-secondary-to">
                     {project.title}
                   </h3>
                   <p className="text-sm text-muted-foreground line-clamp-3">
@@ -279,7 +279,6 @@ function ProjectsContentComponent() {
         </motion.div>
       </section>
 
-      {/* ===== CTA SECTION (مضافة كما هي) ===== */}
       <section className="py-24 relative overflow-hidden">
         <div className="absolute inset-0 bg-gradient-hero opacity-20" />
         <div className="absolute inset-0 bg-[radial-gradient(circle_at_50%_50%,hsl(var(--primary)/0.15),transparent_70%)]" />
@@ -297,30 +296,21 @@ function ProjectsContentComponent() {
               whileInView={{ scale: 1 }}
               viewport={{ once: true }}
               transition={{ duration: 0.5, delay: 0.2 }}
-              className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-primary/10 backdrop-blur-sm border border-primary/20 mb-6"
+              className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-gradient-to-r from-primary-from to-primary-to backdrop-blur-sm border border-primary/20 mb-6"
             >
-              <Zap className="h-4 w-4 text-primary" />
-              <span className="text-sm font-medium">{t("ctaBadge")}</span>
+              <Zap className="size-4 text-white" />
+              <span className="text-sm font-medium text-white">
+                {t("ctaBadge")}
+              </span>
             </motion.div>
 
-            <h2 className="text-4xl md:text-5xl font-bold mb-6">
+            <h2 className="text-4xl md:text-5xl font-bold mb-6 leading-14 bg-clip-text text-transparent bg-gradient-to-r from-secondary-from to-secondary-to">
               {t("ctaTitle")}
             </h2>
 
             <p className="text-xl text-muted-foreground mb-10 max-w-2xl mx-auto">
               {t("ctaSubtitle")}
             </p>
-
-            {/* <motion.div whileHover={{ scale: 1.05 }} whileTap={{ scale: 0.95 }}>
-              <Link href="/contact">
-                <Button
-                  size="lg"
-                  className="bg-gradient-primary shadow-2xl hover:shadow-primary/70 transition-all duration-300 text-lg px-8 py-6 rounded-xl  mt-6 bg-gradient-to-r from-indigo-500 to-pink-500 text-white font-semibold  hover:shadow-xl "
-                >
-                  {t("ctaButton")}
-                </Button>
-              </Link>
-            </motion.div> */}
             <motion.div
               initial={reducedMotion ? undefined : { opacity: 0 }}
               whileInView={reducedMotion ? undefined : { opacity: 1 }}

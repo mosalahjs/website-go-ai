@@ -2,7 +2,10 @@
 import { motion } from "framer-motion";
 import React from "react";
 import LanguageSwitcher from "./LanguageSwitcher";
-import ThemeToggle from "./ThemeToggle";
+import dynamic from "next/dynamic";
+const ThemeToggle = dynamic(() => import("@/components/navbar/ThemeToggle"), {
+  ssr: false,
+});
 
 const Actions: React.FC = () => {
   return (

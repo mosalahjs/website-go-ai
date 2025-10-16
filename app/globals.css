@@ -42,6 +42,10 @@
   --color-border-primary: var(--border-primary);
   --color-primary-from: var(--primary-from);
   --color-primary-to: var(--primary-to);
+  --color-secondary-from: var(--secondary-from);
+  --color-secondary-to: var(--secondary-to);
+  --color-secondary-muted-from: var(--secondary-muted-from);
+  --color-secondary-muted-to: var(--secondary-muted-to);
   --radius-sm: calc(var(--radius) - 4px);
   --radius-md: calc(var(--radius) - 2px);
   --radius-lg: var(--radius);
@@ -112,6 +116,10 @@
   --font-arabic: var(--font-arabic);
   --primary-from: oklch(0.61 0.25 250);
   --primary-to: oklch(0.68 0.25 255);
+  --secondary-from: oklch(0.61 0.25 250);
+  --secondary-to: oklch(0.68 0.25 255);
+  --secondary-muted-from: oklch(0.75 0.15 250);
+  --secondary-muted-to: oklch(0.82 0.1 255);
 }
 
 .dark {
@@ -171,6 +179,10 @@
   );
   --primary-from: oklch(0.35 0.05 250);
   --primary-to: oklch(0.42 0.07 255);
+  --secondary-from: oklch(0.94 0.02 260);
+  --secondary-to: oklch(0.88 0.04 250);
+  --secondary-muted-from: oklch(0.32 0.02 250);
+  --secondary-muted-to: oklch(0.42 0.01 260);
 }
 
 @layer base {
