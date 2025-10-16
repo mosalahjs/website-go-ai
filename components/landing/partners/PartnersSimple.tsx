@@ -42,7 +42,7 @@ export const PartnersSimple = memo(function Partners() {
           transition={appear.transition}
           className="text-center mb-16"
         >
-          <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full  bg-gradient-to-r from-[#3479fe] to-[#4898ff] dark:from-[#222834] dark:to-[#343f4f] border border-primary/20 mb-6">
+          <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full  bg-gradient-to-r from-primary-from to-primary-to border border-primary/20 mb-6">
             <Award className="size-4 text-white" aria-hidden />
             <span className="text-sm font-semibold text-white">
               {t("badge")}

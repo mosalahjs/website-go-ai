@@ -40,6 +40,8 @@
   --color-main: var(--main);
   --color-main-muted-foreground: var(--main-muted-foreground);
   --color-border-primary: var(--border-primary);
+  --color-primary-from: var(--primary-from);
+  --color-primary-to: var(--primary-to);
   --radius-sm: calc(var(--radius) - 4px);
   --radius-md: calc(var(--radius) - 2px);
   --radius-lg: var(--radius);
@@ -108,6 +110,8 @@
   );
   --font-sans: var(--font-inter);
   --font-arabic: var(--font-arabic);
+  --primary-from: oklch(0.61 0.25 250);
+  --primary-to: oklch(0.68 0.25 255);
 }
 
 .dark {
@@ -165,6 +169,8 @@
     #9ca3af 50%,
     #374151 100%
   );
+  --primary-from: oklch(0.35 0.05 250);
+  --primary-to: oklch(0.42 0.07 255);
 }
 
 @layer base {
