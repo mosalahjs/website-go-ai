@@ -5,7 +5,7 @@ import { cn } from "@/lib/utils";
 const cardVariants = cva("flex flex-col gap-6 rounded-xl", {
   variants: {
     variant: {
-      default: "bg-card text-card-foreground py-6",
+      default: "bg-card text-card-foreground py-0",
       reset: "bg-transparent border-0 shadow-none rounded-none p-0",
       custom:
         "group h-full border border-border/40 shadow-sm hover:border-primary/40 transition-all duration-300 hover:shadow-card overflow-hidden",

@@ -204,5 +204,31 @@
     "explore": "EXPLORE PARTNERSHIP",
     "explore_aria": "Explore partnership",
     "cta": "Building the Future Together"
+  },
+  "PARTNERS_SIMPLE": {
+    "badge": "Trusted Partners",
+    "heading": "Our Strategic Partners",
+    "subheading": "We collaborate with leading organizations to deliver innovative solutions, strategic growth, and global impact.",
+    "visit": "Visit Website",
+    "prev": "Previous",
+    "next": "Next",
+    "footer": "Empowering progress through collaboration and innovation.",
+    "items": {
+      "eand": {
+        "name": "e&",
+        "title": "Leading Telecommunications Provider",
+        "description": "Pioneering next-generation digital connectivity and innovative telecommunication solutions across the Middle East region with cutting-edge 5G technology and smart infrastructure."
+      },
+      "forbes": {
+        "name": "Forbes Middle East",
+        "title": "Premier Business Publication",
+        "description": "The region's most authoritative voice in business journalism, showcasing influential leaders, groundbreaking innovations, and transformative companies shaping the Middle East economy."
+      },
+      "tfg": {
+        "name": "The First Group",
+        "title": "Luxury Hospitality Excellence",
+        "description": "Defining luxury in the hospitality sector with world-class hotel properties, exquisite dining experiences, and unparalleled service standards that set new benchmarks in premium hospitality."
+      }
+    }
   }
 }

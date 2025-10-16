@@ -34,10 +34,10 @@ function FeaturedProjectsComponent() {
           transition={{ duration: 0.6 }}
           className="text-center mb-16"
         >
-          <h2 className="text-3xl sm:text-4xl lg:text-5xl font-bold mb-4 text-blue-500">
-            Featured <span className="text-blue-500">Projects</span>
+          <h2 className="text-3xl sm:text-4xl lg:text-5xl font-bold mb-4 text-border-primary">
+            Featured <span className="text-border-primary">Projects</span>
           </h2>
-          <p className="text-lg text-blue-400/80 max-w-2xl mx-auto">
+          <p className="text-lg text-border-primary/70 max-w-2xl mx-auto">
             Explore our portfolio of successful projects and innovative
             solutions
           </p>

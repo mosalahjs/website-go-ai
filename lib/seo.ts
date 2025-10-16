@@ -4,8 +4,8 @@ export const SITE = {
   name: "Go AI 247",
   baseUrl: "https://website-go-ai.vercel.app",
   defaultImage: "/logo/logo-light-png.png",
-  defaultDescription: "Go AI 247 - Elevate Your Business with AI",
-  twitterHandle: "@goai247",
+  defaultDescription: "GoAI - Elevate Your Business with AI",
+  twitterHandle: "@goai",
   locales: ["en", "ar"] as const,
 };
 type Locale = (typeof SITE.locales)[number];

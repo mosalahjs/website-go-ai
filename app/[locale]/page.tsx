@@ -5,7 +5,7 @@ import FeaturedProjects from "@/components/landing/FeaturedProjects";
 import { Hero } from "@/components/landing/Hero";
 import { Metadata } from "next";
 import { createPageMetadata } from "@/lib/seo";
-import Partners from "@/components/landing/partners/Partners";
+import PartnersSimple from "@/components/landing/partners/PartnersSimple";
 
 type Props = { params: Promise<{ locale: "en" | "ar" }> };
 export async function generateMetadata({ params }: Props): Promise<Metadata> {
@@ -14,7 +14,7 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
   return createPageMetadata({
     title: "Home",
     description:
-      "Learn more about GoAi 247 — the leading digital BPO provider in the Middle East, driven by innovation, AI, and customer excellence.",
+      "Learn more about GoAI — the leading digital BPO provider in the Middle East, driven by innovation, AI, and customer excellence.",
     path: "/",
     locale,
   });
@@ -28,7 +28,7 @@ export default function Home() {
         <TechShowcase />
         <Services />
         <FeaturedProjects />
-        <Partners />
+        <PartnersSimple />
       </Container>
     </section>
   );
