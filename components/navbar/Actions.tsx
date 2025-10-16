@@ -2,10 +2,10 @@
 import { motion } from "framer-motion";
 import React from "react";
 import LanguageSwitcher from "./LanguageSwitcher";
-import dynamic from "next/dynamic";
-const ThemeToggle = dynamic(() => import("@/components/navbar/ThemeToggle"), {
-  ssr: false,
-});
+// import dynamic from "next/dynamic";
+// const ThemeToggle = dynamic(() => import("@/components/navbar/ThemeToggle"), {
+//   ssr: false,
+// });
 
 const Actions: React.FC = () => {
   return (
@@ -16,7 +16,7 @@ const Actions: React.FC = () => {
       transition={{ delay: 0.35 }}
     >
       <LanguageSwitcher />
-      <ThemeToggle />
+      {/* <ThemeToggle /> */}
     </motion.div>
   );
 };
