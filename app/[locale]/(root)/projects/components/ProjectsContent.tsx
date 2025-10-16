@@ -5,7 +5,6 @@ import Image from "next/image";
 import Link from "next/link";
 import { useTranslations } from "next-intl";
 import { Badge } from "@/components/ui/badge";
-import { Button } from "@/components/ui/button";
 import { projectsData as projects } from "@/constant/Projects";
 import { Zap } from "lucide-react";
 import { CTAButton } from "@/components/ui/cta-button";
@@ -115,19 +114,23 @@ function ProjectsContentComponent() {
       {/* ===== FILTER BUTTONS ===== */}
       <div className="flex justify-center gap-3 mb-12 relative z-10 flex-wrap">
         {categories.map((c) => (
-          <Button
+          <CTAButton
             key={c}
             variant={selectedCategory === c ? "default" : "outline"}
-            className={`rounded-full px-6 transition-all ${
-              selectedCategory === c ? "shadow-lg scale-105" : "hover:scale-105"
-            }`}
+            className={`rounded-full px-6 py-2 text-sm font-medium transition-all
+        ${selectedCategory === c ? "scale-105 shadow-lg" : "hover:scale-105"}`}
             onClick={() => handleCategoryClick(c)}
             aria-pressed={selectedCategory === c}
             aria-label={`Filter by ${c}`}
             disabled={isPending && selectedCategory !== c}
+            sheen
+            glowFrom="rgba(52,121,254,0.45)"
+            glowTo="rgba(72,152,255,0.45)"
+            showArrow={false}
+            size="md"
           >
             {c}
-          </Button>
+          </CTAButton>
         ))}
       </div>
 

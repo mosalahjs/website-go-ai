@@ -51,7 +51,7 @@ function ClientAbout() {
           transition={{ duration: 0.8 }}
           className="text-center space-y-8"
         >
-          <h1 className="text-5xl md:text-6xl font-bold bg-gradient-to-r from-indigo-500 via-purple-500 to-pink-500 text-transparent bg-clip-text">
+          <h1 className="text-5xl md:text-6xl font-bold bg-gradient-to-r from-secondary-from to-secondary-to text-transparent bg-clip-text">
             {t("title")}
           </h1>
           <p className="text-lg md:text-xl text-muted-foreground max-w-3xl mx-auto leading-relaxed">
@@ -67,7 +67,7 @@ function ClientAbout() {
           viewport={{ once: true }}
           className="text-center space-y-6"
         >
-          <h2 className="text-4xl font-bold bg-gradient-to-r from-purple-400 to-indigo-400 text-transparent bg-clip-text">
+          <h2 className="text-4xl font-bold bg-gradient-to-r from-secondary-from to-secondary-to text-transparent bg-clip-text">
             {t("aboutTitle")}
           </h2>
           <p className="text-muted-foreground max-w-4xl mx-auto leading-relaxed">
@@ -194,7 +194,7 @@ const ValuesSection = memo(function ValuesSection({
       transition={{ duration: 0.8 }}
       className="space-y-10 text-center"
     >
-      <h2 className="text-4xl font-bold bg-gradient-to-r from-purple-500 to-blue-500 text-transparent bg-clip-text">
+      <h2 className="text-4xl font-bold bg-gradient-to-r from-secondary-from to-secondary-to text-transparent bg-clip-text">
         {t("valuesTitle")}
       </h2>
       <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-6">
@@ -237,7 +237,7 @@ const ExtraSection = memo(function ExtraSection({
       viewport={{ once: true }}
       className="space-y-6"
     >
-      <h2 className="text-3xl font-bold bg-gradient-to-r from-indigo-400 to-pink-400 text-transparent bg-clip-text text-center">
+      <h2 className="text-3xl font-bold bg-gradient-to-r from-secondary-from to-secondary-to text-transparent bg-clip-text text-center">
         {title}
       </h2>
       <div className="space-y-4 text-muted-foreground leading-relaxed max-w-4xl mx-auto text-center">
