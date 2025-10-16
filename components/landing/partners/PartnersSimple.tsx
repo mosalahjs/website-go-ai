@@ -42,9 +42,9 @@ export const PartnersSimple = memo(function Partners() {
           transition={appear.transition}
           className="text-center mb-16"
         >
-          <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-primary/10 border border-primary/20 mb-6">
-            <Award className="w-4 h-4 text-primary" aria-hidden />
-            <span className="text-sm font-semibold text-primary">
+          <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full  bg-gradient-to-r from-[#3479fe] to-[#4898ff] dark:from-[#222834] dark:to-[#343f4f] border border-primary/20 mb-6">
+            <Award className="size-4 text-white" aria-hidden />
+            <span className="text-sm font-semibold text-white">
               {t("badge")}
             </span>
           </div>
@@ -112,7 +112,6 @@ export const PartnersSimple = memo(function Partners() {
                       >
                         <Card className="group relative overflow-hidden border-2 hover:border-border-primary transition-all duration-300 h-full hover:shadow-lg flex flex-col">
                           <CardContent className="p-0 flex-1 flex flex-col">
-                            {/* Logo Area */}
                             <div
                               className="relative h-64 flex items-center justify-center overflow-hidden"
                               style={{ background: partner.logoBg }}
