@@ -16,9 +16,9 @@ type TrimSides = {
 
 type GoAILogoProps = {
   src?: string;
-  width?: number; // نستخدمه لتحديد عرض الحاوية فقط
+  width?: number;
   alt?: string;
-  className?: string; // يُطبَّق على الحاوية الخارجية فقط
+  className?: string;
   priority?: boolean;
   trimTransparent?: boolean;
   trimSides?: TrimSides;
@@ -47,7 +47,7 @@ const MIN_LIGHTNESS_BLUE = 0.25;
 const DEFAULT_PROPS = {
   src: "/logo/logo.png",
   width: 120,
-  alt: "Go AI — Elevate your business with AI",
+  alt: "Go AI 247 logo", // ← نص بديل مختصر ووصفي
   trimTransparent: true,
   trimSides: { bottom: true } as TrimSides,
   darkRecolorWordmark: true,
@@ -333,8 +333,6 @@ const GoAILogo = React.memo<GoAILogoProps>(function GoAILogo({
         className
       )}
       style={{ width, lineHeight: 0 }}
-      aria-label={alt}
-      role="img"
     >
       <div
         style={{
@@ -352,8 +350,6 @@ const GoAILogo = React.memo<GoAILogoProps>(function GoAILogo({
           sizes={`${width}px`}
         />
       </div>
-
-      <span className="sr-only">{alt}</span>
     </div>
   );
 });
