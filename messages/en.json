@@ -63,14 +63,45 @@
       { "number": "20+", "label": "Global Partners" }
     ]
   },
-  "Footer": {
-    "home": "Home",
-    "services": "Services",
-    "projects": "Projects",
-    "about": "About",
-    "contact": "Contact",
-    "rights": "All rights reserved.",
-    "builtBy": "Built with ❤️ by"
+  "mainFooter": {
+    "footer": {
+      "company": {
+        "title": "Company",
+        "links": {
+          "about": "About Us",
+          "projects": "Projects",
+          "contact": "Contact"
+        }
+      },
+      "services": {
+        "title": "Services",
+        "items": {
+          "frontend": "Frontend Development",
+          "ai": "AI Integration",
+          "backend": "Backend & Databases",
+          "consulting": "Tech Consulting"
+        }
+      },
+      "resources": {
+        "title": "Resources",
+        "items": {
+          "blog": "Blog (soon)",
+          "cases": "Case Studies (soon)",
+          "docs": "Documentation (soon)"
+        }
+      },
+      "brand": {
+        "intro": "AI-driven software solutions that accelerate business growth. We craft robust frontends, scalable backends, and meaningful AI integrations—shipped with performance and polish."
+      },
+      "socials": {
+        "email": "Email",
+        "linkedin": "LinkedIn",
+        "twitter": "Twitter/X",
+        "github": "GitHub"
+      },
+      "builtWith": "Built with {name}",
+      "rightsReserved": "All rights reserved."
+    }
   },
   "NotFound": {
     "pageNotFound": "Page Not Found",

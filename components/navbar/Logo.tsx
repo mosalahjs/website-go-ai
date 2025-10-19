@@ -1,25 +1,24 @@
 "use client";
 import { motion } from "framer-motion";
-import Image from "next/image";
-import React, { useEffect, useState } from "react";
+import React from "react";
 import { Link } from "@/i18n/routing";
-import { useTheme } from "next-themes";
+import GoAILogo from "./GoAILogo";
 
 const MotionLink = motion.create(Link);
 
 const Logo: React.FC = () => {
-  const { theme } = useTheme();
-  const [mounted, setMounted] = useState(false);
+  // const { theme } = useTheme();
+  // const [mounted, setMounted] = useState(false);
 
-  useEffect(() => {
-    setMounted(true);
-  }, []);
+  // useEffect(() => {
+  //   setMounted(true);
+  // }, []);
 
-  const logoSrc = !mounted
-    ? "/logo/logo-light-png.png" // fallback
-    : theme === "dark"
-    ? "/logo/logo-dark.png"
-    : "/logo/logo-light-png.png";
+  // const logoSrc = !mounted
+  //   ? "/logo/logo.png" // fallback
+  //   : theme === "dark"
+  //   ? "/logo/logo.png"
+  //   : "/logo/logo.png";
 
   return (
     <MotionLink
@@ -29,15 +28,23 @@ const Logo: React.FC = () => {
       animate={{ opacity: 1, y: 0 }}
       transition={{ duration: 0.45 }}
     >
-      <div className="relative h-16 w-40 sm:w-48">
+      {/* <div className="relative h-16 w-40 sm:w-48">
         <Image
           src={logoSrc}
           alt="logo"
           fill
           priority
-          className="object-cover"
+          className="object-contain"
         />
-      </div>
+      </div> */}
+      <GoAILogo
+        src="/logo/logo.png"
+        width={115}
+        // trimSides={{ bottom: true }}
+        trimSides={{ top: true, right: true, bottom: true, left: true }}
+        darkRecolorWordmark
+        priority
+      />
     </MotionLink>
   );
 };

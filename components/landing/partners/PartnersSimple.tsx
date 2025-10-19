@@ -14,7 +14,7 @@ import {
 } from "@/components/ui/carousel";
 import { nameToKey, PARTNERS_SIMPLE } from "@/constant/partners";
 
-const MotionImage = motion(Image);
+const MotionImage = motion.create(Image);
 
 export const PartnersSimple = memo(function Partners() {
   const t = useTranslations("PARTNERS_SIMPLE");

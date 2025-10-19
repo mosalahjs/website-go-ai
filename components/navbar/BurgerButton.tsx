@@ -31,6 +31,7 @@ const BurgerButton = forwardRef<HTMLButtonElement, BurgerButtonProps>(
       >
         <svg width={size} height={size} viewBox="0 0 24 24">
           <Path
+            initial="closed"
             variants={{
               closed: { d: "M 3 6 L 21 6" },
               open: { d: "M 6 18 L 18 6" },
@@ -39,14 +40,16 @@ const BurgerButton = forwardRef<HTMLButtonElement, BurgerButtonProps>(
             transition={{ duration: 0.3 }}
           />
           <Path
+            initial="closed"
             variants={{
               closed: { d: "M 3 12 L 21 12", opacity: 1 },
-              open: { opacity: 0 },
+              open: { d: "M 3 12 L 21 12", opacity: 0 },
             }}
             animate={isOpen ? "open" : "closed"}
             transition={{ duration: 0.3 }}
           />
           <Path
+            initial="closed"
             variants={{
               closed: { d: "M 3 18 L 21 18" },
               open: { d: "M 6 6 L 18 18" },

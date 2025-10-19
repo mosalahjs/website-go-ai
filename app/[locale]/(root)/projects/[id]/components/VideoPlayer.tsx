@@ -1,5 +1,4 @@
 "use client";
-
 import { memo, useRef, useState, useEffect } from "react";
 import { motion } from "framer-motion";
 import { useTheme } from "next-themes";
@@ -46,7 +45,6 @@ function VideoPlayer({ gradient }: { gradient?: string }) {
       ? "bg-gradient-to-br from-indigo-600/60 via-purple-600/60 to-pink-600/60 text-white hover:from-indigo-500/80 hover:to-pink-500/80"
       : "bg-gradient-to-br from-indigo-300/70 via-purple-300/70 to-pink-300/70 text-gray-900 hover:from-indigo-400/80 hover:to-pink-400/80";
 
-  // ✅ عناصر التحكم
   const playButton = (
     <motion.button
       key="play"
@@ -66,7 +64,7 @@ function VideoPlayer({ gradient }: { gradient?: string }) {
         "p-3 rounded-full backdrop-blur-md shadow-lg transition-colors border border-white/10",
         controlBg
       )}
-      aria-label={isPlaying ? "إيقاف الفيديو" : "تشغيل الفيديو"}
+      aria-label={isPlaying ? "Pause video" : "Play video"}
     >
       {isPlaying ? <Pause className="w-5 h-5" /> : <Play className="w-5 h-5" />}
     </motion.button>
@@ -86,7 +84,7 @@ function VideoPlayer({ gradient }: { gradient?: string }) {
         "p-3 rounded-full backdrop-blur-md shadow-lg transition-colors border border-white/10",
         controlBg
       )}
-      aria-label={isMuted ? "تشغيل الصوت" : "كتم الصوت"}
+      aria-label={isMuted ? "Unmute audio" : "Mute audio"}
     >
       {isMuted ? (
         <VolumeX className="w-5 h-5" />
@@ -100,14 +98,14 @@ function VideoPlayer({ gradient }: { gradient?: string }) {
 
   return (
     <motion.section
-      className="w-full flex justify-center py-12 sm:py-20"
+      className="w-full flex justify-center py-12 sm:pt-20 sm:pb-0"
       initial={{ opacity: 0, y: 40 }}
       animate={{ opacity: 1, y: 0 }}
       transition={{ duration: 0.6, ease: "easeOut" }}
     >
       <div
         className={cn(
-          "relative w-[100%] sm:w-[95%] md:w-[90%] lg:w-[92%] xl:w-[94%] 2xl:w-[96%] rounded-3xl overflow-hidden shadow-[0_10px_60px_-10px_rgba(0,0,0,0.4)] transition-all aspect-[20/9]",
+          "relative w-[100%] sm:w-[95%] md:w-[90%] lg:w-[92%] xl:w-[94%] 2xl:w-[96%] rounded-3xl overflow-hidden shadow-[0_10px_60px_-10px_rgba(0,0,0,0.4)] transition-all aspect-[16/6]",
           theme === "dark"
             ? "bg-gradient-to-br from-gray-900 to-gray-800"
             : "bg-gradient-to-br from-white to-gray-100",
@@ -125,7 +123,7 @@ function VideoPlayer({ gradient }: { gradient?: string }) {
           className="w-full h-full object-cover"
         >
           <source src={videoUrl} type="video/mp4" />
-          متصفحك لا يدعم تشغيل الفيديو.
+          Your browser does not support playing this video.
         </video>
 
         <div

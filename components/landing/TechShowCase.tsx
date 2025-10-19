@@ -1,4 +1,5 @@
 "use client";
+import { WEBSITE_NAME } from "@/constant";
 import { motion } from "framer-motion";
 
 export default function TechShowcase() {
@@ -55,13 +56,13 @@ export default function TechShowcase() {
           </motion.div>
 
           <h2 className="text-4xl sm:text-5xl lg:text-6xl leading-20 font-bold text-gradient-third">
-            Why Choose <span className="">Go Ai 247</span>
+            Why Choose <span className="">{WEBSITE_NAME}</span>
           </h2>
 
           <p className="text-xl text-main-muted-foreground max-w-3xl mx-auto leading-relaxed">
             We combine cutting-edge AI technology with proven software
             development practices to deliver solutions that don&apos;t just meet
-            expectations—they exceed them.
+            expectations they exceed them.
           </p>
 
           <div className="grid md:grid-cols-3 gap-8 pt-12 items-stretch">

@@ -42,15 +42,11 @@ function ImageGalleryComponent({ images }: ImageGalleryProps) {
           <h2 className="text-3xl font-bold bg-gradient-primary bg-clip-text text-transparent">
             Project Gallery
           </h2>
-          <div className="text-sm text-muted-foreground">
-            {selectedIndex + 1} / {images.length}
-          </div>
         </div>
-
-        {/* Main Selected Image */}
+        {/* Main Selected Image (height reduced by 1/3 via aspect ratio) */}
         <motion.div
           layoutId={`gallery-main-${selectedIndex}`}
-          className="relative aspect-[16/8] rounded-3xl overflow-hidden shadow-intense cursor-pointer group"
+          className="relative aspect-[3/1] rounded-3xl overflow-hidden shadow-intense cursor-pointer group"
           onClick={() => openModal(selectedIndex)}
           whileHover={{ scale: 1.01 }}
           transition={{ duration: 0.3 }}

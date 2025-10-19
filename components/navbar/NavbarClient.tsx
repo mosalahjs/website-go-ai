@@ -62,7 +62,7 @@ const GlassNavbarClient: React.FC = () => {
   const navHeight = useTransform(
     scrollYProgress,
     [0, 0.12],
-    prefersReducedMotion ? ["4.4rem", "4.4rem"] : ["4.4rem", "4rem"]
+    prefersReducedMotion ? ["5rem", "5rem"] : ["5rem", "5rem"]
   );
 
   // ===== i18n & routing =====
