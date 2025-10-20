@@ -7,7 +7,7 @@ import React from "react";
 
 // ====== ClassName tokens ======
 const WRAPPER_CLS =
-  "fixed bottom-9 left-1/2 -translate-x-1/2 z-50 flex flex-col items-center gap-2";
+  "fixed bottom-24 sm:bottom-20 lg:bottom-9 left-1/2 -translate-x-1/2 z-50 flex flex-col items-center gap-2";
 
 const BUTTON_CLS = `
   relative rounded-full shadow-xl size-11
@@ -89,7 +89,7 @@ const ScrollToTop = () => {
             size="icon"
             className={BUTTON_CLS}
           >
-            <div className="relative w-7 h-7">
+            <div className="relative size-7">
               {[0, 1, 2].map((index) => (
                 <motion.div
                   key={`chev-${index}`}
@@ -103,7 +103,7 @@ const ScrollToTop = () => {
                   className={CHEVRON_LINE_CLS}
                   style={{ top: `${10 + index * 6}px` }}
                 >
-                  <div className="relative w-full h-full">
+                  <div className="relative size-full">
                     <div
                       className={`${CHEVRON_SEG_BASE_CLS} left-0`}
                       style={{

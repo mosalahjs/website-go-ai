@@ -124,15 +124,15 @@ const BlogCard = React.memo(function BlogCard({
       whileInView={{ opacity: 1, y: 0 }}
       viewport={{ once: true, amount: 0.2 }}
       transition={{ delay: index * 0.06, duration: reduced ? 0 : 0.5 }}
+      className="h-full"
     >
       <Card
         className={cn(
-          "h-full overflow-hidden group transition-all duration-300",
-          "border border-border bg-background/40 backdrop-blur-md hover:shadow-2xl hover:border-primary/40",
-          "card-custom"
+          "flex flex-col h-full overflow-hidden group transition-all duration-300",
+          "border border-border bg-background/40 backdrop-blur-md hover:shadow-2xl hover:border-primary/40"
         )}
       >
-        <div className="relative h-52 overflow-hidden">
+        <div className="relative h-52 overflow-hidden flex-shrink-0">
           {!imgError ? (
             <Image
               src={blog.image}
@@ -157,28 +157,31 @@ const BlogCard = React.memo(function BlogCard({
             </span>
           </div>
         </div>
-        <CardContent className="p-6 space-y-4">
-          <h3 className="text-xl font-semibold leading-14 bg-clip-text text-transparent bg-gradient-to-r from-secondary-from to-secondary-to line-clamp-2">
-            {blog.title}
-          </h3>
 
-          <p className="text-sm text-muted-foreground line-clamp-3">
-            {blog.excerpt}
-          </p>
+        {/* نوزّع المحتوى داخل الكارد بحيث كلهم يطلعوا بنفس الارتفاع */}
+        <CardContent className="flex flex-col justify-between flex-grow p-6 space-y-4">
+          <div>
+            <h3 className="text-xl font-semibold leading-snug bg-clip-text text-transparent bg-gradient-to-r from-secondary-from to-secondary-to line-clamp-2">
+              {blog.title}
+            </h3>
+            <p className="text-sm text-muted-foreground line-clamp-3 mt-2">
+              {blog.excerpt}
+            </p>
 
-          <div className="flex flex-wrap gap-2" aria-label="tags">
-            {blog.tags.map((tag) => (
-              <span
-                key={`${blog.id}-${tag}`}
-                className="inline-flex items-center gap-1 px-2 py-1 text-xs rounded-md bg-muted text-muted-foreground"
-              >
-                <Tag className="h-3 w-3" aria-hidden />
-                {tag}
-              </span>
-            ))}
+            <div className="flex flex-wrap gap-2 mt-3" aria-label="tags">
+              {blog.tags.map((tag) => (
+                <span
+                  key={`${blog.id}-${tag}`}
+                  className="inline-flex items-center gap-1 px-2 py-1 text-xs rounded-md bg-muted text-muted-foreground"
+                >
+                  <Tag className="h-3 w-3" aria-hidden />
+                  {tag}
+                </span>
+              ))}
+            </div>
           </div>
 
-          <div className="flex items-center gap-4 text-sm text-muted-foreground pt-4 border-t border-border/40">
+          <div className="flex items-center justify-between text-sm text-muted-foreground pt-4 border-t border-border/40 mt-auto">
             <div className="flex items-center gap-1">
               <Calendar className="h-4 w-4" aria-hidden />
               <span>{blog.date}</span>
