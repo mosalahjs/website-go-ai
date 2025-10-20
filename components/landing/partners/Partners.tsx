@@ -2,7 +2,7 @@
 
 import React, { JSX, memo } from "react";
 import { motion, useReducedMotion, type Variants } from "framer-motion";
-import Image, { type StaticImageData } from "next/image";
+import Image from "next/image";
 import { Award } from "lucide-react";
 import { Card, CardContent } from "@/components/ui/card";
 import {
