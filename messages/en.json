@@ -18,7 +18,56 @@
     "Support": "Support"
   },
   "HomePage": {
-    "title": "Hello world!"
+    "TECH_SHOWCASE": {
+      "badge": "Powered by Advanced AI",
+      "titlePrefix": "Why Choose",
+      "description": "We combine cutting-edge AI technology with proven software development practices to deliver solutions that don't just meet expectations—they exceed them.",
+      "stats": {
+        "fast": {
+          "label": "Faster Development",
+          "desc": "AI-assisted coding accelerates delivery"
+        },
+        "onprem": {
+          "label": "On-Prem for Data Sovereignty",
+          "desc": "Enterprise-grade reliability"
+        },
+        "support": {
+          "label": "Support Available",
+          "desc": "Always here when you need us"
+        }
+      }
+    },
+    "SERVICES": {
+      "headingPrefix": "Our",
+      "headingHighlight": "Services",
+      "subheading": "Comprehensive technology solutions tailored to your business needs",
+      "items": {
+        "frontend": {
+          "title": "Frontend Development",
+          "desc": "Modern, responsive web applications built with React, Next.js, and cutting-edge technologies."
+        },
+        "ai": {
+          "title": "AI Integration",
+          "desc": "Seamless integration of AI models, machine learning pipelines, and intelligent automation."
+        },
+        "backend": {
+          "title": "Backend & Databases",
+          "desc": "Scalable backend architecture with Node.js, Python, and robust database solutions."
+        },
+        "consulting": {
+          "title": "Tech Consulting",
+          "desc": "Strategic technology consulting to help you make informed decisions and optimize solutions."
+        }
+      }
+    },
+    "FEATURED_PROJECTS": {
+      "headingPrefix": "Featured",
+      "headingHighlight": "Projects",
+      "subheading": "Explore our portfolio of successful projects and innovative solutions",
+      "demoLabel": "View Demo",
+      "detailsLabel": "View Details",
+      "viewAll": "View All Projects"
+    }
   },
   "AboutPage": {
     "title": "About Go AI 247",
@@ -325,5 +374,37 @@
     "categories_aria": "Categories",
     "all": "All",
     "empty": "No articles found. Try a different search or category."
+  },
+  "Contact": {
+    "CONTACT_HERO": {
+      "title_prefix": "Get in",
+      "title_core": "Touch",
+      "subtitle": "Have a project in mind? Let's discuss how we can help bring your vision to life."
+    },
+    "CONTACT_INFO": {
+      "heading": "Contact Information",
+      "subheading": "Reach out to us through any of these channels, or use the contact form.",
+      "items": {
+        "email": { "title": "Email" },
+        "phone": { "title": "Phone" },
+        "location": { "title": "Location" }
+      },
+      "visit": "Visit"
+    },
+    "CONTACT_FORM": {
+      "labels": {
+        "name": "Name *",
+        "email": "Email *",
+        "message": "Message *"
+      },
+      "placeholders": {
+        "name": "John Doe",
+        "email": "john@example.com",
+        "message": "Tell us about your project..."
+      },
+      "submit": "Send Message",
+      "submitting": "Sending…",
+      "success_sr": "Message sent successfully."
+    }
   }
 }

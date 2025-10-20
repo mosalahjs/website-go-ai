@@ -1,8 +1,11 @@
 "use client";
 import { WEBSITE_NAME } from "@/constant";
 import { motion } from "framer-motion";
+import { useTranslations } from "next-intl";
 
 export default function TechShowcase() {
+  const t = useTranslations("HomePage.TECH_SHOWCASE");
+
   return (
     <section className="py-32 relative overflow-hidden">
       {/* Animated Background Effects */}
@@ -50,37 +53,33 @@ export default function TechShowcase() {
             className="inline-flex items-center space-x-2 px-6 py-3 rounded-full text-gradient-third border-2 border-main/80 backdrop-blur-xl"
           >
             <div className="h-2 w-2 rounded-full bg-main animate-pulse" />
-            <span className="text-sm font-bold text-primary">
-              Powered by Advanced AI
-            </span>
+            <span className="text-sm font-bold text-primary">{t("badge")}</span>
           </motion.div>
 
           <h2 className="text-4xl sm:text-5xl lg:text-6xl leading-20 font-bold text-gradient-third">
-            Why Choose <span className="">{WEBSITE_NAME}</span>
+            {t("titlePrefix")} <span className="">{WEBSITE_NAME}</span>
           </h2>
 
           <p className="text-xl text-main-muted-foreground max-w-3xl mx-auto leading-relaxed">
-            We combine cutting-edge AI technology with proven software
-            development practices to deliver solutions that don&apos;t just meet
-            expectations they exceed them.
+            {t("description")}
           </p>
 
           <div className="grid md:grid-cols-3 gap-8 pt-12 items-stretch">
             {[
               {
                 value: "10x",
-                label: "Faster Development",
-                description: "AI-assisted coding accelerates delivery",
+                label: t("stats.fast.label"),
+                description: t("stats.fast.desc"),
               },
               {
                 value: "99.9%",
-                label: "On Prem For Data Sovereignty",
-                description: "Enterprise-grade reliability",
+                label: t("stats.onprem.label"),
+                description: t("stats.onprem.desc"),
               },
               {
                 value: "24/7",
-                label: "Support Available",
-                description: "Always here when you need us",
+                label: t("stats.support.label"),
+                description: t("stats.support.desc"),
               },
             ].map((stat, index) => (
               <motion.div

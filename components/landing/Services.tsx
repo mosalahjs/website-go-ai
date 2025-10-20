@@ -2,45 +2,13 @@
 import { motion } from "framer-motion";
 import { Code, Cpu, Database, Lightbulb } from "lucide-react";
 import { Card, CardContent } from "@/components/ui/card";
-
-const services = [
-  {
-    icon: Code,
-    title: "Frontend Development",
-    description:
-      "Modern, responsive web applications built with React, Next.js, and cutting-edge technologies.",
-    color: "from-cyan-400 via-blue-500 to-indigo-600",
-  },
-  {
-    icon: Cpu,
-    title: "AI Integration",
-    description:
-      "Seamless integration of AI models, machine learning pipelines, and intelligent automation.",
-    color: "from-blue-500 via-purple-500 to-pink-600",
-  },
-  {
-    icon: Database,
-    title: "Backend & Databases",
-    description:
-      "Scalable backend architecture with Node.js, Python, and robust database solutions.",
-    color: "from-indigo-500 via-purple-600 to-fuchsia-600",
-  },
-  {
-    icon: Lightbulb,
-    title: "Tech Consulting",
-    description:
-      "Strategic technology consulting to help you make informed decisions and optimize solutions.",
-    color: "from-purple-500 via-pink-500 to-rose-600",
-  },
-];
+import { useTranslations } from "next-intl";
 
 const container = {
   hidden: { opacity: 0 },
   show: {
     opacity: 1,
-    transition: {
-      staggerChildren: 0.2,
-    },
+    transition: { staggerChildren: 0.2 },
   },
 };
 
@@ -50,6 +18,35 @@ const item = {
 };
 
 export default function Services() {
+  const t = useTranslations("HomePage.SERVICES");
+
+  const services = [
+    {
+      icon: Code,
+      title: t("items.frontend.title"),
+      description: t("items.frontend.desc"),
+      color: "from-cyan-400 via-blue-500 to-indigo-600",
+    },
+    {
+      icon: Cpu,
+      title: t("items.ai.title"),
+      description: t("items.ai.desc"),
+      color: "from-blue-500 via-purple-500 to-pink-600",
+    },
+    {
+      icon: Database,
+      title: t("items.backend.title"),
+      description: t("items.backend.desc"),
+      color: "from-indigo-500 via-purple-600 to-fuchsia-600",
+    },
+    {
+      icon: Lightbulb,
+      title: t("items.consulting.title"),
+      description: t("items.consulting.desc"),
+      color: "from-purple-500 via-pink-500 to-rose-600",
+    },
+  ] as const;
+
   return (
     <section className="py-24 bg-muted/30 relative overflow-hidden">
       {/* Background decoration */}
@@ -64,10 +61,13 @@ export default function Services() {
           className="text-center mb-16"
         >
           <h2 className="text-3xl sm:text-4xl lg:text-5xl font-bold mb-4 text-gradient-third">
-            Our <span className="">Services</span>
+            {t("headingPrefix")}{" "}
+            {t("headingHighlight") ? (
+              <span className="">{t("headingHighlight")}</span>
+            ) : null}
           </h2>
           <p className="text-lg text-main-muted-foreground  max-w-2xl mx-auto">
-            Comprehensive technology solutions tailored to your business needs
+            {t("subheading")}
           </p>
         </motion.div>
 

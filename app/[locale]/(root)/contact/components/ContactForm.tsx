@@ -4,6 +4,7 @@ import { motion } from "framer-motion";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import * as z from "zod";
+import { useTranslations } from "next-intl";
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
 import {
@@ -31,6 +32,8 @@ const contactSchema = z.object({
 type ContactFormValues = z.infer<typeof contactSchema>;
 
 function ContactFormBase() {
+  const t = useTranslations("Contact.CONTACT_FORM");
+
   const form = useForm<ContactFormValues>({
     resolver: zodResolver(contactSchema),
     defaultValues: { name: "", email: "", message: "" },
@@ -41,7 +44,7 @@ function ContactFormBase() {
 
   const onSubmit = useCallback(
     (data: ContactFormValues) => {
-      console.log("📩 Contact form data:", data);
+      // console.log("📩 Contact form data:", data);
       form.reset();
     },
     [form]
@@ -76,13 +79,13 @@ function ContactFormBase() {
                           htmlFor={id}
                           className="text-main-muted-foreground"
                         >
-                          Name *
+                          {t("labels.name")}
                         </FormLabel>
                         <FormControl className="border-blue-500 dark:border-gray-50">
                           <Input
                             id={id}
                             className="placeholder:text-main-muted-foreground"
-                            placeholder="John Doe"
+                            placeholder={t("placeholders.name")}
                             autoComplete="name"
                             aria-required="true"
                             aria-invalid={!!errors.name || undefined}
@@ -106,14 +109,14 @@ function ContactFormBase() {
                           htmlFor={id}
                           className="text-main-muted-foreground"
                         >
-                          Email *
+                          {t("labels.email")}
                         </FormLabel>
                         <FormControl className="border-blue-500 dark:border-gray-50">
                           <Input
                             id={id}
                             className="placeholder:text-main-muted-foreground"
                             type="email"
-                            placeholder="john@example.com"
+                            placeholder={t("placeholders.email")}
                             autoComplete="email"
                             inputMode="email"
                             aria-required="true"
@@ -140,12 +143,12 @@ function ContactFormBase() {
                         htmlFor={id}
                         className="text-main-muted-foreground"
                       >
-                        Message *
+                        {t("labels.message")}
                       </FormLabel>
                       <FormControl className="border-blue-500 dark:border-gray-50">
                         <Textarea
                           id={id}
-                          placeholder="Tell us about your project..."
+                          placeholder={t("placeholders.message")}
                           className="min-h-[150px] resize-none placeholder:text-main-muted-foreground"
                           autoComplete="off"
                           aria-required="true"
@@ -171,12 +174,12 @@ function ContactFormBase() {
                 aria-live="polite"
                 aria-disabled={isSubmitting}
               >
-                {isSubmitting ? "Sending…" : "Send Message"}
+                {isSubmitting ? t("submitting") : t("submit")}
               </CTAButton>
 
               {isSubmitSuccessful && (
                 <p role="status" aria-live="polite" className="sr-only">
-                  Message sent successfully.
+                  {t("success_sr")}
                 </p>
               )}
             </form>

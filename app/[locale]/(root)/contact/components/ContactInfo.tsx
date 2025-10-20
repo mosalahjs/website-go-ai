@@ -1,30 +1,37 @@
 "use client";
+import * as React from "react";
 import { motion } from "framer-motion";
 import { Mail, Phone, MapPin } from "lucide-react";
+import { useTranslations } from "next-intl";
 import { ContactCard } from "./ContactCard";
 
-const contactInfo = [
-  {
-    icon: Mail,
-    title: "Email",
-    value: "hello@goai247.com",
-    link: "mailto:hello@goai247.com",
-  },
-  {
-    icon: Phone,
-    title: "Phone",
-    value: "+1 (555) 123-4567",
-    link: "tel:+15551234567",
-  },
-  {
-    icon: MapPin,
-    title: "Location",
-    value: "San Francisco, CA",
-    link: null,
-  },
-];
-
 export function ContactInfo() {
+  const t = useTranslations("Contact.CONTACT_INFO");
+
+  const contactInfo = React.useMemo(
+    () => [
+      {
+        icon: Mail,
+        title: t("items.email.title"),
+        value: "hello@goai247.com",
+        link: "mailto:hello@goai247.com",
+      },
+      {
+        icon: Phone,
+        title: t("items.phone.title"),
+        value: "+1 (555) 123-4567",
+        link: "tel:+15551234567",
+      },
+      {
+        icon: MapPin,
+        title: t("items.location.title"),
+        value: "San Francisco, CA",
+        link: null as string | null,
+      },
+    ],
+    [t]
+  );
+
   return (
     <motion.div
       initial={{ opacity: 0, x: -30 }}
@@ -33,13 +40,8 @@ export function ContactInfo() {
       className="space-y-3"
     >
       <div>
-        <h2 className="text-2xl font-bold mb-4 text-main">
-          Contact Information
-        </h2>
-        <p className="text-main-muted-foreground">
-          Reach out to us through any of these channels, or use the contact
-          form.
-        </p>
+        <h2 className="text-2xl font-bold mb-4 text-main">{t("heading")}</h2>
+        <p className="text-main-muted-foreground">{t("subheading")}</p>
       </div>
 
       {contactInfo.map((info, index) => (

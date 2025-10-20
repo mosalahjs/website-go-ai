@@ -7,8 +7,10 @@ import { CTAButton } from "@/components/ui/cta-button";
 import { projectsData } from "@/constant/Projects";
 import { ProjectMediaCTA } from "../shared/ProjectMediaCTA";
 import { TagPill } from "@/components/ui/tag-pill";
+import { useTranslations } from "next-intl";
 
 function FeaturedProjectsComponent() {
+  const t = useTranslations("HomePage.FEATURED_PROJECTS");
   const reducedMotion = useReducedMotion();
   const items = useMemo(() => projectsData.slice(0, 3), []);
 
@@ -35,11 +37,11 @@ function FeaturedProjectsComponent() {
           className="text-center mb-16"
         >
           <h2 className="text-3xl sm:text-4xl lg:text-5xl font-bold mb-4 text-border-primary">
-            Featured <span className="text-border-primary">Projects</span>
+            {t("headingPrefix")}{" "}
+            <span className="text-border-primary">{t("headingHighlight")}</span>
           </h2>
           <p className="text-lg text-border-primary/70 max-w-2xl mx-auto">
-            Explore our portfolio of successful projects and innovative
-            solutions
+            {t("subheading")}
           </p>
         </motion.header>
 
@@ -73,8 +75,8 @@ function FeaturedProjectsComponent() {
                   title={p.title}
                   demoHref={p.demoLink}
                   detailsHref={`/projects/${p.id}`}
-                  demoLabel="View Demo"
-                  detailsLabel="View Details"
+                  demoLabel={t("demoLabel")}
+                  detailsLabel={t("detailsLabel")}
                   index={index}
                   priorityFirst={2}
                   ctaSize="md"
@@ -126,7 +128,7 @@ function FeaturedProjectsComponent() {
         >
           <CTAButton asChild size="lg" className="group">
             <Link href="/projects" className="flex items-center justify-center">
-              View All Projects
+              {t("viewAll")}
             </Link>
           </CTAButton>
         </motion.div>
