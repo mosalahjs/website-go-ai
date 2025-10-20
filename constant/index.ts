@@ -1,1 +1,1 @@
-export const WEBSITE_NAME: string = `GOAI`;
+export const WEBSITE_NAME: string = `GoAI`;

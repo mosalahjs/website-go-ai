@@ -6,6 +6,7 @@ import { Hero } from "@/components/landing/Hero";
 import { Metadata } from "next";
 import { createPageMetadata } from "@/lib/seo";
 import PartnersSimple from "@/components/landing/partners/PartnersSimple";
+import BlogSection from "@/components/landing/Blogs";
 
 type Props = { params: Promise<{ locale: "en" | "ar" }> };
 export async function generateMetadata({ params }: Props): Promise<Metadata> {
@@ -28,6 +29,7 @@ export default function Home() {
         <TechShowcase />
         <Services />
         <FeaturedProjects />
+        <BlogSection />
         <PartnersSimple />
       </Container>
     </section>

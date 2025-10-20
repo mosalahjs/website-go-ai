@@ -82,6 +82,7 @@ const GlassNavbarClient: React.FC = () => {
       { name: t("projects"), href: "/projects" },
       { name: t("about"), href: "/about" },
       { name: t("services"), href: "/services" },
+      { name: t("blogs"), href: "/blogs" },
       { name: t("contact"), href: "/contact" },
     ],
     [t]

@@ -5,6 +5,7 @@
     "services": "Services",
     "about": "About",
     "contact": "Contact",
+    "blogs": "Blogs",
     "projects": "Projects"
   },
   "landingPage": {
@@ -261,5 +262,68 @@
         "description": "Defining luxury in the hospitality sector with world-class hotel properties, exquisite dining experiences, and unparalleled service standards that set new benchmarks in premium hospitality."
       }
     }
+  },
+  "BLOG_SECTION": {
+    "badge": "Latest Insights",
+    "heading": "Explore Our Blog",
+    "subheading": "Discover cutting-edge insights, tutorials, and stories from the world of technology.",
+    "readMore": "Read More",
+    "viewAll": "View All Articles"
+  },
+  "BLOGS": {
+    "items": [
+      {
+        "id": 1,
+        "title": "The Future of Web Development",
+        "excerpt": "Exploring the cutting-edge technologies shaping tomorrow's digital experiences",
+        "category": "Technology",
+        "date": "Oct 15, 2025",
+        "readTime": "8 min read",
+        "image": "https://images.unsplash.com/photo-1633356122544-f134324a6cee?w=1200&q=80&auto=format&fit=crop",
+        "trending": true,
+        "href": "/blog/future-of-web"
+      },
+      {
+        "id": 2,
+        "title": "Mastering Modern Design Systems",
+        "excerpt": "Building scalable and maintainable design systems for enterprise applications",
+        "category": "Design",
+        "date": "Oct 12, 2025",
+        "readTime": "6 min read",
+        "image": "https://images.unsplash.com/photo-1561070791-2526d30994b5?w=1200&q=80&auto=format&fit=crop",
+        "href": "/blog/design-systems"
+      },
+      {
+        "id": 3,
+        "title": "AI-Powered Development Tools",
+        "excerpt": "How artificial intelligence is revolutionizing the way we build software",
+        "category": "AI & ML",
+        "date": "Oct 10, 2025",
+        "readTime": "10 min read",
+        "image": "https://images.unsplash.com/photo-1677442136019-21780ecad995?w=1200&q=80&auto=format&fit=crop",
+        "trending": true,
+        "href": "/blog/ai-dev-tools"
+      },
+      {
+        "id": 4,
+        "title": "Performance Optimization Secrets",
+        "excerpt": "Advanced techniques to supercharge your application's speed and efficiency",
+        "category": "Performance",
+        "date": "Oct 8, 2025",
+        "readTime": "7 min read",
+        "image": "https://images.unsplash.com/photo-1551288049-bebda4e38f71?w=1200&q=80&auto=format&fit=crop",
+        "href": "/blog/perf-secrets"
+      }
+    ]
+  },
+  "BLOG_PAGE": {
+    "title_prefix": "Our",
+    "title_core": "Blog",
+    "subtitle": "Insights, tutorials, and stories from the world of technology",
+    "search_aria": "Search articles",
+    "search_placeholder": "Search articles...",
+    "categories_aria": "Categories",
+    "all": "All",
+    "empty": "No articles found. Try a different search or category."
   }
 }
