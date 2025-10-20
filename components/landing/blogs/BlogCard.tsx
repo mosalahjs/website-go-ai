@@ -21,7 +21,6 @@ function BlogCardComponent({ blog, featured }: BlogCardProps) {
   const [hovered, setHovered] = React.useState(false);
   const reducedMotion = useReducedMotion();
   const t = useTranslations("BLOGS");
-  const blogsFromI18n = t.raw("items") as Blog[];
 
   const imageSizes = featured
     ? "(min-width: 1280px) 640px, (min-width: 768px) 50vw, 100vw"

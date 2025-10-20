@@ -14,24 +14,20 @@ import { ALL_BLOGS } from "@/constant/Blogs";
 const BlogSection: React.FC = React.memo(function BlogSection() {
   const reducedMotion = useReducedMotion();
 
-  // عناوين القسم كما هي من الترجمة
   const t = useTranslations("BLOG_SECTION");
 
-  // جلب عناصر المدونة من ملفات الترجمة
   const tBlogs = useTranslations("BLOGS");
   const translatedItems = tBlogs.raw("items") as Partial<Blog>[];
 
-  // === التعديل المطلوب: دمج الترجمة مع الصور الأصلية فقط ===
   const mergedBlogs: ReadonlyArray<Blog> = React.useMemo(() => {
     return translatedItems.map((item) => {
       const original = ALL_BLOGS.find((b) => b.id === item.id);
-      // ناخد كل الحقول من الترجمة + الصورة فقط من الداتا الأصلية
-      // في حالة عدم العثور على الأصل، نرجّع العنصر كما هو
+
       return original
         ? ({
             ...original,
             ...item,
-            image: original.image, // ← الصورة من الداتا الأصلية حصراً
+            image: original.image,
           } as Blog)
         : (item as Blog);
     });
