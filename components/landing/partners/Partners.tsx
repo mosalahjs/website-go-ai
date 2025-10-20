@@ -13,11 +13,6 @@ import {
   CarouselPrevious,
 } from "@/components/ui/carousel";
 
-// Assets
-import eandLogo from "@/assets/partner-eand-logo.svg";
-import forbesLogo from "@/assets/partner-forbes-logo.svg";
-import tfgLogo from "@/assets/partner-tfg-logo.png";
-
 /* ============================
    Types
    ============================ */
@@ -26,7 +21,7 @@ type Partner = {
   title: string;
   description: string;
   logo: string;
-  image: null | string; // محجوز كما هو
+  image: null | string;
   gradientFrom: string;
   gradientTo: string;
   bgGlow: string;
