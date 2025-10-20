@@ -123,18 +123,18 @@ export const PartnersSimple = memo(function Partners() {
                                 }}
                                 aria-hidden
                               />
-                              <div className="absolute inset-0 p-10">
+                              <div className="relative flex items-center justify-center h-full p-8 md:p-10">
                                 <MotionImage
                                   src={partner.logo as StaticImageData}
                                   alt={`${name} logo`}
-                                  fill
-                                  sizes="(max-width: 768px) 75vw, (max-width: 1024px) 33vw, 25vw"
-                                  className="object-contain"
+                                  width={400}
+                                  height={200}
+                                  className="object-contain max-h-[180px] w-auto h-auto mx-auto"
                                   priority={index === 0}
                                   loading={index === 0 ? "eager" : "lazy"}
                                   decoding="async"
                                   whileHover={{
-                                    scale: prefersReducedMotion ? 1 : 1.05,
+                                    scale: prefersReducedMotion ? 1 : 1.08,
                                   }}
                                   transition={{
                                     duration: prefersReducedMotion ? 0 : 0.3,
@@ -142,19 +142,7 @@ export const PartnersSimple = memo(function Partners() {
                                 />
                               </div>
 
-                              {/* Year Badge */}
-                              <div
-                                className="absolute top-4 right-4 px-3 py-1 rounded-lg backdrop-blur-sm text-xs font-bold"
-                                style={{
-                                  backgroundColor: `${partner.bgGlow}`,
-                                  borderColor: partner.accentColor,
-                                  color: partner.accentColor,
-                                  border: `1px solid ${partner.accentColor}`,
-                                }}
-                                aria-label={`Year ${partner.year}`}
-                              >
-                                {partner.year}
-                              </div>
+                              {/* Year Badge — already removed */}
                             </div>
 
                             {/* Text Content */}

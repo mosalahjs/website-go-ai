@@ -152,14 +152,12 @@ const BlogCard = React.memo(function BlogCard({
             <div className="absolute inset-0 bg-[radial-gradient(circle_at_30%_30%,var(--primary-from),transparent_40%),radial-gradient(circle_at_70%_70%,var(--secondary-from),transparent_45%)] opacity-70 animate-gradient-spin" />
           )}
           <div className="absolute top-4 left-4">
-            {/* بادج بنفس روح CTA badge في Projects */}
             <span className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-gradient-to-r from-primary-from to-primary-to text-white backdrop-blur-sm border border-primary/20 text-xs font-medium">
               {blog.category}
             </span>
           </div>
         </div>
         <CardContent className="p-6 space-y-4">
-          {/* عنوان بنفس تدرّج عناوين Projects */}
           <h3 className="text-xl font-semibold leading-14 bg-clip-text text-transparent bg-gradient-to-r from-secondary-from to-secondary-to line-clamp-2">
             {blog.title}
           </h3>
@@ -237,7 +235,7 @@ export default function BlogsPage() {
             transition={{ duration: reduced ? 0 : 0.6 }}
             className="text-center max-w-3xl mx-auto"
           >
-            <h1 className="text-4xl sm:text-5xl lg:text-6xl font-extrabold mb-6 leading-16 bg-clip-text text-transparent bg-gradient-to-r from-secondary-from to-secondary-to">
+            <h1 className="text-4xl sm:text-5xl lg:text-6xl font-extrabold mb-6 leading-18 bg-clip-text text-transparent bg-gradient-to-r from-secondary-from to-secondary-to">
               {t("title_prefix")} {t("title_core")}
             </h1>
             <p className="text-lg sm:text-xl text-muted-foreground mb-8">

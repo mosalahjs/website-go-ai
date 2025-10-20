@@ -319,7 +319,7 @@
   },
   "BLOG_PAGE": {
     "title_prefix": "مدونتنا",
-    "title_core": "Blog",
+    "title_core": "",
     "subtitle": "أفكار ودروس وقصص من عالم التقنية",
     "search_aria": "ابحث عن المقالات",
     "search_placeholder": "ابحث داخل المقالات...",
