@@ -6,7 +6,7 @@ import { Hero } from "@/components/landing/Hero";
 import { Metadata } from "next";
 import { createPageMetadata } from "@/lib/seo";
 import PartnersSimple from "@/components/landing/partners/PartnersSimple";
-import BlogSection from "@/components/landing/Blogs";
+import BlogSection from "@/components/landing/blogs/BlogSection";
 
 type Props = { params: Promise<{ locale: "en" | "ar" }> };
 export async function generateMetadata({ params }: Props): Promise<Metadata> {

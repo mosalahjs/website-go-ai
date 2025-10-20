@@ -323,47 +323,58 @@
     "items": [
       {
         "id": 1,
-        "title": "The Future of Web Development",
-        "excerpt": "Exploring the cutting-edge technologies shaping tomorrow's digital experiences",
-        "category": "Technology",
-        "date": "Oct 15, 2025",
-        "readTime": "8 min read",
-        "image": "https://images.unsplash.com/photo-1633356122544-f134324a6cee?w=1200&q=80&auto=format&fit=crop",
-        "trending": true,
-        "href": "/blog/future-of-web"
+        "title": "The Future of AI in Software Development",
+        "excerpt": "Explore how artificial intelligence is revolutionizing the way we build and deploy applications in 2025.",
+        "category": "AI & Technology",
+        "date": "March 15, 2025",
+        "readTime": "5 min read"
       },
       {
         "id": 2,
-        "title": "Mastering Modern Design Systems",
-        "excerpt": "Building scalable and maintainable design systems for enterprise applications",
-        "category": "Design",
-        "date": "Oct 12, 2025",
-        "readTime": "6 min read",
-        "image": "https://images.unsplash.com/photo-1561070791-2526d30994b5?w=1200&q=80&auto=format&fit=crop",
-        "href": "/blog/design-systems"
+        "title": "Building Scalable Cloud Infrastructure",
+        "excerpt": "Best practices for designing and implementing cloud-native solutions that grow with your business.",
+        "category": "Cloud Computing",
+        "date": "March 10, 2025",
+        "readTime": "7 min read"
       },
       {
         "id": 3,
-        "title": "AI-Powered Development Tools",
-        "excerpt": "How artificial intelligence is revolutionizing the way we build software",
-        "category": "AI & ML",
-        "date": "Oct 10, 2025",
-        "readTime": "10 min read",
-        "image": "https://images.unsplash.com/photo-1677442136019-21780ecad995?w=1200&q=80&auto=format&fit=crop",
-        "trending": true,
-        "href": "/blog/ai-dev-tools"
+        "title": "Modern Web Development Trends",
+        "excerpt": "Stay ahead of the curve with the latest frameworks, tools, and methodologies in web development.",
+        "category": "Web Development",
+        "date": "March 5, 2025",
+        "readTime": "6 min read"
       },
       {
         "id": 4,
-        "title": "Performance Optimization Secrets",
-        "excerpt": "Advanced techniques to supercharge your application's speed and efficiency",
-        "category": "Performance",
-        "date": "Oct 8, 2025",
-        "readTime": "7 min read",
-        "image": "https://images.unsplash.com/photo-1551288049-bebda4e38f71?w=1200&q=80&auto=format&fit=crop",
-        "href": "/blog/perf-secrets"
+        "title": "Cybersecurity Best Practices for 2025",
+        "excerpt": "Protect your applications and data with these essential security measures and strategies.",
+        "category": "Security",
+        "date": "February 28, 2025",
+        "readTime": "8 min read"
+      },
+      {
+        "id": 5,
+        "title": "Machine Learning for Business Intelligence",
+        "excerpt": "Leverage ML algorithms to extract valuable insights from your business data.",
+        "category": "AI & Technology",
+        "date": "February 20, 2025",
+        "readTime": "6 min read"
+      },
+      {
+        "id": 6,
+        "title": "DevOps Culture and Continuous Integration",
+        "excerpt": "Improve your development workflow with CI/CD pipelines and DevOps practices.",
+        "category": "DevOps",
+        "date": "February 15, 2025",
+        "readTime": "7 min read"
       }
-    ]
+    ],
+    "BLOG_META": {
+      "date": "Date",
+      "readTime": "Read time"
+    },
+    "readMore": "Read More"
   },
   "BLOG_PAGE": {
     "title_prefix": "Our",
