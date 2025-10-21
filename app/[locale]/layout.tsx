@@ -2,15 +2,13 @@ import "../globals.css";
 import type { Metadata } from "next";
 import { Geist_Mono, Inter } from "next/font/google";
 import { IBM_Plex_Sans_Arabic } from "next/font/google";
-import { NextIntlClientProvider } from "next-intl";
 import { getMessages } from "next-intl/server";
 import { getDirection } from "@/i18n/i18n-confige";
-// Components
-import Navbar from "@/components/navbar";
+// Providers
+import { NextIntlClientProvider } from "next-intl";
 import { ThemeProvider } from "@/components/theme/ThemeProvider";
-import { Footer } from "@/components/footer";
-import ScrollToTop from "@/components/shared/ScrollToTop";
-import ChatbotAnimated from "@/components/shared/ChatbotAnimated";
+// Constant
+import { WEBSITE_NAME } from "@/constant";
 
 const geistMono = Geist_Mono({
   variable: "--font-geist-mono",
@@ -31,26 +29,26 @@ const ibmArabic = IBM_Plex_Sans_Arabic({
 export const metadata: Metadata = {
   metadataBase: new URL("https://website-go-ai.vercel.app"),
   title: {
-    default: "Go AI 247",
-    template: "%s | Go AI 247",
+    default: `${WEBSITE_NAME}`,
+    template: `%s | ${WEBSITE_NAME}`,
   },
-  description: "Go AI 247 - Elevate Your Business with AI",
+  description: `${WEBSITE_NAME} - Elevate Your Business with AI`,
   icons: {
     icon: "/logo/logo-light.svg",
     shortcut: "/logo/logo-light-png.png",
     apple: "/logo/logo-light-png.png",
   },
   openGraph: {
-    title: "Go AI 247",
-    description: "Go AI 247 - Elevate Your Business with AI",
+    title: `${WEBSITE_NAME}`,
+    description: `${WEBSITE_NAME} - Elevate Your Business with AI`,
     url: "https://website-go-ai.vercel.app",
-    siteName: "Go Ai",
+    siteName: `${WEBSITE_NAME}`,
     images: [
       {
         url: "/logo/logo-light-png.png",
         width: 1200,
         height: 630,
-        alt: "Go Ai Logo",
+        alt: `${WEBSITE_NAME} Logo`,
       },
     ],
     locale: "en_US",
@@ -58,8 +56,8 @@ export const metadata: Metadata = {
   },
   twitter: {
     card: "summary_large_image",
-    title: "Go AI 247",
-    description: "Go AI 247 - Elevate Your Business with AI",
+    title: `${WEBSITE_NAME}`,
+    description: `${WEBSITE_NAME} - Elevate Your Business with AI`,
     images: ["/logo/logo-light-png.png"],
   },
 };
@@ -83,7 +81,7 @@ export default async function RootLayout({
       <head>
         <meta
           name="description"
-          content="Learn more about Go AI 247 — AI-driven software solutions that accelerate business growth across the Middle East."
+          content={`Learn more about ${WEBSITE_NAME} — AI-driven software solutions that accelerate business growth across the Middle East.`}
         />
       </head>
       <body
@@ -99,13 +97,7 @@ export default async function RootLayout({
           disableTransitionOnChange
         >
           <NextIntlClientProvider locale={locale} messages={messages}>
-            <div className="relative">
-              <Navbar />
-              <main className="pt-18 min-h-screen">{children}</main>
-              <Footer />
-            </div>
-            <ScrollToTop />
-            <ChatbotAnimated />
+            {children}
           </NextIntlClientProvider>
         </ThemeProvider>
       </body>

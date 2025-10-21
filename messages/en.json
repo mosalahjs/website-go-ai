@@ -417,5 +417,40 @@
       "submitting": "Sending…",
       "success_sr": "Message sent successfully."
     }
+  },
+  "ChatPage": {
+    "CHAT": {
+      "PAGE": {
+        "titlePrefix": "Chatbot | {site}",
+        "description": "Chat with {site} — a smart assistant that answers your questions and provides the information you need.",
+        "botWelcome": "Hello! I'm an intelligent assistant bot. Thank you for your message! I can help you answer questions and provide the information you need. How can I assist you today?"
+      },
+      "HEADER": {
+        "title": "Chatbot",
+        "online": "Online",
+        "menuAria": "Open menu",
+        "statusDotAria": "Online status"
+      },
+      "EMPTY_STATE": {
+        "title": "Hello! How can I help?",
+        "subtitle": "Start a new conversation by typing your message below",
+        "sparklesAria": "Sparkles icon"
+      },
+      "INPUT": {
+        "placeholder": "Type your message here...",
+        "sendAria": "Send message",
+        "inputAria": "Message input"
+      },
+      "MESSAGE": {
+        "userLabel": "User message",
+        "assistantLabel": "Assistant message"
+      },
+      "TYPING": {
+        "aria": "Assistant is typing..."
+      },
+      "CONTAINER": {
+        "liveRegion": "New messages will appear here"
+      }
+    }
   }
 }

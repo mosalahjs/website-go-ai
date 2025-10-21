@@ -194,6 +194,66 @@
   }
 }
 
+@layer utilities {
+  /* ====== Animations for Chat Experience ====== */
+
+  @keyframes slide-up {
+    from {
+      opacity: 0;
+      transform: translateY(8px);
+    }
+    to {
+      opacity: 1;
+      transform: translateY(0);
+    }
+  }
+
+  .animate-slide-up {
+    animation: slide-up 0.3s ease-out both;
+  }
+
+  @keyframes typing-dots {
+    0%,
+    60%,
+    100% {
+      transform: translateY(0);
+      opacity: 0.6;
+    }
+    30% {
+      transform: translateY(-2px);
+      opacity: 1;
+    }
+  }
+
+  .animate-typing-dots {
+    animation: typing-dots 1s infinite ease-in-out;
+  }
+
+  /* motion-safe versions */
+  @media (prefers-reduced-motion: reduce) {
+    .animate-slide-up,
+    .animate-typing-dots {
+      animation: none !important;
+    }
+  }
+
+  @keyframes pulse-soft {
+    0%,
+    100% {
+      opacity: 1;
+      transform: scale(1);
+    }
+    50% {
+      opacity: 0.8;
+      transform: scale(0.97);
+    }
+  }
+
+  .animate-pulse-soft {
+    animation: pulse-soft 1.6s ease-in-out infinite;
+  }
+}
+
 html[lang="en"] body {
   font-family: var(--font-inter), "Segoe UI", Roboto, sans-serif;
 }

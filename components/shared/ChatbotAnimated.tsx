@@ -3,6 +3,8 @@
 import React, { useEffect, useMemo, useState, useCallback } from "react";
 import { motion, AnimatePresence, useReducedMotion } from "framer-motion";
 import { MessageCircle, Sparkles, Zap, X } from "lucide-react";
+import { Link } from "@/i18n/routing";
+import { useLocale } from "next-intl";
 
 declare global {
   interface Window {
@@ -19,6 +21,7 @@ const ChatbotAnimated: React.FC = React.memo(() => {
   const [isOpen, setIsOpen] = useState(false);
   const [particles, setParticles] = useState<Particle[]>([]);
   const prefersReducedMotion = useReducedMotion();
+  const locale = useLocale();
 
   useEffect(() => {
     setIsMounted(true);
@@ -398,7 +401,9 @@ const ChatbotAnimated: React.FC = React.memo(() => {
                   className="w-full bg-gradient-to-r from-blue-600 to-indigo-600 text-white py-3 rounded-xl font-medium shadow-lg hover:shadow-xl transition-shadow"
                   type="button"
                 >
-                  Start Chat
+                  <Link href={`/chat`} locale={locale}>
+                    Start Chat
+                  </Link>
                 </motion.button>
               </motion.div>
             )}
