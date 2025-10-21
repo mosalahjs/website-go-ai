@@ -1,5 +1,6 @@
 "use client";
 import Actions from "@/components/navbar/Actions";
+import { GoToSiteButton } from "@/components/shared/GoToSiteButton";
 import { Bot, Menu } from "lucide-react";
 import { useTranslations } from "next-intl";
 
@@ -17,6 +18,7 @@ export default function ChatHeader({ title, subtitle }: ChatHeaderProps) {
   return (
     <header className="border-b border-border bg-card px-4 md:px-6 py-3 flex items-center justify-between shadow-sm sticky top-0 z-10 backdrop-blur-sm">
       <Actions />
+      <GoToSiteButton />
       <div className="flex items-center gap-3">
         <button
           className="md:hidden p-2 hover:bg-muted rounded-lg transition-colors"

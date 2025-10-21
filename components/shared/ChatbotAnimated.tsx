@@ -4,7 +4,7 @@ import React, { useEffect, useMemo, useState, useCallback } from "react";
 import { motion, AnimatePresence, useReducedMotion } from "framer-motion";
 import { MessageCircle, Sparkles, Zap, X } from "lucide-react";
 import { Link } from "@/i18n/routing";
-import { useLocale } from "next-intl";
+import { useLocale, useTranslations } from "next-intl";
 
 declare global {
   interface Window {
@@ -22,151 +22,136 @@ const ChatbotAnimated: React.FC = React.memo(() => {
   const [particles, setParticles] = useState<Particle[]>([]);
   const prefersReducedMotion = useReducedMotion();
   const locale = useLocale();
+  const t = useTranslations("CHAT_WIDGET");
 
   useEffect(() => {
     setIsMounted(true);
   }, []);
 
-  // Modern closing sound - soft and smooth
+  /** ========== Audio bootstrap  ========== */
+  const ensureAudio = useCallback(() => {
+    try {
+      type AudioContextCtor = typeof AudioContext;
+      const AC: AudioContextCtor = (window.AudioContext ??
+        window.webkitAudioContext!) as AudioContextCtor;
+
+      const ctx: AudioContext = (window.__CHAT_SFX_CTX__ ??= new AC());
+      if (ctx.state === "suspended") ctx.resume().catch(() => {});
+      const master: GainNode = (window.__CHAT_SFX_MASTER__ ??
+        (() => {
+          const g = ctx.createGain();
+          g.gain.value = 0.75;
+          const comp = ctx.createDynamicsCompressor();
+          comp.threshold.value = -24;
+          comp.knee.value = 16;
+          comp.ratio.value = 3;
+          comp.attack.value = 0.003;
+          comp.release.value = 0.15;
+          g.connect(comp);
+          comp.connect(ctx.destination);
+          window.__CHAT_SFX_MASTER__ = g;
+          return g;
+        })()) as GainNode;
+
+      return { ctx, master };
+    } catch {
+      return null;
+    }
+  }, []);
+
   const playClosingSound = useCallback(() => {
-    try {
-      type AudioContextCtor = typeof AudioContext;
-      const AC: AudioContextCtor = (window.AudioContext ??
-        window.webkitAudioContext!) as AudioContextCtor;
+    const handles = ensureAudio();
+    if (!handles) return;
+    const { ctx, master } = handles;
 
-      const ctx: AudioContext = (window.__CHAT_SFX_CTX__ ??= new AC());
-      if (ctx.state === "suspended") ctx.resume().catch(() => {});
-      const now = ctx.currentTime;
+    const now = ctx.currentTime;
 
-      const master: GainNode = (window.__CHAT_SFX_MASTER__ ??= (() => {
-        const g = ctx.createGain();
-        g.gain.value = 0.75;
-        const comp = ctx.createDynamicsCompressor();
-        comp.threshold.value = -24;
-        comp.knee.value = 16;
-        comp.ratio.value = 3;
-        comp.attack.value = 0.003;
-        comp.release.value = 0.15;
-        g.connect(comp);
-        comp.connect(ctx.destination);
-        return g;
-      })());
+    const noise = ctx.createBuffer(
+      1,
+      Math.floor(ctx.sampleRate * 0.25),
+      ctx.sampleRate
+    );
+    const d = noise.getChannelData(0);
+    for (let i = 0; i < d.length; i++)
+      d[i] = (Math.random() * 2 - 1) * (1 - i / d.length) * 0.6;
+    const n = ctx.createBufferSource();
+    n.buffer = noise;
+    const lp = ctx.createBiquadFilter();
+    lp.type = "lowpass";
+    lp.frequency.value = 2200;
+    const ng = ctx.createGain();
+    n.connect(lp);
+    lp.connect(ng);
+    ng.connect(master);
+    ng.gain.setValueAtTime(0.0001, now);
+    ng.gain.linearRampToValueAtTime(0.12, now + 0.03);
+    ng.gain.exponentialRampToValueAtTime(0.001, now + 0.2);
 
-      // Soft closing swirl sound - modern and elegant
-      const noise = ctx.createBuffer(
-        1,
-        Math.floor(ctx.sampleRate * 0.25),
-        ctx.sampleRate
-      );
-      const d = noise.getChannelData(0);
-      for (let i = 0; i < d.length; i++)
-        d[i] = (Math.random() * 2 - 1) * (1 - i / d.length) * 0.6;
-      const n = ctx.createBufferSource();
-      n.buffer = noise;
+    const v = ctx.createOscillator();
+    v.type = "sine";
+    const g = ctx.createGain();
+    v.connect(g);
+    g.connect(master);
+    v.frequency.setValueAtTime(1800, now);
+    v.frequency.exponentialRampToValueAtTime(600, now + 0.22);
+    g.gain.setValueAtTime(0.0001, now);
+    g.gain.linearRampToValueAtTime(0.08, now + 0.02);
+    g.gain.exponentialRampToValueAtTime(0.001, now + 0.22);
 
-      const lp = ctx.createBiquadFilter();
-      lp.type = "lowpass";
-      lp.frequency.value = 2200;
-      const ng = ctx.createGain();
-      n.connect(lp);
-      lp.connect(ng);
-      ng.connect(master);
-      ng.gain.setValueAtTime(0.0001, now);
-      ng.gain.linearRampToValueAtTime(0.12, now + 0.03);
-      ng.gain.exponentialRampToValueAtTime(0.001, now + 0.2);
+    n.start(now);
+    n.stop(now + 0.2);
+    v.start(now);
+    v.stop(now + 0.22);
+  }, [ensureAudio]);
 
-      // Reverse pitch sweep
-      const v = ctx.createOscillator();
-      v.type = "sine";
-      const g = ctx.createGain();
-      v.connect(g);
-      g.connect(master);
-      v.frequency.setValueAtTime(1800, now);
-      v.frequency.exponentialRampToValueAtTime(600, now + 0.22);
-      g.gain.setValueAtTime(0.0001, now);
-      g.gain.linearRampToValueAtTime(0.08, now + 0.02);
-      g.gain.exponentialRampToValueAtTime(0.001, now + 0.22);
-
-      n.start(now);
-      n.stop(now + 0.2);
-      v.start(now);
-      v.stop(now + 0.22);
-    } catch {
-      // Silently fail if audio context unavailable
-    }
-  }, []);
-
-  // Opening whoosh sound
   const playOpeningSound = useCallback(() => {
-    try {
-      type AudioContextCtor = typeof AudioContext;
-      const AC: AudioContextCtor = (window.AudioContext ??
-        window.webkitAudioContext!) as AudioContextCtor;
+    const handles = ensureAudio();
+    if (!handles) return;
+    const { ctx, master } = handles;
 
-      const ctx: AudioContext = (window.__CHAT_SFX_CTX__ ??= new AC());
-      if (ctx.state === "suspended") ctx.resume().catch(() => {});
-      const now = ctx.currentTime;
+    const now = ctx.currentTime;
 
-      const master: GainNode = (window.__CHAT_SFX_MASTER__ ??= (() => {
-        const g = ctx.createGain();
-        g.gain.value = 0.75;
-        const comp = ctx.createDynamicsCompressor();
-        comp.threshold.value = -24;
-        comp.knee.value = 16;
-        comp.ratio.value = 3;
-        comp.attack.value = 0.003;
-        comp.release.value = 0.15;
-        g.connect(comp);
-        comp.connect(ctx.destination);
-        return g;
-      })());
+    const noise = ctx.createBuffer(
+      1,
+      Math.floor(ctx.sampleRate * 0.18),
+      ctx.sampleRate
+    );
+    const d = noise.getChannelData(0);
+    for (let i = 0; i < d.length; i++)
+      d[i] = (Math.random() * 2 - 1) * (1 - i / d.length);
+    const n = ctx.createBufferSource();
+    n.buffer = noise;
 
-      const noise = ctx.createBuffer(
-        1,
-        Math.floor(ctx.sampleRate * 0.18),
-        ctx.sampleRate
-      );
-      const d = noise.getChannelData(0);
-      for (let i = 0; i < d.length; i++)
-        d[i] = (Math.random() * 2 - 1) * (1 - i / d.length);
-      const n = ctx.createBufferSource();
-      n.buffer = noise;
+    const lp = ctx.createBiquadFilter();
+    lp.type = "lowpass";
+    lp.frequency.value = 1600;
+    const ng = ctx.createGain();
+    n.connect(lp);
+    lp.connect(ng);
+    ng.connect(master);
+    ng.gain.setValueAtTime(0.0001, now);
+    ng.gain.linearRampToValueAtTime(0.18, now + 0.02);
+    ng.gain.exponentialRampToValueAtTime(0.001, now + 0.14);
 
-      const lp = ctx.createBiquadFilter();
-      lp.type = "lowpass";
-      lp.frequency.value = 1600;
-      const ng = ctx.createGain();
-      n.connect(lp);
-      lp.connect(ng);
-      ng.connect(master);
-      ng.gain.setValueAtTime(0.0001, now);
-      ng.gain.linearRampToValueAtTime(0.18, now + 0.02);
-      ng.gain.exponentialRampToValueAtTime(0.001, now + 0.14);
+    const v = ctx.createOscillator();
+    v.type = "triangle";
+    const g = ctx.createGain();
+    v.connect(g);
+    g.connect(master);
+    v.frequency.setValueAtTime(500, now + 0.04);
+    v.frequency.exponentialRampToValueAtTime(1200, now + 0.1);
+    g.gain.setValueAtTime(0.0001, now + 0.04);
+    g.gain.linearRampToValueAtTime(0.24, now + 0.052);
+    g.gain.exponentialRampToValueAtTime(0.001, now + 0.22);
 
-      const v = ctx.createOscillator();
-      v.type = "triangle";
-      const g = ctx.createGain();
-      v.connect(g);
-      g.connect(master);
-      v.frequency.setValueAtTime(500, now + 0.04);
-      v.frequency.exponentialRampToValueAtTime(1200, now + 0.1);
-      g.gain.setValueAtTime(0.0001, now + 0.04);
-      g.gain.linearRampToValueAtTime(0.24, now + 0.052);
-      g.gain.exponentialRampToValueAtTime(0.001, now + 0.22);
+    n.start(now);
+    n.stop(now + 0.15);
+    v.start(now + 0.04);
+    v.stop(now + 0.22);
+  }, [ensureAudio]);
 
-      n.start(now);
-      n.stop(now + 0.15);
-      v.start(now + 0.04);
-      v.stop(now + 0.22);
-    } catch {
-      // Silently fail if audio context unavailable
-    }
-  }, []);
-
-  // Particles generation
   useEffect(() => {
     if (!isMounted) return;
-
     const intervalId = window.setInterval(() => {
       setParticles((prev) => [
         ...prev.slice(-5),
@@ -177,11 +162,9 @@ const ChatbotAnimated: React.FC = React.memo(() => {
         },
       ]);
     }, 800);
-
     return () => window.clearInterval(intervalId);
   }, [isMounted]);
 
-  // Toggle handlers
   const handleOpen = useCallback(() => {
     setIsOpen(true);
     playOpeningSound();
@@ -192,22 +175,14 @@ const ChatbotAnimated: React.FC = React.memo(() => {
     playClosingSound();
   }, [playClosingSound]);
 
-  // Memoized transitions
   const containerTransition = useMemo(
     () => ({ type: "spring", stiffness: 260, damping: 20 } as const),
     []
   );
-
   const glowTransition = useMemo(
-    () =>
-      ({
-        repeat: Infinity,
-        duration: 2,
-        ease: "easeInOut",
-      } as const),
+    () => ({ repeat: Infinity, duration: 2, ease: "easeInOut" } as const),
     []
   );
-
   const shimmerTransition = useMemo(
     () =>
       ({
@@ -218,14 +193,8 @@ const ChatbotAnimated: React.FC = React.memo(() => {
       } as const),
     []
   );
-
   const ringTransition = useMemo(
-    () =>
-      ({
-        repeat: Infinity,
-        duration: 1.5,
-        ease: "easeOut",
-      } as const),
+    () => ({ repeat: Infinity, duration: 1.5, ease: "easeOut" } as const),
     []
   );
 
@@ -279,7 +248,7 @@ const ChatbotAnimated: React.FC = React.memo(() => {
             onClick={isOpen ? handleClose : handleOpen}
             className="relative w-14 h-14 cursor-pointer bg-gradient-to-br from-blue-600 via-indigo-600 to-purple-600 rounded-full shadow-2xl flex items-center justify-center overflow-hidden group"
             type="button"
-            aria-label={isOpen ? "Close chat" : "Open chat"}
+            aria-label={isOpen ? t("aria.closeChat") : t("aria.openChat")}
             aria-pressed={isOpen}
           >
             {/* Shimmer Effect */}
@@ -342,7 +311,7 @@ const ChatbotAnimated: React.FC = React.memo(() => {
                 <div className="bg-gray-900 text-white px-4 py-2 rounded-lg shadow-xl flex items-center gap-2">
                   <Sparkles className="w-4 h-4 text-yellow-400" />
                   <span className="text-sm text-white font-medium">
-                    Need help?
+                    {t("tooltip.needHelp")}
                   </span>
                   <Zap className="w-4 h-4 text-blue-400" />
                 </div>
@@ -367,8 +336,12 @@ const ChatbotAnimated: React.FC = React.memo(() => {
                       <Sparkles className="w-6 h-6 text-white" />
                     </div>
                     <div>
-                      <h3 className="font-bold text-gray-900">Assistant</h3>
-                      <p className="text-sm text-gray-500">Online</p>
+                      <h3 className="font-bold text-gray-900">
+                        {t("header.assistant")}
+                      </h3>
+                      <p className="text-sm text-gray-500">
+                        {t("header.online")}
+                      </p>
                     </div>
                   </div>
 
@@ -381,7 +354,7 @@ const ChatbotAnimated: React.FC = React.memo(() => {
                     onClick={handleClose}
                     className="p-1 hover:bg-gray-100 rounded-lg transition-colors flex-shrink-0"
                     type="button"
-                    aria-label="Close chat"
+                    aria-label={t("aria.closeChat")}
                   >
                     <X className="w-5 h-5 text-gray-600" />
                   </motion.button>
@@ -390,7 +363,7 @@ const ChatbotAnimated: React.FC = React.memo(() => {
                 <div className="h-px bg-gradient-to-r from-blue-200 via-indigo-200 to-transparent mb-4" />
 
                 <p className="text-sm text-gray-600 mb-4">
-                  Hello! How can I assist you today?
+                  {t("body.greeting")}
                 </p>
 
                 <motion.button
@@ -398,11 +371,16 @@ const ChatbotAnimated: React.FC = React.memo(() => {
                     prefersReducedMotion ? undefined : { scale: 1.02 }
                   }
                   whileTap={{ scale: 0.98 }}
-                  className="w-full bg-gradient-to-r from-blue-600 to-indigo-600 text-white py-3 rounded-xl font-medium shadow-lg hover:shadow-xl transition-shadow"
+                  className="w-full h-[35px] bg-gradient-to-r from-blue-600 to-indigo-600 text-white  rounded-xl font-medium shadow-lg hover:shadow-xl transition-shadow"
                   type="button"
                 >
-                  <Link href={`/chat`} locale={locale}>
-                    Start Chat
+                  <Link
+                    href={`/chat`}
+                    locale={locale}
+                    className="size-full flex items-center justify-center bg-transparent"
+                    aria-label={t("cta.startChat")}
+                  >
+                    {t("cta.startChat")}
                   </Link>
                 </motion.button>
               </motion.div>

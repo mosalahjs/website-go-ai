@@ -450,7 +450,30 @@
       },
       "CONTAINER": {
         "liveRegion": "New messages will appear here"
+      },
+      "ACTIONS": {
+        "goToSite": "Go to website",
+        "openExternal": "Open external link"
       }
+    }
+  },
+  "CHAT_WIDGET": {
+    "tooltip": {
+      "needHelp": "Need help?"
+    },
+    "header": {
+      "assistant": "Assistant",
+      "online": "Online"
+    },
+    "body": {
+      "greeting": "Hello! How can I assist you today?"
+    },
+    "cta": {
+      "startChat": "Start Chat"
+    },
+    "aria": {
+      "openChat": "Open chat",
+      "closeChat": "Close chat"
     }
   }
 }

@@ -451,7 +451,30 @@
       },
       "CONTAINER": {
         "liveRegion": "ستظهر الرسائل الجديدة هنا"
+      },
+      "ACTIONS": {
+        "goToSite": "اذهب للموقع",
+        "openExternal": "افتح الرابط الخارجي"
       }
+    }
+  },
+  "CHAT_WIDGET": {
+    "tooltip": {
+      "needHelp": "هل تحتاج مساعدة؟"
+    },
+    "header": {
+      "assistant": "المساعد",
+      "online": "متصل الآن"
+    },
+    "body": {
+      "greeting": "مرحبًا! كيف يمكنني مساعدتك اليوم؟"
+    },
+    "cta": {
+      "startChat": "ابدأ المحادثة"
+    },
+    "aria": {
+      "openChat": "فتح المحادثة",
+      "closeChat": "إغلاق المحادثة"
     }
   }
 }
