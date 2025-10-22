@@ -12,11 +12,11 @@ export const TypingIndicator = memo(function TypingIndicator({
 }: TypingIndicatorProps) {
   const dots = useMemo(() => {
     return Array.from({ length: dotCount }).map((_, i) => (
-      <div
+      <span
         key={i}
-        className="w-2 h-2 rounded-full bg-chat-gray-mid animate-typing-dots"
+        className="w-2 h-2 rounded-full bg-current animate-typing"
         style={{ animationDelay: `${i * delayStep}s` }}
-        aria-hidden
+        aria-hidden="true"
       />
     ));
   }, [dotCount, delayStep]);
@@ -26,9 +26,10 @@ export const TypingIndicator = memo(function TypingIndicator({
       className={cn("flex w-full justify-start animate-slide-up", className)}
       role="status"
       aria-label="المساعد يكتب الآن..."
+      aria-busy="true"
     >
       <div
-        className="rounded-2xl px-4 py-3 bg-chat-bot-bg transition-all duration-200"
+        className="rounded-2xl px-4 py-3 bg-chat-bot-bg text-foreground transition-all duration-200"
         style={{ maxWidth: `${bubbleMaxWidth * 100}%` }}
       >
         <div className="flex gap-1 items-center h-4">{dots}</div>

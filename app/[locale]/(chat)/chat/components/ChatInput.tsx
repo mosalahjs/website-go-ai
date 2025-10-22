@@ -15,6 +15,7 @@ import { Button } from "@/components/ui/button";
 import { Textarea } from "@/components/ui/textarea";
 import { ChatInputProps } from "@/types/Chat";
 import { useChatInput } from "@/hooks/chat/useChatInput";
+import axios from "axios";
 
 export type ChatInputHandle = {
   focus: () => void;
@@ -36,18 +37,12 @@ export const ChatInput = memo(
       requestAnimationFrame(() => textareaRef.current?.focus());
     }, []);
 
-    const {
-      message,
-      setMessage,
-      isFocused,
-      setIsFocused,
-      handleSubmit,
-      handleKeyDown,
-    } = useChatInput((m) => {
-      onSend(m);
-      queueMicrotask(focusNow);
-      formRef.current?.reset();
-    }, disabled);
+    const { message, setMessage, isFocused, setIsFocused, handleKeyDown } =
+      useChatInput((m) => {
+        onSend(m);
+        queueMicrotask(focusNow);
+        formRef.current?.reset();
+      }, disabled);
 
     useEffect(() => {
       setHasMounted(true);
@@ -88,12 +83,26 @@ export const ChatInput = memo(
       autoGrow();
     }, [message, autoGrow]);
 
-    // ===== IME safe keydown =====
+    const sendData = useCallback(async () => {
+      try {
+        const res = await axios.post(`http://localhost:8000/api/query_goai`, {
+          query: "goai",
+          session_id: "",
+        });
+        console.log(res);
+
+        await res.data;
+      } catch (err) {
+        console.log("[sendData] error:", err);
+      }
+    }, []);
+
     const onKeyDownSafe = useCallback(
       (e: React.KeyboardEvent<HTMLTextAreaElement>) => {
         if (isComposing) return;
         handleKeyDown(e);
       },
+
       [handleKeyDown, isComposing]
     );
 
@@ -102,7 +111,7 @@ export const ChatInput = memo(
     return (
       <form
         ref={formRef}
-        onSubmit={handleSubmit}
+        onSubmit={sendData}
         className="w-full pb-4"
         aria-label="chat-input"
         aria-live="polite"

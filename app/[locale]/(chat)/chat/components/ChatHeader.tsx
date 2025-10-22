@@ -30,14 +30,14 @@ export default function ChatHeader({ title, subtitle }: ChatHeaderProps) {
             aria-label={t("menuAria")}
             type="button"
           >
-            <Menu className="w-5 h-5 text-foreground" aria-hidden="true" />
+            <Menu className="size-5 text-foreground" aria-hidden="true" />
           </button>
 
           <div
             className="flex items-center justify-center w-9 h-9 rounded-full bg-primary"
             aria-hidden="true"
           >
-            <Bot className="w-5 h-5 text-primary-foreground" />
+            <Bot className="size-5 text-primary-foreground" />
           </div>
 
           <div>

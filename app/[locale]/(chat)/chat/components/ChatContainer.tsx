@@ -64,15 +64,9 @@ export const ChatContainer = memo(function ChatContainer({
       aria-live="polite"
       aria-relevant="additions"
     >
-      {!hasMessages ? (
-        <EmptyState />
-      ) : (
-        <>
-          {items}
-          {isTyping && <TypingIndicator />}
-          <div ref={endRef} aria-hidden className="h-0 w-0" />
-        </>
-      )}
+      {!hasMessages ? <EmptyState /> : <>{items}</>}
+      {isTyping && <TypingIndicator />}
+      <div ref={endRef} aria-hidden className="h-0 w-0" />
     </div>
   );
 });
