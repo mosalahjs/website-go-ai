@@ -376,6 +376,7 @@ const ChatbotAnimated: React.FC = React.memo(() => {
                 >
                   <Link
                     href={`/chat`}
+                    scroll={false}
                     locale={locale}
                     className="size-full flex items-center justify-center bg-transparent"
                     aria-label={t("cta.startChat")}

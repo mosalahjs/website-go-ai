@@ -17,6 +17,14 @@ export function useAutoScroll<T extends HTMLElement>({
   const isAtBottomRef = useRef(true);
   const [isAtBottom, setIsAtBottom] = useState(true);
 
+  const lastHeightRef = useRef<number>(0);
+
+  const MINOR_DELTA = 8;
+
+  const getDistanceToBottom = useCallback((el: HTMLElement) => {
+    return el.scrollHeight - el.scrollTop - el.clientHeight;
+  }, []);
+
   const scrollToBottom = useCallback(() => {
     const el = containerRef.current;
     if (!el) return;
@@ -27,6 +35,20 @@ export function useAutoScroll<T extends HTMLElement>({
   }, [smooth]);
 
   const stickIfNeeded = useCallback(() => {
+    const el = containerRef.current;
+    if (!el) return;
+
+    const prev = lastHeightRef.current || 0;
+    const curr = el.scrollHeight;
+    const delta = Math.max(0, curr - prev);
+
+    lastHeightRef.current = curr;
+
+    if (delta > MINOR_DELTA) {
+      scrollToBottom();
+      return;
+    }
+
     if (isAtBottomRef.current) {
       scrollToBottom();
     }
@@ -38,6 +60,8 @@ export function useAutoScroll<T extends HTMLElement>({
     const target = endRef.current;
     if (!root || !target) return;
 
+    lastHeightRef.current = root.scrollHeight;
+
     const io = new IntersectionObserver(
       (entries) => {
         const entry = entries[0];
@@ -45,11 +69,7 @@ export function useAutoScroll<T extends HTMLElement>({
         isAtBottomRef.current = atBottom;
         setIsAtBottom(atBottom);
       },
-      {
-        root,
-        threshold: 1.0,
-        rootMargin: "0px 0px 0px 0px",
-      }
+      { root, threshold: 0.98 }
     );
 
     io.observe(target);
@@ -57,19 +77,44 @@ export function useAutoScroll<T extends HTMLElement>({
   }, [active]);
 
   useEffect(() => {
+    if (!active) return;
+    const el = containerRef.current;
+    if (!el) return;
+
+    lastHeightRef.current = el.scrollHeight;
+
+    const ro = new ResizeObserver(() => {
+      const prev = lastHeightRef.current || 0;
+      const curr = el.scrollHeight;
+      const delta = Math.max(0, curr - prev);
+
+      lastHeightRef.current = curr;
+
+      if (delta <= MINOR_DELTA) {
+        if (isAtBottomRef.current) scrollToBottom();
+        return;
+      }
+
+      scrollToBottom();
+    });
+
+    ro.observe(el);
+    return () => ro.disconnect();
+  }, [active, scrollToBottom]);
+
+  useEffect(() => {
     const el = containerRef.current;
     if (!el) return;
 
     const onScroll = () => {
-      const distance = el.scrollHeight - el.scrollTop - el.clientHeight;
-      const nearBottom = distance <= 4;
+      const nearBottom = getDistanceToBottom(el) <= 4;
       isAtBottomRef.current = nearBottom;
       setIsAtBottom(nearBottom);
     };
 
     el.addEventListener("scroll", onScroll, { passive: true });
     return () => el.removeEventListener("scroll", onScroll);
-  }, []);
+  }, [getDistanceToBottom]);
 
   return {
     containerRef,

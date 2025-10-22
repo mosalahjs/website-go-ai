@@ -20,6 +20,7 @@ export function GoToSiteButton() {
     >
       <Link
         href="/"
+        scroll={false}
         className="flex items-center"
         aria-label={t("openExternal")}
       >

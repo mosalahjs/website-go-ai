@@ -13,7 +13,7 @@ export const ChatContainer = memo(function ChatContainer({
   disableAutoScroll = false,
   className,
 }: ChatContainerProps) {
-  const { containerRef, endRef, scrollToBottom, isAtBottom } =
+  const { containerRef, endRef, scrollToBottom, isAtBottom, stickIfNeeded } =
     useAutoScroll<HTMLDivElement>({
       active: !disableAutoScroll,
       smooth: true,
@@ -24,16 +24,21 @@ export const ChatContainer = memo(function ChatContainer({
   useEffect(() => {
     const prev = prevLenRef.current;
     const curr = messages.length;
-
     if (curr > prev) {
       const last = messages[curr - 1];
-      if (last?.role === "assistant" && isAtBottom) {
+
+      if (last?.role === "user") {
         scrollToBottom();
+      } else if (last?.role === "assistant") {
+        stickIfNeeded();
       }
     }
-
     prevLenRef.current = curr;
-  }, [messages, isAtBottom, scrollToBottom]);
+  }, [messages, scrollToBottom, stickIfNeeded]);
+
+  useEffect(() => {
+    if (isTyping && isAtBottom) stickIfNeeded();
+  }, [isTyping, isAtBottom, stickIfNeeded]);
 
   const items = useMemo(
     () =>
