@@ -1,14 +1,11 @@
-// components/chat/ChatPageClient.tsx
 "use client";
 
 import React, { useRef, useState, useCallback, useEffect } from "react";
-// import { useTranslations } from "next-intl";
 import { ChatContainer } from "./ChatContainer";
 import { ChatInput, type ChatInputHandle } from "./ChatInput";
 import { ChatMessage, useStreamMessage } from "@/hooks/chat/useStreamMessage";
 
 export default function ChatPageClient() {
-  // const t = useTranslations("ChatPage.CHAT.PAGE");
   const [messages, setMessages] = useState<ChatMessage[]>([]);
   const [isTyping, setIsTyping] = useState(false);
   const inputRef = useRef<ChatInputHandle | null>(null);
@@ -47,7 +44,7 @@ export default function ChatPageClient() {
             id: crypto.randomUUID(),
             role: "assistant",
             content:
-              "عذراً، حدث خطأ أثناء إرسال الرسالة. يرجى المحاولة مرة أخرى.",
+              "Sorry, an error occurred while sending the message. Please try again.",
             timestamp: new Date(),
           },
         ]);

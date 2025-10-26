@@ -38,8 +38,8 @@ const Logo: React.FC = () => {
         />
       </div> */}
       <GoAILogo
-        src="/logo/logo.png"
-        width={115}
+        src="/logo/logo-transparent.png"
+        width={130}
         // trimSides={{ bottom: true }}
         trimSides={{ top: true, right: true, bottom: true, left: true }}
         darkRecolorWordmark

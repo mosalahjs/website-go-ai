@@ -47,7 +47,7 @@ const MIN_LIGHTNESS_BLUE = 0.25;
 const DEFAULT_PROPS = {
   src: "/logo/logo.png",
   width: 120,
-  alt: "Go AI 247 logo", // ← نص بديل مختصر ووصفي
+  alt: "GoAI logo",
   trimTransparent: true,
   trimSides: { bottom: true } as TrimSides,
   darkRecolorWordmark: true,

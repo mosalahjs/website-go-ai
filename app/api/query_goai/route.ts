@@ -8,8 +8,18 @@ const BACKEND_URL =
   process.env.BACKEND_URL?.replace(/\/$/, "") ?? "http://localhost:8000";
 
 export async function POST(req: NextRequest) {
+  let body: unknown;
   try {
-    const body = await req.json();
+    body = await req.json();
+  } catch {
+    return new Response("Invalid JSON", { status: 400 });
+  }
+
+  const controller = new AbortController();
+  const onAbort = () => controller.abort();
+
+  try {
+    req.signal.addEventListener("abort", onAbort, { once: true });
 
     const upstream = await fetch(`${BACKEND_URL}/api/query_goai`, {
       method: "POST",
@@ -19,13 +29,14 @@ export async function POST(req: NextRequest) {
       },
       body: JSON.stringify(body),
       cache: "no-store",
+      signal: controller.signal,
     });
 
     if (!upstream.ok) {
-      const errorText = await upstream.text().catch(() => "Unknown error");
-      return new Response(errorText, {
+      const text = await upstream.text().catch(() => "Unknown error");
+      return new Response(text, {
         status: upstream.status,
-        headers: { "Content-Type": "text/plain" },
+        headers: { "Content-Type": "text/plain", "Cache-Control": "no-store" },
       });
     }
 
@@ -34,30 +45,29 @@ export async function POST(req: NextRequest) {
     }
 
     const headers = new Headers();
+    headers.set("Cache-Control", "no-store");
     const xSession = upstream.headers.get("x-session-id");
-    if (xSession) {
-      headers.set("x-session-id", xSession);
-    }
-
+    if (xSession) headers.set("x-session-id", xSession);
     const contentType =
       upstream.headers.get("content-type") ?? "text/plain; charset=utf-8";
     headers.set("content-type", contentType);
 
-    return new Response(upstream.body, {
+    const { readable, writable } = new TransformStream();
+    upstream.body.pipeTo(writable, { signal: req.signal }).catch(() => {});
+
+    return new Response(readable, {
       status: upstream.status,
       headers,
     });
-  } catch (err) {
-    console.error("Proxy error:", err);
+  } catch (e) {
     return new Response(
       JSON.stringify({
         error: "Proxy error",
-        message: err instanceof Error ? err.message : "Unknown error",
+        message: e instanceof Error ? e.message : "Unknown error",
       }),
-      {
-        status: 500,
-        headers: { "Content-Type": "application/json" },
-      }
+      { status: 500, headers: { "Content-Type": "application/json" } }
     );
+  } finally {
+    req.signal.removeEventListener("abort", onAbort);
   }
 }

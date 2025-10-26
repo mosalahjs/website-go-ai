@@ -7,12 +7,15 @@ import { ChatMessage } from "./ChatMessage";
 import { TypingIndicator } from "./TypingIndicator";
 import { useAutoScroll } from "@/hooks/chat/useAutoScroll";
 
+type TypingPhase = "thinking" | "searching" | "writing";
+
 export const ChatContainer = memo(function ChatContainer({
   messages,
   isTyping = false,
   disableAutoScroll = false,
   className,
-}: ChatContainerProps) {
+  phase = null,
+}: ChatContainerProps & { phase?: TypingPhase | null }) {
   const { containerRef, endRef, scrollToBottom, isAtBottom, stickIfNeeded } =
     useAutoScroll<HTMLDivElement>({
       active: !disableAutoScroll,
@@ -65,7 +68,7 @@ export const ChatContainer = memo(function ChatContainer({
       aria-relevant="additions"
     >
       {!hasMessages ? <EmptyState /> : <>{items}</>}
-      {isTyping && <TypingIndicator />}
+      {isTyping && <TypingIndicator mode="words" phase={phase} />}
       <div ref={endRef} aria-hidden className="h-0 w-0" />
     </div>
   );

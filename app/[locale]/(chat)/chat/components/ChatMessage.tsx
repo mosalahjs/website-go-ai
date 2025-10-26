@@ -53,7 +53,7 @@ export const ChatMessage = memo(function ChatMessage({
         className="flex-shrink-0 w-8 h-8 rounded-full bg-primary/50 flex items-center justify-center"
         aria-hidden
       >
-        <Bot className="w-5 h-5 text-primary-foreground" />
+        <Bot className="size-5 text-primary-foreground" />
       </div>
     );
   }, [isUser, showAvatar]);

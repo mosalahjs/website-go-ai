@@ -38,12 +38,12 @@ const ServiceCard = memo(function ServiceCard({
         className="absolute inset-0 opacity-0 group-hover:opacity-100 transition-opacity duration-500"
         style={{
           background:
-            "linear-gradient(135deg, rgba(99,102,241,0.25), rgba(236,72,153,0.25))",
+            "linear-gradient(135deg, rgba(59,130,246,0.25), rgba(29,78,216,0.25))",
         }}
         aria-hidden="true"
       />
       <div className="relative z-10 space-y-4">
-        <h2 className="text-2xl font-semibold bg-gradient-to-r from-primary to-pink-500 text-transparent bg-clip-text">
+        <h2 className="text-2xl font-semibold bg-gradient-to-r from-primary to-blue-500 text-transparent bg-clip-text">
           {srv.title}
         </h2>
         <p className="text-muted-foreground">{srv.text}</p>
@@ -78,7 +78,6 @@ function ClientServices() {
 
   useEffect(() => setMounted(true), []);
 
-  // memos قبل الـ early return للمحافظة على ترتيب الـ hooks
   const servicesList = useMemo(
     () => t.raw("servicesList") as { title: string; text: string }[],
     [t]
@@ -88,14 +87,14 @@ function ClientServices() {
   const glow1 = useMemo(
     () =>
       theme === "dark"
-        ? "radial-gradient(circle, rgba(88,28,135,0.4), transparent)"
+        ? "radial-gradient(circle, rgba(37,99,235,0.35), transparent)"
         : "radial-gradient(circle, rgba(99,102,241,0.4), transparent)",
     [theme]
   );
   const glow2 = useMemo(
     () =>
       theme === "dark"
-        ? "radial-gradient(circle, rgba(236,72,153,0.3), transparent)"
+        ? "radial-gradient(circle, rgba(59,130,246,0.3), transparent)"
         : "radial-gradient(circle, rgba(59,130,246,0.3), transparent)",
     [theme]
   );

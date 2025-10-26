@@ -23,8 +23,8 @@ function ClientAbout() {
           style={{
             background:
               theme === "dark"
-                ? "radial-gradient(circle, rgba(88,28,135,0.4), transparent)"
-                : "radial-gradient(circle, rgba(99,102,241,0.4), transparent)",
+                ? "radial-gradient(circle, rgba(37,99,235,0.35), transparent)"
+                : "radial-gradient(circle, rgba(37,99,235,0.35), transparent)",
           }}
           animate={{ x: [0, 30, -30, 0], y: [0, 20, -20, 0] }}
           transition={{ duration: 15, repeat: Infinity, ease: "linear" }}
@@ -34,7 +34,7 @@ function ClientAbout() {
           style={{
             background:
               theme === "dark"
-                ? "radial-gradient(circle, rgba(236,72,153,0.3), transparent)"
+                ? "radial-gradient(circle, rgba(59,130,246,0.3), transparent)"
                 : "radial-gradient(circle, rgba(59,130,246,0.3), transparent)",
           }}
           animate={{ x: [0, -40, 40, 0], y: [0, -30, 30, 0] }}
@@ -122,7 +122,7 @@ function ClientAbout() {
               <motion.div
                 key={i}
                 whileHover={{ scale: 1.05 }}
-                className="p-8 bg-gradient-to-br from-indigo-500/10 to-purple-500/10 border border-border rounded-3xl backdrop-blur-md text-center shadow-sm"
+                className="p-8 bg-gradient-to-br from-blue-500/10 to-blue-400/10 border border-border rounded-3xl backdrop-blur-md text-center shadow-sm"
               >
                 <h3 className="text-3xl font-bold text-primary">{m.number}</h3>
                 <p className="text-muted-foreground mt-2">{m.label}</p>
@@ -166,11 +166,12 @@ const SectionGrid = memo(function SectionGrid({
             className="absolute inset-0 opacity-0 group-hover:opacity-100 transition-opacity duration-500"
             style={{
               background:
-                "linear-gradient(135deg, rgba(99,102,241,0.25), rgba(236,72,153,0.25))",
+                "linear-gradient(135deg, rgba(59,130,246,0.25), rgba(29,78,216,0.25))",
             }}
           />
           <div className="relative z-10">
-            <h2 className="text-2xl font-semibold mb-3 bg-gradient-to-r from-primary to-pink-500 text-transparent bg-clip-text">
+            {/* كان to-pink-500 —> to-blue-500 */}
+            <h2 className="text-2xl font-semibold mb-3 bg-gradient-to-r from-primary to-blue-500 text-transparent bg-clip-text">
               {item.title}
             </h2>
             <p className="text-muted-foreground">{item.text}</p>
@@ -209,7 +210,7 @@ const ValuesSection = memo(function ValuesSection({
               className="absolute inset-0 opacity-0 group-hover:opacity-100 blur-xl transition-opacity duration-500"
               style={{
                 background:
-                  "radial-gradient(circle at center, rgba(147,51,234,0.25), transparent 70%)",
+                  "radial-gradient(circle at center, rgba(59,130,246,0.25), transparent 70%)",
               }}
             />
             <p className="relative z-10 font-medium group-hover:text-primary transition-colors duration-300">
