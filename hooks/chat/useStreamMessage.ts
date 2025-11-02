@@ -2,6 +2,7 @@
 
 import { useEffect, useRef } from "react";
 import useSWRMutation from "swr/mutation";
+import { toast } from "sonner";
 
 export type ChatMessage =
   | { id: string; role: "user"; content: string; timestamp?: Date }
@@ -17,12 +18,10 @@ type UseStreamArgs = {
   setPhase?: React.Dispatch<React.SetStateAction<TypingPhase | null>>;
 };
 
-/** Debug flags */
-const DEBUG_STREAM = true; // network-level chunks
-const DEBUG_TOKENS = true; // word-level tokens
-const TOKEN_DELAY_MS = 30; // typing effect speed (adjust as needed)
+const DEBUG_STREAM = true;
+const DEBUG_TOKENS = true;
+const TOKEN_DELAY_MS = 30;
 
-/** Unicode-aware tokenizer: splits into (whitespace) | (punctuation) | (words/numbers) */
 const TOKENIZER = /(\s+|[^\p{L}\p{N}\s]+)/u;
 
 function getSessionId(): string | null {
@@ -37,17 +36,37 @@ function setSessionId(id: string) {
     sessionStorage.setItem("session_id", id);
   } catch {}
 }
+function clearSessionId() {
+  try {
+    sessionStorage.removeItem("session_id");
+  } catch {}
+}
 
-/** Detects the streaming mode based on Content-Type header */
 function detectMode(contentType: string | null) {
   const ct = (contentType || "").toLowerCase();
   if (ct.includes("text/event-stream")) return "sse" as const;
   if (ct.includes("application/x-ndjson")) return "ndjson" as const;
   return "text" as const;
 }
-/** Splits string by line breaks */
 function splitLines(buffer: string) {
   return buffer.split(/\r?\n/);
+}
+
+function safeToastError(title: string, description?: string) {
+  try {
+    toast.error(title, description ? { description } : undefined);
+  } catch {}
+}
+
+function getReadableErrorMessage(err: unknown): string {
+  if (!err) return "Unknown error";
+  if (typeof err === "string") return err;
+  if (err instanceof Error) return err.message || "Unexpected error";
+  try {
+    return JSON.stringify(err).slice(0, 200);
+  } catch {
+    return "Unexpected error";
+  }
 }
 
 export function useStreamMessage({
@@ -70,7 +89,6 @@ export function useStreamMessage({
     };
   }, []);
 
-  /** Append text directly to the latest assistant message */
   const appendDirectly = (text: string) => {
     if (!mountedRef.current || !text) return;
 
@@ -97,7 +115,6 @@ export function useStreamMessage({
     });
   };
 
-  /** Word-by-word typing effect; logs each token if DEBUG_TOKENS is on */
   const appendChunk = async (chunk: string) => {
     if (!mountedRef.current || !chunk) return;
 
@@ -107,12 +124,10 @@ export function useStreamMessage({
       setPhase?.("writing");
     }
 
-    // Split into tokens: words, whitespace, punctuation (Unicode-aware)
     const tokens = chunk
       .split(TOKENIZER)
       .filter((t) => t !== undefined && t !== "");
 
-    // Small chunks? Just append once (avoids overhead)
     if (tokens.length <= 3) {
       if (DEBUG_TOKENS) console.log("[token ⚡ fast]", chunk);
       appendDirectly(chunk);
@@ -123,14 +138,13 @@ export function useStreamMessage({
       if (!mountedRef.current) break;
       appendDirectly(token);
       if (DEBUG_TOKENS) console.log("[token]", JSON.stringify(token));
-      // Smooth typing effect
-      // Note: if backend already streams token-by-token, keep this small (or even 0)
       await new Promise((r) => setTimeout(r, TOKEN_DELAY_MS));
     }
   };
 
   const processData = async (raw: string) => {
-    const line = raw.trim();
+    const line = raw;
+
     if (!line) return;
 
     try {
@@ -171,6 +185,19 @@ export function useStreamMessage({
     }
   };
 
+  const readErrorMessage = async (res: Response) => {
+    const raw = await res.text().catch(() => "");
+    try {
+      const obj = JSON.parse(raw);
+      return (obj?.detail ||
+        obj?.message ||
+        obj?.error ||
+        (typeof obj === "string" ? obj : raw)) as string;
+    } catch {
+      return raw;
+    }
+  };
+
   const fetcher = async (_key: string, { arg: queryText }: { arg: string }) => {
     controllerRef.current?.abort();
     controllerRef.current = new AbortController();
@@ -183,35 +210,86 @@ export function useStreamMessage({
 
     const existingSession = getSessionId();
 
-    const payload: Record<string, unknown> = {
-      query: queryText,
-      n_results: nResults,
+    const makePayload = (sid: string | null) => {
+      const payload: Record<string, unknown> = {
+        query: queryText,
+        n_results: nResults,
+      };
+      if (sid) payload.session_id = sid;
+      return payload;
     };
-    if (existingSession) payload.session_id = existingSession;
 
-    const res = await fetch(endpoint, {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify(payload),
-      signal: controllerRef.current.signal,
-      cache: "no-store",
-    });
+    let triedOnceWithoutSession = false;
 
-    const newSessionId = res.headers.get("x-session-id");
+    const doRequest = async (sid: string | null) => {
+      return fetch(endpoint, {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(makePayload(sid)),
+        signal: controllerRef.current!.signal,
+        cache: "no-store",
+      });
+    };
+
+    let res = await doRequest(existingSession);
+
+    let newSessionId = res.headers.get("x-session-id");
     if (newSessionId && newSessionId !== existingSession) {
       setSessionId(newSessionId);
     }
 
     if (!res.ok) {
       const ct = res.headers.get("content-type") || "";
-      if (ct.includes("text/html")) {
-        throw new Error(`HTTP ${res.status} (Next.js 404/HTML)`);
+      const msg = (await readErrorMessage(res)) || "Request failed";
+
+      if (
+        res.status === 404 &&
+        /session not found|expired/i.test(msg) &&
+        existingSession &&
+        !triedOnceWithoutSession
+      ) {
+        clearSessionId();
+        triedOnceWithoutSession = true;
+
+        res = await doRequest(null);
+        newSessionId = res.headers.get("x-session-id");
+        if (newSessionId) setSessionId(newSessionId);
+
+        if (!res.ok) {
+          const msg2 = (await readErrorMessage(res)) || "Request failed";
+          if (ct.includes("text/html")) {
+            // ❌ بدل throw -> توست + رجوع فاضي
+            console.error(`HTTP ${res.status} (Next.js 404/HTML)`);
+            safeToastError(
+              "Request failed",
+              `HTTP ${res.status} (Next.js 404/HTML)`
+            );
+            return "";
+          }
+          console.error(`HTTP ${res.status} ${msg2.slice(0, 200)}`);
+          safeToastError("Request failed", `${msg2.slice(0, 200)}`);
+          return "";
+        }
+      } else {
+        if (ct.includes("text/html")) {
+          console.error(`HTTP ${res.status} (Next.js 404/HTML)`);
+          safeToastError(
+            "Request failed",
+            `HTTP ${res.status} (Next.js 404/HTML)`
+          );
+          return "";
+        }
+        console.error(`HTTP ${res.status} ${msg.slice(0, 200)}`);
+        safeToastError("Request failed", `${msg.slice(0, 200)}`);
+        return "";
       }
-      const text = await res.text().catch(() => "");
-      throw new Error(`HTTP ${res.status} ${text.slice(0, 200)}`);
     }
 
-    if (!res.body) throw new Error("No stream body");
+    if (!res.body) {
+      console.error("No stream body");
+      safeToastError("Request failed", "No stream body");
+      return "";
+    }
 
     const mode = detectMode(res.headers.get("content-type"));
     if (DEBUG_STREAM) {
@@ -256,12 +334,13 @@ export function useStreamMessage({
           let frame: string[] = [];
 
           for (const line of lines) {
-            const trimmed = line.trimEnd();
-            if (trimmed === "") {
+            const bare = line.endsWith("\r") ? line.slice(0, -1) : line;
+
+            if (bare === "") {
               if (frame.length) {
                 const payloadLines = frame
                   .filter((l) => l.startsWith("data:"))
-                  .map((l) => l.slice(5).trimStart());
+                  .map((l) => l.slice(5));
                 const data = payloadLines.join("\n");
                 if (data) {
                   if (DEBUG_STREAM) console.log("[sse event data]", data);
@@ -273,7 +352,7 @@ export function useStreamMessage({
               if (!hasReceivedFirstChunk.current) {
                 setPhase?.("thinking");
               }
-              frame.push(trimmed);
+              frame.push(bare);
             }
           }
         } else if (mode === "ndjson") {
@@ -282,7 +361,7 @@ export function useStreamMessage({
           textBuffer = lines.pop() ?? "";
 
           for (const line of lines) {
-            const l = line.trim();
+            const l = line;
             if (!l) continue;
             if (DEBUG_STREAM) console.log("[ndjson line]", l);
             await processData(l);
@@ -304,7 +383,10 @@ export function useStreamMessage({
         if (DEBUG_STREAM) console.warn("[stream] aborted by user");
         return "";
       }
-      throw err;
+      const msg = getReadableErrorMessage(err);
+      console.error("Stream read error:", msg);
+      safeToastError("Stream error", msg);
+      return "";
     } finally {
       try {
         reader.releaseLock();
@@ -317,18 +399,27 @@ export function useStreamMessage({
   const { trigger, data, error, isMutating, reset } = useSWRMutation(
     endpoint,
     fetcher,
-    { revalidate: false }
+    {
+      revalidate: false,
+      onError: (err) => {
+        // احتياطيًا لو حد نادى trigger مباشرة
+        const msg = getReadableErrorMessage(err);
+        safeToastError("Failed to process request", msg);
+      },
+    }
   );
 
   const mutate = async (queryText: string) => {
     setIsTyping(true);
     setPhase?.("thinking");
     try {
-      const result = await trigger(queryText, { throwOnError: true });
+      const result = await trigger(queryText);
       return result;
     } catch (err) {
-      console.error("Stream error:", err);
-      throw err;
+      const msg = getReadableErrorMessage(err);
+      console.error("Stream error (mutate):", msg);
+      safeToastError("Request failed", msg);
+      return null;
     } finally {
       setIsTyping(false);
       setPhase?.(null);

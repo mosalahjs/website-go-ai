@@ -4,6 +4,7 @@ import { cn } from "@/lib/utils";
 import { Bot, User } from "lucide-react";
 import { useTranslations } from "next-intl";
 import { ChatMessageProps } from "@/types/Chat";
+import MarkdownMessage from "./MarkdownMessage";
 
 export const ChatMessage = memo(function ChatMessage({
   role,
@@ -70,9 +71,13 @@ export const ChatMessage = memo(function ChatMessage({
       {!isUser && avatar}
 
       <div className={bubbleClasses} style={{ maxWidth: `${safeMax * 100}%` }}>
-        <p className="text-sm leading-relaxed whitespace-pre-wrap" dir="auto">
+        {/* <p className="text-sm leading-relaxed whitespace-pre-wrap" dir="auto">
           {content}
-        </p>
+        </p> */}
+        <MarkdownMessage
+          text={content}
+          className="text-sm leading-relaxed" // نفس المقاس والـleading السابقين
+        />
       </div>
 
       {isUser && avatar}

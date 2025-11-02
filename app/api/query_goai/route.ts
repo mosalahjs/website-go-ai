@@ -5,7 +5,8 @@ export const runtime = "nodejs";
 export const dynamic = "force-dynamic";
 
 const BACKEND_URL =
-  process.env.BACKEND_URL?.replace(/\/$/, "") ?? "http://localhost:8000";
+  process.env.NEXT_PUBLIC_API_UR?.replace(/\/$/, "") ??
+  "http://209.38.184.210:5002";
 
 export async function POST(req: NextRequest) {
   let body: unknown;
@@ -21,7 +22,7 @@ export async function POST(req: NextRequest) {
   try {
     req.signal.addEventListener("abort", onAbort, { once: true });
 
-    const upstream = await fetch(`${BACKEND_URL}/api/query_goai`, {
+    const upstream = await fetch(`${BACKEND_URL}/api/goai/query`, {
       method: "POST",
       headers: {
         "Content-Type": "application/json",

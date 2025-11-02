@@ -50,22 +50,13 @@ export const Footer = memo(function Footer() {
       <div
         className={cn(
           "relative container mx-auto px-4 sm:px-6 lg:px-8 py-12 sm:py-14",
+
           "before:absolute before:inset-0 before:-z-10 before:rounded-3xl",
           "before:bg-gradient-to-br before:from-sky-500/15 before:via-blue-500/10 before:to-indigo-500/15",
           "before:blur-2xl before:opacity-70"
         )}
       >
-        <div
-          className={cn(
-            "relative overflow-hidden rounded-3xl",
-            "border border-white/10 dark:border-white/10",
-            "bg-card/70 backdrop-blur-xl",
-            "shadow-[0_10px_50px_-10px_rgba(59,130,246,.25)]",
-            "before:pointer-events-none before:absolute before:inset-0 before:rounded-3xl",
-            "before:[background:linear-gradient(135deg,rgba(56,189,248,.45),rgba(99,102,241,.45))] before:opacity-20",
-            "before:[mask:linear-gradient(#000_0_0)_content-box,linear-gradient(#000_0_0)] before:[mask-composite:exclude] before:p-px"
-          )}
-        >
+        <div className="relative">
           <div className="px-5 sm:px-8 lg:px-10 py-10">
             <div className="grid grid-cols-1 gap-10 md:grid-cols-5">
               <div className="md:col-span-2 space-y-4">

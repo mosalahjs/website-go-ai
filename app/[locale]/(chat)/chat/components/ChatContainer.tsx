@@ -6,6 +6,7 @@ import { EmptyState } from "./EmptyState";
 import { ChatMessage } from "./ChatMessage";
 import { TypingIndicator } from "./TypingIndicator";
 import { useAutoScroll } from "@/hooks/chat/useAutoScroll";
+import Container from "@/components/shared/Container";
 
 type TypingPhase = "thinking" | "searching" | "writing";
 
@@ -67,9 +68,11 @@ export const ChatContainer = memo(function ChatContainer({
       aria-live="polite"
       aria-relevant="additions"
     >
-      {!hasMessages ? <EmptyState /> : <>{items}</>}
-      {isTyping && <TypingIndicator mode="words" phase={phase} />}
-      <div ref={endRef} aria-hidden className="h-0 w-0" />
+      <Container fullHeight className="flex flex-col">
+        {!hasMessages ? <EmptyState /> : <>{items}</>}
+        {isTyping && <TypingIndicator mode="words" phase={phase} />}
+        <div ref={endRef} aria-hidden className="h-0 w-0" />
+      </Container>
     </div>
   );
 });

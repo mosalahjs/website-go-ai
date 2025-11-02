@@ -10,7 +10,7 @@
   },
   "landingPage": {
     "description": "OWN THE TECHNOLOGY OWN TOMORROW",
-    "subDescription": "At GoAI247, we believe that embracing cutting-edge technology is the key to shaping a successful future. By leveraging the transformative power of artificial intelligence, we empower businesses to innovate, adapt, and thrive in an ever-evolving digital landscape. Our solutions are designed to enable organizations to stay ahead of the curve, redefine possibilities, and unlock tomorrow's opportunities today.",
+    "subDescription": "At GoAI, we believe that embracing cutting-edge technology is the key to shaping a successful future. By leveraging the transformative power of artificial intelligence, we empower businesses to innovate, adapt, and thrive in an ever-evolving digital landscape. Our solutions are designed to enable organizations to stay ahead of the curve, redefine possibilities, and unlock tomorrow's opportunities today.",
     "getStarted": "Get Started",
     "viewProjects": "View Projects",
     "Projects Delivered": "Projects Delivered",
@@ -161,7 +161,7 @@
   },
   "About": {
     "title": "About Us",
-    "intro": "Welcome to GoAI, your trusted partner in pioneering AI solutions tailored for the Middle East. Born from the success of GoChat247, GoAI247 was established to bridge the gap between global AI advancements and the unique needs of the region. We are committed to redefining the AI landscape by delivering innovative, localized, and impactful solutions that empower businesses to thrive in the digital age.",
+    "intro": "Welcome to GoAI, your trusted partner in pioneering AI solutions tailored for the Middle East. Born from the success of GoChat247, GoAI was established to bridge the gap between global AI advancements and the unique needs of the region. We are committed to redefining the AI landscape by delivering innovative, localized, and impactful solutions that empower businesses to thrive in the digital age.",
 
     "aboutTitle": "Who We Are",
     "aboutText": "GoAI is dedicated to delivering secure, localized AI solutions designed specifically for the GCC region. From mastering Arabic dialects to ensuring on-premises deployments, we combine innovation, cultural understanding, and cutting-edge technology to help businesses lead confidently in the AI era.",
@@ -199,7 +199,7 @@
     ],
 
     "storyTitle": "Our Story",
-    "storyText": "GoAI247 was born from a vision to transform the Middle East’s business landscape through AI. Originally part of GoChat247, it evolved into a dedicated AI powerhouse, driving innovation, efficiency, and excellence across industries.",
+    "storyText": "GoAI was born from a vision to transform the Middle East’s business landscape through AI. Originally part of GoChat247, it evolved into a dedicated AI powerhouse, driving innovation, efficiency, and excellence across industries.",
 
     "techTitle": "Technology & Security",
     "techPoints": [
@@ -210,7 +210,7 @@
 
     "valueTitle": "Let’s Shape the Future Together",
     "valuePoints": [
-      "Partner with GoAI247 to harness the power of AI for transformation and growth.",
+      "Partner with GoAI to harness the power of AI for transformation and growth.",
       "Together, we can lead innovation and build a sustainable digital future for the Middle East."
     ],
 
@@ -493,6 +493,164 @@
       "success": "Successfully signed in!",
       "error": "Please enter a valid email and password",
       "forgotPassword": "Forgot your password?"
+    }
+  },
+  "login": {
+    "pageTitle": "Sign in",
+    "poweredBy": "Powered by GoAI • Secure & Modern Dashboard",
+    "title": "Welcome to GoAI",
+    "subtitle": "Sign in to access your admin dashboard",
+    "emailLabel": "Email Address",
+    "passwordLabel": "Password",
+    "passwordPlaceholder": "Enter your password",
+    "signIn": "Sign In",
+    "signingIn": "Signing in…",
+    "demoCreds": "Demo Credentials",
+    "email": "Email",
+    "password": "Password",
+    "successTitle": "Login Successful",
+    "successDesc": "Welcome to GoAI Dashboard!",
+    "failedTitle": "Login Failed",
+    "failedDesc": "Invalid credentials. Try admin@example.com / admin123",
+    "errorTitle": "Error",
+    "errorDesc": "An unexpected error occurred"
+  },
+  "dashboard": {
+    "navbar": {
+      "brand": "GoAI",
+      "brand_aria": "Go to homepage",
+      "a11y": {
+        "skip_to_content": "Skip to main content",
+        "site_header": "Site header",
+        "primary_nav": "Primary navigation",
+        "mobile_nav": "Mobile navigation"
+      },
+      "links": {
+        "home": "Home",
+        "about": "About",
+        "services": "Services",
+        "blog": "Blog",
+        "contact": "Contact"
+      },
+      "actions": {
+        "language": "Language",
+        "light": "Light",
+        "dark": "Dark"
+      },
+      "menu": {
+        "open": "Open menu",
+        "close": "Close menu"
+      }
+    },
+    "sidebar": {
+      "a11y": {
+        "sidebar": "Sidebar",
+        "primary_nav": "Primary navigation"
+      },
+      "brand": {
+        "short": "GoAI",
+        "subtitle": "Admin Dashboard"
+      },
+      "links": {
+        "dashboard": "Dashboard",
+        "sessions": "Sessions",
+        "content": "Content",
+        "settings": "Settings"
+      },
+      "actions": {
+        "collapse": "Collapse sidebar",
+        "expand": "Expand sidebar"
+      },
+      "status": {
+        "online": "System Online",
+        "version": "Dashboard v{v}"
+      }
+    },
+
+    "dashboard": {
+      "title": "Dashboard Overview",
+      "subtitle": "Monitor your platform analytics and performance metrics",
+      "unknown": "Unknown",
+      "stats": {
+        "totalSessions": {
+          "title": "Total Sessions",
+          "desc": "Active conversation sessions"
+        },
+        "totalTopics": {
+          "title": "Content Topics",
+          "desc": "Knowledge base categories"
+        },
+        "totalChunks": {
+          "title": "Text Chunks",
+          "desc": "Total content pieces"
+        },
+        "totalMessages": {
+          "title": "Total Messages",
+          "desc": "Messages exchanged"
+        }
+      },
+      "charts": {
+        "activity": {
+          "title": "Activity Trend",
+          "subtitle": "Last 30 days of messages and sessions",
+          "legend": {
+            "messages": "Messages",
+            "sessions": "Sessions"
+          }
+        },
+        "distribution": {
+          "title": "Content Distribution",
+          "subtitle": "Chunks by topic category",
+          "empty": "No data available"
+        }
+      }
+    },
+    "sessions": {
+      "title": "Sessions",
+      "subtitle": "Manage and monitor conversation sessions",
+      "refresh": "Refresh",
+      "newSession": "New Session",
+      "activeSessions": "Active Sessions",
+      "session": "Session",
+      "sessionId": "Session ID",
+      "sessionTitle": "Session Title",
+      "sessionCreated": "Session created successfully",
+      "sessionDeleted": "Session deleted successfully",
+      "searchPlaceholder": "Search sessions and messages...",
+      "noMatches": "No matching results found",
+      "clearFilters": "Clear Filters",
+      "viewManage": "View and manage session messages",
+      "createNewSession": "Create New Session",
+      "createNewSessionDesc": "Create a new conversation session with an initial message",
+      "initialMessage": "Initial Message",
+      "messageRole": "Message Role",
+      "typeMessage": "Type a message...",
+      "createSession": "Create Session",
+      "cancel": "Cancel",
+      "delete": "Delete",
+      "save": "Save",
+      "add": "Add",
+      "addNewMessage": "Add New Message",
+      "messageAdded": "Message added successfully",
+      "editMessage": "Edit Message",
+      "editMessageDesc": "Edit the message content",
+      "messageUpdated": "Message updated successfully",
+      "messageDeleted": "Message deleted successfully",
+      "deleteSessionTitle": "Delete Session",
+      "deleteSessionDesc": "Are you sure you want to delete session '{id}' containing {count} messages? This action cannot be undone.",
+      "validationCreate": "Please enter session ID and initial message",
+      "failedLoad": "Failed to load sessions",
+      "likedAddedDesc": "Session added to favorites",
+      "likedRemovedDesc": "Session removed from favorites",
+      "filter": {
+        "all": "All",
+        "liked": "Favorites",
+        "unliked": "Not Favorites"
+      },
+      "role": {
+        "user": "User",
+        "assistant": "Assistant"
+      }
     }
   }
 }

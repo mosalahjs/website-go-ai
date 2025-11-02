@@ -3,7 +3,6 @@ import ChatPageClient from "./components/ChatPageClient";
 import ChatHeader from "./components/ChatHeader";
 import { WEBSITE_NAME } from "@/constant";
 import { getTranslations } from "next-intl/server";
-import Container from "@/components/shared/Container";
 
 export async function generateMetadata(): Promise<Metadata> {
   const t = await getTranslations("ChatPage.CHAT.PAGE");
@@ -23,16 +22,15 @@ export default function ChatPage() {
   return (
     <>
       <ChatHeader />
-      <Container fullHeight overflow="hidden" className="flex flex-col">
-        <div
-          className="flex-1 flex flex-col overflow-hidden"
-          data-nextjs-scroll-focus-boundary
-        >
-          <div className="flex flex-col h-full bg-background">
-            <ChatPageClient />
-          </div>
+
+      <div
+        className="flex-1 flex flex-col overflow-hidden"
+        data-nextjs-scroll-focus-boundary
+      >
+        <div className="flex flex-col h-full bg-background">
+          <ChatPageClient />
         </div>
-      </Container>
+      </div>
     </>
   );
 }

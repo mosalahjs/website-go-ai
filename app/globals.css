@@ -120,6 +120,8 @@
   --secondary-to: oklch(0.68 0.25 255);
   --secondary-muted-from: oklch(0.75 0.15 250);
   --secondary-muted-to: oklch(0.82 0.1 255);
+  --color-blue-brand: #2563eb;
+  --color-blue-brand-foreground: #ffffff;
 }
 
 .dark {
@@ -488,4 +490,220 @@ html[lang="ar"] body {
 
 @utility animate-typing {
   animation: typing 1.2s infinite ease-in-out;
+}
+
+/* ========================= */
+/*  Dashboard Theme Tokens   */
+/*  (added without touching existing tokens) */
+/* ========================= */
+
+:root {
+  /* HSL triples from your tailwind config (light) */
+  --dash-background: 0 0% 99%;
+  --dash-foreground: 240 7% 13.7%;
+
+  --dash-card: 0 0% 100%;
+  --dash-card-foreground: 240 7% 13.7%;
+
+  --dash-popover: 0 0% 100%;
+  --dash-popover-foreground: 240 7% 13.7%;
+
+  --dash-primary: 210 100% 50%;
+  --dash-primary-foreground: 0 0% 100%;
+  --dash-primary-hover: 210 100% 45%;
+
+  --dash-secondary: 210 60% 92%;
+  --dash-secondary-foreground: 210 100% 35%;
+
+  --dash-muted: 210 15% 95%;
+  --dash-muted-foreground: 200 5% 45%;
+
+  --dash-accent: 210 100% 50%;
+  --dash-accent-foreground: 0 0% 100%;
+
+  --dash-destructive: 0 84.2% 60.2%;
+  --dash-destructive-foreground: 0 0% 100%;
+
+  --dash-border: 210 20% 92%;
+  --dash-input: 210 15% 95%;
+  --dash-ring: 210 100% 50%;
+
+  /* Gradients + Shadows (light) */
+  --dash-gradient-primary: linear-gradient(
+    135deg,
+    hsl(210 100% 50%),
+    hsl(210 100% 60%)
+  );
+  --dash-gradient-secondary: linear-gradient(
+    135deg,
+    hsl(210 60% 92%),
+    hsl(210 60% 96%)
+  );
+  --dash-gradient-blue-subtle: linear-gradient(
+    180deg,
+    hsl(210 100% 98%),
+    hsl(210 60% 98%)
+  );
+
+  --dash-shadow-glow: 0 8px 32px hsl(210 100% 50% / 0.25);
+  --dash-shadow-card: 0 2px 8px rgba(0, 0, 0, 0.04);
+  --dash-shadow-elevated: 0 4px 16px rgba(0, 0, 0, 0.08);
+
+  --dash-transition-smooth: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  --dash-transition-bounce: all 0.4s cubic-bezier(0.68, -0.55, 0.265, 1.55);
+}
+
+.dark {
+  /* HSL triples from your tailwind config (dark) */
+  --dash-background: 240 8% 8%;
+  --dash-foreground: 0 0% 98%;
+
+  --dash-card: 240 7% 12%;
+  --dash-card-foreground: 0 0% 98%;
+
+  --dash-popover: 240 7% 12%;
+  --dash-popover-foreground: 0 0% 98%;
+
+  --dash-primary: 210 100% 55%;
+  --dash-primary-foreground: 0 0% 100%;
+  --dash-primary-hover: 210 100% 60%;
+
+  --dash-secondary: 210 40% 20%;
+  --dash-secondary-foreground: 210 60% 85%;
+
+  --dash-muted: 210 10% 18%;
+  --dash-muted-foreground: 210 10% 60%;
+
+  --dash-accent: 210 100% 55%;
+  --dash-accent-foreground: 0 0% 100%;
+
+  --dash-destructive: 0 72% 51%;
+  --dash-destructive-foreground: 0 0% 100%;
+
+  --dash-border: 210 15% 20%;
+  --dash-input: 210 15% 18%;
+  --dash-ring: 210 100% 55%;
+
+  /* Gradients + Shadows (dark) */
+  --dash-gradient-primary: linear-gradient(
+    135deg,
+    hsl(210 100% 55%),
+    hsl(210 100% 60%)
+  );
+  --dash-gradient-secondary: linear-gradient(
+    135deg,
+    hsl(210 40% 20%),
+    hsl(210 32% 18%)
+  );
+  --dash-gradient-blue-subtle: linear-gradient(
+    180deg,
+    hsl(210 14% 12%),
+    hsl(210 10% 10%)
+  );
+
+  --dash-shadow-glow: 0 8px 32px hsl(210 100% 55% / 0.35);
+  --dash-shadow-card: 0 4px 16px rgba(0, 0, 0, 0.4);
+  --dash-shadow-elevated: 0 8px 24px rgba(0, 0, 0, 0.5);
+}
+
+/* Map new tokens into @theme inline so Tailwind can expose them as colors */
+@theme inline {
+  --color-background-dash: var(--dash-background);
+  --color-foreground-dash: var(--dash-foreground);
+
+  --color-card-dash: var(--dash-card);
+  --color-card-foreground-dash: var(--dash-card-foreground);
+
+  --color-popover-dash: var(--dash-popover);
+  --color-popover-foreground-dash: var(--dash-popover-foreground);
+
+  --color-primary-dash: var(--dash-primary);
+  --color-primary-foreground-dash: var(--dash-primary-foreground);
+
+  --color-secondary-dash: var(--dash-secondary);
+  --color-secondary-foreground-dash: var(--dash-secondary-foreground);
+
+  --color-muted-dash: var(--dash-muted);
+  --color-muted-foreground-dash: var(--dash-muted-foreground);
+
+  --color-accent-dash: var(--dash-accent);
+  --color-accent-foreground-dash: var(--dash-accent-foreground);
+
+  --color-destructive-dash: var(--dash-destructive);
+  --color-destructive-foreground-dash: var(--dash-destructive-foreground);
+
+  --color-border-dash: var(--dash-border);
+  --color-input-dash: var(--dash-input);
+  --color-ring-dash: var(--dash-ring);
+}
+
+/* ========================= */
+/* Dashboard Utilities       */
+/* ========================= */
+@layer utilities {
+  /* Cards */
+  .card-dash {
+    @apply rounded-xl border;
+    background-color: hsl(var(--dash-card));
+    color: hsl(var(--dash-card-foreground));
+    border-color: hsl(var(--dash-border));
+    box-shadow: var(--dash-shadow-card);
+  }
+  .card-dash-elevated {
+    box-shadow: var(--dash-shadow-elevated);
+  }
+
+  /* Glassy */
+  .glass-card-dash {
+    backdrop-filter: blur(16px);
+    background-color: hsl(var(--dash-card) / 0.9);
+    border-color: hsl(var(--dash-border) / 0.5);
+  }
+
+  /* Buttons */
+  .btn-dash-primary {
+    @apply rounded-lg px-4 py-2 font-medium;
+    background-color: hsl(var(--dash-primary));
+    color: hsl(var(--dash-primary-foreground));
+    transition: var(--dash-transition-smooth);
+  }
+  .btn-dash-primary:hover {
+    box-shadow: var(--dash-shadow-glow);
+  }
+  .btn-dash-secondary {
+    @apply rounded-lg px-4 py-2 font-medium;
+    background-color: hsl(var(--dash-secondary));
+    color: hsl(var(--dash-secondary-foreground));
+    transition: var(--dash-transition-smooth);
+  }
+
+  /* Gradients */
+  .gradient-dash-primary {
+    background: var(--dash-gradient-primary);
+  }
+  .gradient-dash-secondary {
+    background: var(--dash-gradient-secondary);
+  }
+  .gradient-dash-blue-subtle {
+    background: var(--dash-gradient-blue-subtle);
+  }
+
+  /* Text gradient */
+  .text-gradient-dash {
+    background: var(--dash-gradient-primary);
+    -webkit-background-clip: text;
+    background-clip: text;
+    -webkit-text-fill-color: transparent;
+    transition: background-position 0.6s ease;
+  }
+
+  /* Shadows */
+  .glow-dash {
+    box-shadow: var(--dash-shadow-glow);
+  }
+
+  /* Borders */
+  .border-dash {
+    border-color: hsl(var(--dash-border));
+  }
 }
