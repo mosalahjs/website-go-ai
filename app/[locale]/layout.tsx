@@ -27,7 +27,7 @@ const ibmArabic = IBM_Plex_Sans_Arabic({
 });
 
 export const metadata: Metadata = {
-  metadataBase: new URL("https://website-go-ai.vercel.app"),
+  metadataBase: new URL("https://goai247.com"),
   title: {
     default: `${WEBSITE_NAME}`,
     template: `%s | ${WEBSITE_NAME}`,

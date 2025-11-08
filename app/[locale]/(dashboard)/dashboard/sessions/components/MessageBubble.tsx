@@ -21,9 +21,9 @@ const MessageBubble = memo(function MessageBubble({
   return (
     <>
       <div
-        className={`w-9 h-9 rounded-2xl flex items-center justify-center flex-shrink-0 font-semibold shadow-soft ${
+        className={`size-9 rounded-2xl flex items-center justify-center flex-shrink-0 font-semibold shadow-soft ${
           isUser
-            ? "gradient-primary text-primary-foreground"
+            ? "bg-main text-white"
             : "bg-secondary text-secondary-foreground"
         }`}
         aria-hidden
@@ -35,11 +35,11 @@ const MessageBubble = memo(function MessageBubble({
         <div
           className={`inline-block p-5 rounded-2xl border transition-all duration-300 hover:shadow-soft ${
             isUser
-              ? "bg-primary/5 border-primary/20 hover:bg-primary/10"
-              : "bg-secondary/30 border-secondary/30 hover:bg-secondary/40"
+              ? "bg-main/5 border-primary/20 hover:bg-primary/10"
+              : "bg-main/10 border-secondary/30 hover:bg-secondary/40"
           }`}
         >
-          <p className="text-sm leading-relaxed whitespace-pre-wrap">
+          <p className="text-base leading-relaxed whitespace-pre-wrap">
             {content}
           </p>
         </div>

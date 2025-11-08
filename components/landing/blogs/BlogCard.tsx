@@ -38,7 +38,7 @@ function BlogCardComponent({ blog, featured }: BlogCardProps) {
       onMouseEnter={() => setHovered(true)}
       onMouseLeave={() => setHovered(false)}
       className={cn(
-        "group relative h-full rounded-2xl",
+        "group relative h-full rounded-sm",
         "backdrop-blur-sm",
         "border border-slate-300/60 bg-white/70",
         "dark:border-slate-800/60 dark:bg-slate-900/70",
@@ -49,7 +49,7 @@ function BlogCardComponent({ blog, featured }: BlogCardProps) {
         featured && "md:col-span-2"
       )}
     >
-      <Card className="h-full overflow-hidden rounded-2xl border-0 shadow-none">
+      <Card className="h-full overflow-hidden rounded-sm border-0 shadow-none">
         <div
           className={cn(
             "relative flex h-full flex-col",
@@ -187,13 +187,13 @@ function BlogCardComponent({ blog, featured }: BlogCardProps) {
             </motion.div>
 
             {/* Focus ring for the card */}
-            <span className="pointer-events-none absolute inset-0 rounded-2xl ring-0 ring-sky-400/0 focus-within:ring-2 focus-within:ring-sky-400/50 dark:focus-within:ring-cyan-400/50" />
+            <span className="pointer-events-none absolute inset-0 rounded-sm ring-0 ring-sky-400/0 focus-within:ring-2 focus-within:ring-sky-400/50 dark:focus-within:ring-cyan-400/50" />
           </CardContent>
         </div>
 
         {/* Subtle border glow on hover */}
         <motion.div
-          className="pointer-events-none absolute inset-0 rounded-2xl border-2 border-transparent"
+          className="pointer-events-none absolute inset-0 rounded-sm border-2 border-transparent"
           animate={{
             borderColor: hovered ? "rgba(59, 130, 246, 0.45)" : "rgba(0,0,0,0)",
           }}

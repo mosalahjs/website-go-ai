@@ -707,3 +707,247 @@ html[lang="ar"] body {
     border-color: hsl(var(--dash-border));
   }
 }
+
+.chat-bubble {
+  unicode-bidi: plaintext;
+  white-space: normal;
+  word-break: break-word;
+}
+
+.chat-bubble[lang="ar"] {
+  direction: rtl;
+  text-align: right;
+
+  letter-spacing: normal !important;
+  word-spacing: normal !important;
+  text-transform: none;
+
+  font-variant-ligatures: normal;
+  font-feature-settings: "rlig" 1, "calt" 1, "liga" 1;
+  text-rendering: optimizeLegibility;
+
+  font-family: "IBM Plex Sans Arabic", "Cairo", "Noto Naskh Arabic", "Segoe UI",
+    system-ui, sans-serif;
+
+  /* ✅ التعديل الوحيد هنا */
+  unicode-bidi: plaintext;
+}
+
+.chat-bubble[lang="ar"] * {
+  letter-spacing: inherit !important;
+  font-feature-settings: inherit;
+  font-variant-ligatures: inherit;
+}
+
+.chat-bubble[lang="ar"] code,
+.chat-bubble[lang="ar"] pre,
+.chat-bubble[lang="ar"] a {
+  direction: ltr;
+  unicode-bidi: isolate;
+}
+
+:where([lang="ar"]),
+:where([lang="ar"] *) {
+  letter-spacing: normal !important;
+  font-variant-ligatures: normal;
+  font-feature-settings: "rlig" 1, "calt" 1, "liga" 1;
+}
+
+/* ===== Minimal prose for Tailwind v4 (no plugin) ===== */
+.md-prose {
+  line-height: 1.65;
+  font-size: 0.95rem;
+}
+
+.md-prose :where(p) {
+  margin: 0.25rem 0; /* = my-1 */
+}
+
+.md-prose :where(h1, h2, h3, h4, h5, h6) {
+  margin: 0.5rem 0 0.25rem; /* mb-1 مع مسافة بسيطة فوق */
+  font-weight: 700;
+  line-height: 1.25;
+}
+
+.md-prose :where(h1) {
+  font-size: 1.35rem;
+}
+.md-prose :where(h2) {
+  font-size: 1.2rem;
+}
+.md-prose :where(h3) {
+  font-size: 1.075rem;
+}
+.md-prose :where(h4) {
+  font-size: 1rem;
+}
+.md-prose :where(h5) {
+  font-size: 0.95rem;
+}
+.md-prose :where(h6) {
+  font-size: 0.9rem;
+}
+
+.md-prose :where(ul, ol) {
+  margin: 0.35rem 0; /* my-1.5 تقريبًا */
+  padding-inline-start: 1.25rem; /* نفس إحساس pl-5 */
+}
+
+:dir(rtl) .md-prose :where(ul, ol) {
+  padding-inline-start: 0;
+  padding-inline-end: 1.25rem;
+}
+
+.md-prose :where(li) {
+  margin: 0.2rem 0; /* my-0.5 */
+}
+
+.md-prose :where(ul) {
+  list-style-type: disc;
+}
+.md-prose :where(ol) {
+  list-style-type: decimal;
+}
+
+.md-prose :where(blockquote) {
+  margin: 0.5rem 0;
+  padding: 0.5rem 0.75rem;
+  border-inline-start: 3px solid hsl(var(--dash-border, 210 20% 92%));
+  background: hsl(var(--dash-muted, 210 15% 95%) / 0.35);
+  border-radius: 0.375rem;
+}
+
+.md-prose :where(hr) {
+  border: 0;
+  border-top: 1px solid hsl(var(--dash-border, 210 20% 92%));
+  margin: 0.75rem 0;
+}
+
+.md-prose :where(a) {
+  text-decoration: underline;
+  text-underline-offset: 2px;
+  overflow-wrap: anywhere;
+}
+
+.md-prose :where(code) {
+  font-size: 0.85em;
+  padding: 0.1rem 0.35rem;
+  border-radius: 0.375rem;
+  background: hsl(var(--dash-muted, 210 15% 95%));
+}
+
+.md-prose :where(pre) {
+  overflow-x: auto;
+  padding: 0.75rem;
+  border: 1px solid hsl(var(--dash-border, 210 20% 92%));
+  border-radius: 0.75rem;
+  background: hsl(var(--dash-muted, 210 15% 95%));
+  margin: 0.5rem 0;
+}
+
+.md-prose :where(table) {
+  width: 100%;
+  border-collapse: collapse;
+  margin: 0.5rem 0;
+  overflow: hidden;
+}
+.md-prose :where(th, td) {
+  border: 1px solid hsl(var(--dash-border, 210 20% 92%));
+  padding: 0.45rem 0.6rem;
+  text-align: start;
+}
+
+/* ===== RTL padding fix for cards/markdown containers ===== */
+[dir="rtl"] .md-prose,
+[dir="rtl"] .card-body,
+[dir="rtl"] .chat-panel,
+[dir="rtl"] .markdown-card {
+  /* نفس p-5 تقريبا */
+  padding-inline: 1.25rem;
+  padding-block: 0.25rem;
+}
+
+/* لو عندك كارد بدون CardContent (p-0)، اديله بادينج منطقي */
+[dir="rtl"] .p-0.md-prose,
+[dir="rtl"] .p-0.chat-panel,
+[dir="rtl"] .p-0.markdown-card {
+  padding-inline: 1.25rem;
+  padding-block: 0.7rem;
+}
+
+.md-prose[dir="rtl"] ul,
+.md-prose[dir="rtl"] ol {
+  list-style-position: inside;
+  padding-inline-start: 0;
+  padding-inline-end: 1rem;
+  margin-inline-start: 0;
+  margin-inline-end: 0;
+  text-align: right;
+}
+
+.md-prose[dir="rtl"] ul {
+  list-style-type: disc;
+}
+.md-prose[dir="rtl"] ol {
+  list-style-type: decimal;
+}
+
+.md-prose[dir="rtl"] li::marker {
+  unicode-bidi: isolate;
+  text-align: start;
+}
+
+.md-prose[dir="rtl"] li {
+  line-height: 1.85;
+  margin-block: 0.25rem;
+}
+
+/* ✅ بدل [dir="rtl"] عام → العنصر نفسه فقط */
+.md-prose[dir="rtl"],
+.card-body[dir="rtl"],
+.chat-panel[dir="rtl"],
+.markdown-card[dir="rtl"] {
+  padding-inline: 1.25rem;
+  padding-block: 0.25rem;
+}
+
+/* ✅ نسخة p-0 */
+.p-0.md-prose[dir="rtl"],
+.p-0.chat-panel[dir="rtl"],
+.p-0.markdown-card[dir="rtl"] {
+  padding-inline: 1.25rem;
+  padding-block: 0.7rem;
+}
+
+/* تأكيد LTR طبيعي */
+.md-prose[dir="ltr"] ul,
+.md-prose[dir="ltr"] ol {
+  list-style-position: outside;
+  padding-inline-start: 1.25rem;
+  padding-inline-end: 0;
+  text-align: start;
+}
+
+.md-prose[dir="rtl"] {
+  direction: rtl;
+  text-align: right;
+  unicode-bidi: plaintext;
+}
+
+.md-prose[dir="rtl"] :where(code, pre, kbd, samp, a, .ltr) {
+  direction: ltr;
+  unicode-bidi: isolate;
+}
+
+.md-prose[dir="rtl"] :where(p, li, h1, h2, h3, h4, h5, h6, blockquote) {
+  direction: inherit;
+  text-align: inherit;
+  letter-spacing: normal;
+  word-spacing: normal;
+}
+
+.md-prose[dir="ltr"] {
+  direction: ltr;
+  text-align: start;
+  unicode-bidi: plaintext;
+}

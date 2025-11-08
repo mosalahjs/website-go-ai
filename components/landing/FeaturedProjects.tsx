@@ -59,11 +59,11 @@ function FeaturedProjectsComponent() {
               <Card
                 variant="shadow"
                 className={[
-                  "group relative border border-border/40 rounded-2xl overflow-hidden",
+                  "group relative border border-border/40 rounded-sm overflow-hidden",
                   "transition-all duration-500 will-change-transform",
                   reducedMotion ? "" : "hover:-translate-y-1",
                   "shadow-sm hover:shadow-[0_18px_50px_-15px_rgba(59,130,246,0.35)] dark:hover:shadow-[0_18px_50px_-18px_rgba(99,102,241,0.35)]",
-                  "before:content-[''] before:absolute before:inset-0 before:rounded-2xl before:pointer-events-none",
+                  "before:content-[''] before:absolute before:inset-0 before:rounded-sm before:pointer-events-none",
                   "before:opacity-0 hover:before:opacity-100 before:transition-opacity before:duration-500",
                   "before:bg-[radial-gradient(120%_60%_at_50%_-20%,rgba(99,102,241,0.12),transparent_60%)]",
                 ].join(" ")}
@@ -81,14 +81,14 @@ function FeaturedProjectsComponent() {
                   priorityFirst={2}
                   ctaSize="md"
                   heightClass="h-48"
-                  className="rounded-t-2xl"
+                  className="rounded-t-sm"
                 />
 
                 {/* Card Body */}
                 <CardContent className="p-6 space-y-4">
                   <Link
                     href={`/projects/${p.id}`}
-                    className="block focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-blue-500/50 rounded"
+                    className="block focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-blue-500/50 rounded-sm"
                     prefetch={false}
                   >
                     <h3 className="text-xl font-semibold text-blue-500 hover:text-blue-600 transition-colors">

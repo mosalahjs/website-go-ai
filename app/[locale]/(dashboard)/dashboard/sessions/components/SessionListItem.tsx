@@ -26,8 +26,8 @@ const SessionListItem = memo(function SessionListItem({
       animate={{ opacity: 1, y: 0 }}
       className={`group relative p-4 mb-2 rounded-2xl cursor-pointer transition-all duration-300 ${
         active
-          ? "bg-primary/10 border border-primary/30 shadow-soft"
-          : "hover:bg-secondary/30 border border-transparent hover:border-border/50"
+          ? "bg-main-muted-foreground/30 border border-primary/30 shadow-soft"
+          : "hover:bg-main/10 border border-transparent hover:border-border/50"
       }`}
       onClick={onClick}
       role="button"

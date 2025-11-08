@@ -7,6 +7,9 @@ import {
   MessageSquare,
   MoreVertical,
   Trash2,
+  Loader2,
+  Wifi,
+  WifiOff,
 } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
@@ -17,6 +20,7 @@ import {
   DropdownMenuItem,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
+import { Badge } from "@/components/ui/badge";
 
 import SessionListItem from "./SessionListItem";
 import { Session } from "@/types/dashboard/sessions.type";
@@ -30,6 +34,10 @@ type Props = {
   onSelectSession: (s: Session) => void;
   onRequestCreate: () => void;
   onRequestDelete: (s: Session) => void;
+  loadingMore?: boolean;
+  hasMore?: boolean;
+  observerRef?: React.RefObject<HTMLDivElement | null>;
+  useFallback?: boolean;
 };
 
 const SessionsSidebar = memo(function SessionsSidebar({
@@ -41,28 +49,52 @@ const SessionsSidebar = memo(function SessionsSidebar({
   onSelectSession,
   onRequestCreate,
   onRequestDelete,
+  loadingMore = false,
+  hasMore = false,
+  observerRef,
+  useFallback = false,
 }: Props) {
   return (
-    <aside className="w-80 border-r border-border flex flex-col glass-card">
+    <aside className="w-80 border-r border-dash flex flex-col glass-card-dash">
       {/* Header */}
-      <div className="p-5 border-b border-border/50 space-y-4">
+      <div className="p-5 border-b border-dash space-y-4">
         <div className="flex items-center justify-between">
-          <h2 className="text-xl font-bold bg-gradient-to-r from-primary to-primary-glow bg-clip-text text-transparent">
-            Chat History
-          </h2>
+          <div className="flex items-center gap-2">
+            <h2 className="text-xl font-bold text-gradient-dash">
+              Chat History
+            </h2>
+            {useFallback && (
+              <Badge
+                variant="outline"
+                className="gap-1 text-xs border-orange-500/50 text-orange-500"
+              >
+                <WifiOff className="h-3 w-3" />
+                Offline
+              </Badge>
+            )}
+            {!useFallback && !loading && (
+              <Badge
+                variant="outline"
+                className="gap-1 text-xs border-green-500/50 text-green-500"
+              >
+                <Wifi className="h-3 w-3" />
+                Live
+              </Badge>
+            )}
+          </div>
           <Button
             onClick={onRequestCreate}
             size="sm"
-            className="gap-2 shadow-soft"
+            className="gap-2 glow-dash"
           >
-            <Plus className="h-4 w-4" />
+            <Plus className="size-4" />
             New
           </Button>
         </div>
 
         {/* Search */}
         <div className="relative">
-          <Search className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-muted-foreground" />
+          <Search className="absolute left-3 top-1/2 -translate-y-1/2 size-4 text-muted-foreground" />
           <Input
             placeholder="Search conversations..."
             value={searchQuery}
@@ -82,10 +114,20 @@ const SessionsSidebar = memo(function SessionsSidebar({
           </div>
         ) : sessions.length === 0 ? (
           <div className="p-6 text-center">
-            <MessageSquare className="h-12 w-12 mx-auto mb-3 text-muted-foreground/50" />
+            <MessageSquare className="size-12 mx-auto mb-3 text-muted-foreground/50" />
             <p className="text-sm text-muted-foreground">
               {searchQuery ? "No matching sessions" : "No sessions yet"}
             </p>
+            {!searchQuery && (
+              <Button
+                onClick={onRequestCreate}
+                size="sm"
+                variant="outline"
+                className="mt-4"
+              >
+                Create your first session
+              </Button>
+            )}
           </div>
         ) : (
           <div className="p-2">
@@ -126,6 +168,24 @@ const SessionsSidebar = memo(function SessionsSidebar({
                 }
               />
             ))}
+
+            {/* Infinite scroll trigger */}
+            {hasMore && (
+              <div ref={observerRef} className="py-4 flex justify-center">
+                {loadingMore && (
+                  <div className="flex items-center gap-2 text-sm text-muted-foreground">
+                    <Loader2 className="h-4 w-4 animate-spin" />
+                    <span>Loading more sessions...</span>
+                  </div>
+                )}
+              </div>
+            )}
+
+            {!hasMore && sessions.length > 0 && (
+              <div className="py-4 text-center text-sm text-muted-foreground">
+                All sessions loaded
+              </div>
+            )}
           </div>
         )}
       </div>

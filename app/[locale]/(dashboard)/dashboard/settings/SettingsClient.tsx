@@ -5,10 +5,10 @@ import { motion } from "framer-motion";
 import SystemInfoCard from "./components/SystemInfoCard";
 import AccountCard from "./components/AccountCard";
 import AppearanceCard from "./components/AppearanceCard";
-import useSettings from "@/hooks/useSettings";
+import { useLogout } from "@/hooks/use-logout";
 
 export default function SettingsClient() {
-  const { handleLogout } = useSettings();
+  const { logout } = useLogout();
 
   return (
     <div className="p-6 space-y-6">
@@ -25,7 +25,7 @@ export default function SettingsClient() {
 
       <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
         <AppearanceCard />
-        <AccountCard onLogout={handleLogout} />
+        <AccountCard onLogout={logout} />
         <SystemInfoCard />
       </div>
     </div>

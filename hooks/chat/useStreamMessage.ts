@@ -1,9 +1,10 @@
 "use client";
 
-import { useEffect, useRef } from "react";
+import { useEffect, useRef, useCallback } from "react";
 import useSWRMutation from "swr/mutation";
 import { toast } from "sonner";
 
+/** ===== Types ===== */
 export type ChatMessage =
   | { id: string; role: "user"; content: string; timestamp?: Date }
   | { id: string; role: "assistant"; content: string; timestamp?: Date };
@@ -18,44 +19,110 @@ type UseStreamArgs = {
   setPhase?: React.Dispatch<React.SetStateAction<TypingPhase | null>>;
 };
 
-const DEBUG_STREAM = true;
-const DEBUG_TOKENS = true;
-const TOKEN_DELAY_MS = 30;
+/** ===== Config ===== */
+const TOKEN_DELAY_MS = 14;
+const BATCH_EVERY = 18;
+const REQUEST_TIMEOUT_MS = 90_000;
+const MIN_REQUEST_INTERVAL = 1000; // Prevent spam
 
-const TOKENIZER = /(\s+|[^\p{L}\p{N}\s]+)/u;
+const TOKENIZER = /(\n+|[ \t]+|[.,!?;:])/u;
+const HAS_MARKDOWN_SYNTAX =
+  /(^|\n)\s*(#{1,6}\s|[-*+]\s|\d+[.)]\s|>\s|`{3,}|^\|)/m;
+const ZERO_WIDTH =
+  /[\u2000-\u200F\u202A-\u202E\u2066-\u2069\u00AD\u202F\u2060]/g;
 
-function getSessionId(): string | null {
+/** ===== ⭐ COMPREHENSIVE Farsi to Arabic Normalizer ===== */
+function normalizeFarsiToArabic(input: string): string {
+  if (!input) return input;
+
+  return (
+    input
+      // ========== YEH VARIANTS ==========
+      .replace(/\u06CC/g, "\u064A") // ی Farsi Yeh → ي Arabic Yeh
+      .replace(/\u06D2/g, "\u064A") // ے Urdu Yeh Barree → ي
+      .replace(/\u0649/g, "\u064A") // ى Alef Maksura → ي
+
+      // ========== KAF VARIANTS ==========
+      .replace(/\u06A9/g, "\u0643") // ک Farsi Kaf → ك Arabic Kaf
+
+      // ========== HEH VARIANTS ==========
+      .replace(/\u06BE/g, "\u0647") // ہ Heh Doachashmee → ه Arabic Heh
+      .replace(/\u06D5/g, "\u0629") // ە Kurdish Ae → ة Taa Marbouta
+      .replace(/\u06C0/g, "\u0629") // ۀ Heh with Yeh above → ة
+
+      // ========== PERSIAN-SPECIFIC LETTERS (no Arabic equivalent) ==========
+      .replace(/\u067E/g, "\u0628") // پ Peh → ب Beh
+      .replace(/\u0686/g, "\u062C") // چ Tcheh → ج Jeem
+      .replace(/\u0698/g, "\u0632") // ژ Jeh → ز Zain
+      .replace(/\u06AF/g, "\u0643") // گ Gaf → ك Kaf
+
+      // ========== NUMBERS ==========
+      .replace(/[\u06F0-\u06F9]/g, (char) =>
+        String.fromCharCode(char.charCodeAt(0) - 0x06f0 + 0x0660)
+      )
+
+      // ========== ZERO-WIDTH CLEANUP ==========
+      .replace(/\u200C/g, "") // Zero Width Non-Joiner
+      .replace(/\u200D/g, "") // Zero Width Joiner
+  );
+}
+
+/** ===== Utilities ===== */
+const sleep = (ms: number) => new Promise((r) => setTimeout(r, ms));
+const stripInnerDataPrefix = (s: string) =>
+  (s ?? "").replace(/(^|\n)\s*data:\s?/g, "$1");
+
+// ✅ IMPROVEMENT 1: Use sessionStorage instead of localStorage
+const getSessionId = () => {
   try {
-    return sessionStorage.getItem("session_id");
+    return typeof window !== "undefined"
+      ? sessionStorage.getItem("session_id")
+      : null;
   } catch {
     return null;
   }
-}
-function setSessionId(id: string) {
+};
+
+const setSessionId = (id: string) => {
   try {
-    sessionStorage.setItem("session_id", id);
-  } catch {}
-}
-function clearSessionId() {
+    if (typeof window !== "undefined") {
+      sessionStorage.setItem("session_id", id);
+    }
+  } catch {
+    // Ignore storage errors
+  }
+};
+
+const clearSessionId = () => {
   try {
-    sessionStorage.removeItem("session_id");
-  } catch {}
+    if (typeof window !== "undefined") {
+      sessionStorage.removeItem("session_id");
+    }
+  } catch {
+    // Ignore storage errors
+  }
+};
+
+function detectMode(
+  contentType: string | null
+): "sse" | "ndjson" | "json" | "text" {
+  const ct = (contentType || "").toLowerCase();
+  if (ct.includes("text/event-stream")) return "sse";
+  if (ct.includes("application/x-ndjson")) return "ndjson";
+  if (ct.includes("application/json")) return "json";
+  return "text";
 }
 
-function detectMode(contentType: string | null) {
-  const ct = (contentType || "").toLowerCase();
-  if (ct.includes("text/event-stream")) return "sse" as const;
-  if (ct.includes("application/x-ndjson")) return "ndjson" as const;
-  return "text" as const;
-}
-function splitLines(buffer: string) {
+function splitLines(buffer: string): string[] {
   return buffer.split(/\r?\n/);
 }
 
 function safeToastError(title: string, description?: string) {
   try {
     toast.error(title, description ? { description } : undefined);
-  } catch {}
+  } catch {
+    // Ignore toast errors
+  }
 }
 
 function getReadableErrorMessage(err: unknown): string {
@@ -77,116 +144,190 @@ export function useStreamMessage({
   setPhase,
 }: UseStreamArgs) {
   const controllerRef = useRef<AbortController | null>(null);
+  const timeoutRef = useRef<ReturnType<typeof setTimeout> | null>(null);
+  const readerRef = useRef<ReadableStreamDefaultReader<string> | null>(null);
+  const lastRequestTimeRef = useRef<number>(0);
+
   const assistantIdRef = useRef<string | null>(null);
   const mountedRef = useRef(true);
   const hasReceivedFirstChunk = useRef(false);
+  const producedRef = useRef(false);
 
+  // ✅ IMPROVEMENT 2: Initialize session on mount
   useEffect(() => {
     mountedRef.current = true;
+
+    // Create session if doesn't exist
+    if (!getSessionId()) {
+      const newSession =
+        typeof crypto !== "undefined" && crypto.randomUUID
+          ? crypto.randomUUID()
+          : `session_${Date.now()}_${Math.random().toString(36).slice(2, 10)}`;
+      setSessionId(newSession);
+    }
+
     return () => {
       mountedRef.current = false;
-      controllerRef.current?.abort();
+      try {
+        controllerRef.current?.abort();
+      } catch {
+        // Ignore
+      }
+      controllerRef.current = null;
+
+      try {
+        readerRef.current?.releaseLock?.();
+      } catch {
+        // Ignore
+      }
+      readerRef.current = null;
+
+      if (timeoutRef.current) {
+        clearTimeout(timeoutRef.current);
+        timeoutRef.current = null;
+      }
     };
   }, []);
 
-  const appendDirectly = (text: string) => {
-    if (!mountedRef.current || !text) return;
+  /** ⭐ Append raw text to last assistant message - WITH NORMALIZATION */
+  const appendDirectly = useCallback(
+    (text: string) => {
+      if (!mountedRef.current || !text) return;
 
-    setMessages((prev) => {
-      const next = [...prev];
-      const id = assistantIdRef.current ?? crypto.randomUUID();
-      if (!assistantIdRef.current) assistantIdRef.current = id;
+      // ✅ CRITICAL: Normalize Farsi → Arabic BEFORE displaying
+      const normalizedText = normalizeFarsiToArabic(text);
 
-      const last = next[next.length - 1];
-      if (!last || last.role !== "assistant" || last.id !== id) {
-        next.push({
-          id,
-          role: "assistant",
-          content: text,
-          timestamp: new Date(),
-        });
-      } else {
-        next[next.length - 1] = {
-          ...last,
-          content: last.content + text,
-        };
-      }
-      return next;
-    });
-  };
+      producedRef.current = true;
 
-  const appendChunk = async (chunk: string) => {
-    if (!mountedRef.current || !chunk) return;
+      setMessages((prev) => {
+        const next = [...prev];
+        const id =
+          assistantIdRef.current ??
+          (typeof crypto !== "undefined" && crypto.randomUUID
+            ? crypto.randomUUID()
+            : `id_${Date.now()}_${Math.random().toString(36).slice(2, 8)}`);
+        if (!assistantIdRef.current) assistantIdRef.current = id;
 
-    if (!hasReceivedFirstChunk.current) {
-      hasReceivedFirstChunk.current = true;
-      setIsTyping(false);
-      setPhase?.("writing");
-    }
-
-    const tokens = chunk
-      .split(TOKENIZER)
-      .filter((t) => t !== undefined && t !== "");
-
-    if (tokens.length <= 3) {
-      if (DEBUG_TOKENS) console.log("[token ⚡ fast]", chunk);
-      appendDirectly(chunk);
-      return;
-    }
-
-    for (const token of tokens) {
-      if (!mountedRef.current) break;
-      appendDirectly(token);
-      if (DEBUG_TOKENS) console.log("[token]", JSON.stringify(token));
-      await new Promise((r) => setTimeout(r, TOKEN_DELAY_MS));
-    }
-  };
-
-  const processData = async (raw: string) => {
-    const line = raw;
-
-    if (!line) return;
-
-    try {
-      const evt = JSON.parse(line);
-
-      if (evt?.event === "search") {
-        setPhase?.("searching");
-        const maybe = evt?.payload?.delta ?? evt?.payload?.text ?? "";
-        if (maybe) await appendChunk(String(maybe));
-        return;
-      }
-
-      if (evt?.event === "tool" || evt?.event === "tool_start") {
-        setPhase?.("searching");
-        return;
-      }
-
-      if (evt?.event === "content") {
-        const delta: string = evt?.payload?.delta ?? "";
-        if (delta) {
-          await appendChunk(delta);
+        const last = next[next.length - 1];
+        if (!last || last.role !== "assistant" || last.id !== id) {
+          next.push({
+            id,
+            role: "assistant",
+            content: normalizedText,
+            timestamp: new Date(),
+          });
+        } else {
+          next[next.length - 1] = {
+            ...last,
+            content: last.content + normalizedText,
+          };
         }
+        return next;
+      });
+    },
+    [setMessages]
+  );
+
+  /** Stream-aware append with smooth typing effect */
+  const appendChunk = useCallback(
+    async (rawIn: string) => {
+      if (!mountedRef.current || !rawIn) return;
+
+      if (!hasReceivedFirstChunk.current) {
+        hasReceivedFirstChunk.current = true;
+        setIsTyping(false);
+        setPhase?.("writing");
+      }
+
+      let raw = rawIn.replace(ZERO_WIDTH, "");
+      try {
+        raw = raw.normalize("NFC");
+      } catch {
+        // Ignore normalization errors
+      }
+
+      // Fast path for markdown/multiline
+      if (raw.includes("\n") || HAS_MARKDOWN_SYNTAX.test(raw)) {
+        appendDirectly(raw);
         return;
       }
 
-      const generic =
-        evt?.payload?.delta ??
-        evt?.delta ??
-        evt?.text ??
-        (typeof evt === "string" ? evt : "");
-      if (generic) {
-        await appendChunk(String(generic));
+      const tokens = raw.split(TOKENIZER).filter(Boolean);
+      if (tokens.length <= 2) {
+        appendDirectly(raw);
         return;
       }
-      return;
+
+      // Animated token-by-token append
+      let i = 0;
+      for (const token of tokens) {
+        if (!mountedRef.current) break;
+        appendDirectly(token);
+        if (++i % BATCH_EVERY === 0) await sleep(TOKEN_DELAY_MS);
+      }
+    },
+    [appendDirectly, setIsTyping, setPhase]
+  );
+
+  const processData = useCallback(
+    async (raw: string, forcedEventName?: string) => {
+      if (!raw) return;
+
+      try {
+        const evt = JSON.parse(raw);
+
+        // Handle delta field directly (new format from proxy)
+        if (evt?.delta && typeof evt.delta === "string") {
+          await appendChunk(evt.delta);
+          return;
+        }
+
+        if (evt?.event === "search" || forcedEventName === "search") {
+          setPhase?.("searching");
+          const maybe = evt?.payload?.delta ?? evt?.payload?.text ?? "";
+          if (maybe) await appendChunk(stripInnerDataPrefix(String(maybe)));
+          return;
+        }
+
+        if (
+          evt?.event === "tool" ||
+          evt?.event === "tool_start" ||
+          forcedEventName === "tool"
+        ) {
+          setPhase?.("searching");
+          return;
+        }
+
+        if (evt?.event === "content" || forcedEventName === "content") {
+          const delta: string = evt?.payload?.delta ?? "";
+          if (delta) await appendChunk(stripInnerDataPrefix(delta));
+          return;
+        }
+
+        // Fallback to generic delta/text extraction
+        const generic =
+          evt?.payload?.delta ??
+          evt?.delta ??
+          evt?.text ??
+          (typeof evt === "string" ? evt : "");
+        if (generic) {
+          await appendChunk(stripInnerDataPrefix(String(generic)));
+        }
+      } catch {
+        // Not JSON, treat as plain text
+        await appendChunk(stripInnerDataPrefix(raw));
+      }
+    },
+    [appendChunk, setPhase]
+  );
+
+  async function readErrorMessage(res: Response): Promise<string> {
+    let raw = "";
+    try {
+      raw = await res.text();
     } catch {
-      await appendChunk(raw);
+      return "Failed to read error body";
     }
-  };
-
-  const readErrorMessage = async (res: Response) => {
-    const raw = await res.text().catch(() => "");
     try {
       const obj = JSON.parse(raw);
       return (obj?.detail ||
@@ -194,241 +335,411 @@ export function useStreamMessage({
         obj?.error ||
         (typeof obj === "string" ? obj : raw)) as string;
     } catch {
-      return raw;
+      return raw || `HTTP ${res.status}`;
     }
-  };
+  }
 
-  const fetcher = async (_key: string, { arg: queryText }: { arg: string }) => {
-    controllerRef.current?.abort();
-    controllerRef.current = new AbortController();
-    assistantIdRef.current = null;
-    hasReceivedFirstChunk.current = false;
+  /** Core fetcher (SWR Mutation) */
+  const fetcher = useCallback(
+    async (_key: string, { arg: queryText }: { arg: string }) => {
+      try {
+        controllerRef.current?.abort();
+      } catch {
+        // Ignore
+      }
+      controllerRef.current = new AbortController();
 
-    const t0 = performance.now();
-    let lastT = t0;
-    let chunkIdx = 0;
+      if (timeoutRef.current) clearTimeout(timeoutRef.current);
+      timeoutRef.current = setTimeout(() => {
+        try {
+          controllerRef.current?.abort();
+        } catch {
+          // Ignore
+        }
+        safeToastError(
+          "Request timed out",
+          "The server took too long to respond."
+        );
+      }, REQUEST_TIMEOUT_MS);
 
-    const existingSession = getSessionId();
+      assistantIdRef.current = null;
+      hasReceivedFirstChunk.current = false;
+      producedRef.current = false;
 
-    const makePayload = (sid: string | null) => {
-      const payload: Record<string, unknown> = {
-        query: queryText,
-        n_results: nResults,
+      const existingSession = getSessionId();
+
+      const makePayload = (sid: string | null) => {
+        const payload: Record<string, unknown> = {
+          query: queryText,
+          n_results: nResults,
+        };
+        if (sid) payload.session_id = sid;
+        return payload;
       };
-      if (sid) payload.session_id = sid;
-      return payload;
-    };
 
-    let triedOnceWithoutSession = false;
+      let triedOnceWithoutSession = false;
 
-    const doRequest = async (sid: string | null) => {
-      return fetch(endpoint, {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify(makePayload(sid)),
-        signal: controllerRef.current!.signal,
-        cache: "no-store",
-      });
-    };
+      const attemptFetch = async (
+        sid: string | null
+      ): Promise<Response | null> => {
+        const payload = makePayload(sid);
 
-    let res = await doRequest(existingSession);
+        // ✅ IMPROVEMENT 4: Add session to headers
+        const headers: HeadersInit = {
+          "Content-Type": "application/json",
+        };
 
-    let newSessionId = res.headers.get("x-session-id");
-    if (newSessionId && newSessionId !== existingSession) {
-      setSessionId(newSessionId);
-    }
+        if (sid) {
+          headers["X-Session-ID"] = sid;
+        }
 
-    if (!res.ok) {
-      const ct = res.headers.get("content-type") || "";
-      const msg = (await readErrorMessage(res)) || "Request failed";
+        try {
+          return await fetch(endpoint, {
+            method: "POST",
+            headers,
+            body: JSON.stringify(payload),
+            signal: controllerRef.current?.signal,
+          });
+        } catch (err) {
+          if (
+            (err as Error).name !== "AbortError" &&
+            sid &&
+            !triedOnceWithoutSession
+          ) {
+            triedOnceWithoutSession = true;
+            clearSessionId();
+            return attemptFetch(null);
+          }
+          throw err;
+        }
+      };
 
-      if (
-        res.status === 404 &&
-        /session not found|expired/i.test(msg) &&
-        existingSession &&
-        !triedOnceWithoutSession
-      ) {
-        clearSessionId();
-        triedOnceWithoutSession = true;
+      let res = await attemptFetch(existingSession);
+      if (!res) {
+        safeToastError("Request failed", "No response received");
+        return "";
+      }
 
-        res = await doRequest(null);
-        newSessionId = res.headers.get("x-session-id");
-        if (newSessionId) setSessionId(newSessionId);
+      const xSession = res.headers.get("x-session-id");
+      if (xSession && xSession !== existingSession) {
+        setSessionId(xSession);
+      }
 
-        if (!res.ok) {
-          const msg2 = (await readErrorMessage(res)) || "Request failed";
+      if (!res.ok) {
+        const msg = await readErrorMessage(res);
+
+        // ⭐ FIX: Handle 404/500 errors (invalid/expired session) - retry without session
+        if (
+          (res.status === 404 || res.status === 500) &&
+          existingSession &&
+          !triedOnceWithoutSession
+        ) {
+          triedOnceWithoutSession = true;
+          clearSessionId();
+          const res2 = await attemptFetch(null);
+
+          if (!res2 || !res2.ok) {
+            const msg2 = res2 ? await readErrorMessage(res2) : msg;
+            safeToastError("Request failed", msg2.slice(0, 200));
+            return "";
+          }
+
+          // ⭐ SUCCESS: Update with new session and continue processing
+          const xSession2 = res2.headers.get("x-session-id");
+          if (xSession2) {
+            setSessionId(xSession2);
+          }
+
+          // Replace res with successful retry response
+          res = res2;
+        } else if (res.status === 401 || res.status === 403) {
+          clearSessionId();
+          safeToastError("Session expired", "Please try again.");
+          return "";
+        } else {
+          const ct = res.headers.get("content-type")?.toLowerCase() || "";
           if (ct.includes("text/html")) {
-            // ❌ بدل throw -> توست + رجوع فاضي
-            console.error(`HTTP ${res.status} (Next.js 404/HTML)`);
             safeToastError(
               "Request failed",
-              `HTTP ${res.status} (Next.js 404/HTML)`
+              `HTTP ${res.status} (Next.js HTML)`
             );
             return "";
           }
-          console.error(`HTTP ${res.status} ${msg2.slice(0, 200)}`);
-          safeToastError("Request failed", `${msg2.slice(0, 200)}`);
+          safeToastError("Request failed", msg.slice(0, 200));
           return "";
         }
-      } else {
-        if (ct.includes("text/html")) {
-          console.error(`HTTP ${res.status} (Next.js 404/HTML)`);
-          safeToastError(
-            "Request failed",
-            `HTTP ${res.status} (Next.js 404/HTML)`
-          );
-          return "";
-        }
-        console.error(`HTTP ${res.status} ${msg.slice(0, 200)}`);
-        safeToastError("Request failed", `${msg.slice(0, 200)}`);
+      }
+
+      if (!res.body) {
+        safeToastError("Request failed", "No stream body");
         return "";
       }
-    }
 
-    if (!res.body) {
-      console.error("No stream body");
-      safeToastError("Request failed", "No stream body");
-      return "";
-    }
+      const mode = detectMode(res.headers.get("content-type"));
 
-    const mode = detectMode(res.headers.get("content-type"));
-    if (DEBUG_STREAM) {
-      console.log("[stream] mode:", mode);
-      console.log("[stream] started @", new Date().toISOString());
-    }
+      /** Fast path for non-streaming responses */
+      if (mode !== "sse" && mode !== "ndjson") {
+        let responseText = "";
 
-    const reader = res.body.pipeThrough(new TextDecoderStream()).getReader();
-    let textBuffer = "";
+        try {
+          const ct = res.headers.get("content-type")?.toLowerCase() || "";
+          responseText = await res.text();
 
-    try {
-      while (true) {
-        const { value, done } = await reader.read();
-        if (done) {
-          if (DEBUG_STREAM) {
-            const totalMs = performance.now() - t0;
-            console.log(`[stream] finished. total=${totalMs.toFixed(1)}ms`);
-          }
-          break;
-        }
+          if (ct.includes("application/json")) {
+            try {
+              const j = JSON.parse(responseText);
+              let payload =
+                (j &&
+                  (j.content || j.delta || j.text || j.message || j.answer)) ??
+                j;
 
-        if (!value) continue;
-
-        chunkIdx += 1;
-        if (DEBUG_STREAM) {
-          const now = performance.now();
-          const dt = now - lastT;
-          lastT = now;
-          const preview =
-            value.length > 120 ? value.slice(0, 120) + "…" : value;
-          console.groupCollapsed(
-            `[chunk #${chunkIdx}] +${dt.toFixed(1)}ms | ${value.length} chars`
-          );
-          console.log(preview);
-          console.groupEnd();
-        }
-
-        if (mode === "sse") {
-          textBuffer += value;
-          const lines = splitLines(textBuffer);
-          textBuffer = lines.pop() ?? "";
-          let frame: string[] = [];
-
-          for (const line of lines) {
-            const bare = line.endsWith("\r") ? line.slice(0, -1) : line;
-
-            if (bare === "") {
-              if (frame.length) {
-                const payloadLines = frame
-                  .filter((l) => l.startsWith("data:"))
-                  .map((l) => l.slice(5));
-                const data = payloadLines.join("\n");
-                if (data) {
-                  if (DEBUG_STREAM) console.log("[sse event data]", data);
-                  await processData(data);
+              if (typeof payload !== "string") {
+                try {
+                  payload = JSON.stringify(payload, null, 2);
+                } catch {
+                  payload = String(payload);
                 }
-                frame = [];
               }
-            } else {
-              if (!hasReceivedFirstChunk.current) {
+              payload = stripInnerDataPrefix(payload);
+              await appendChunk(payload);
+            } catch {
+              const txt = stripInnerDataPrefix(responseText);
+              await appendChunk(txt);
+            }
+          } else {
+            const txt = stripInnerDataPrefix(responseText);
+            await appendChunk(txt);
+          }
+        } catch (e) {
+          const msg =
+            e instanceof Error
+              ? e.message
+              : "Failed to read non-stream response";
+          safeToastError("Read error", msg);
+        } finally {
+          if (!producedRef.current && responseText) {
+            appendDirectly(responseText);
+          }
+
+          if (timeoutRef.current) {
+            clearTimeout(timeoutRef.current);
+            timeoutRef.current = null;
+          }
+          setIsTyping(false);
+          setPhase?.(null);
+          controllerRef.current = null;
+        }
+        return "";
+      }
+
+      /** Streaming path (SSE/NDJSON) */
+      const reader = res.body.pipeThrough(new TextDecoderStream()).getReader();
+      readerRef.current = reader;
+      let textBuffer = "";
+      let sawBOM = false;
+
+      try {
+        while (true) {
+          const { value, done } = await reader.read();
+          if (done) break;
+          if (!value) continue;
+
+          let chunk = value;
+          if (!sawBOM) {
+            sawBOM = true;
+            if (chunk.charCodeAt(0) === 0xfeff) chunk = chunk.slice(1);
+          }
+
+          if (mode === "sse") {
+            textBuffer += chunk;
+            const lines = splitLines(textBuffer);
+            textBuffer = lines.pop() ?? "";
+
+            let frameEventName: string | undefined;
+            let frameDataLines: string[] = [];
+
+            const flushFrame = async () => {
+              if (!frameDataLines.length) return;
+              const data = frameDataLines.join("\n");
+              if (data.trim() !== "[DONE]")
+                await processData(data, frameEventName);
+              frameDataLines = [];
+              frameEventName = undefined;
+            };
+
+            for (const line of lines) {
+              const bare = line.endsWith("\r") ? line.slice(0, -1) : line;
+
+              if (!hasReceivedFirstChunk.current && bare && bare[0] !== ":") {
                 setPhase?.("thinking");
               }
-              frame.push(bare);
+              if (bare.startsWith(":")) continue;
+              if (bare === "") {
+                if (frameDataLines.length) await flushFrame();
+                continue;
+              }
+
+              const idx = bare.indexOf(":");
+              const field = idx === -1 ? bare : bare.slice(0, idx);
+              const rest = idx === -1 ? "" : bare.slice(idx + 1);
+
+              const value0 = rest.startsWith(" ") ? rest.slice(1) : rest;
+              const value = value0.replace(/\r$/, "").replace(/\|$/, "");
+
+              switch (field) {
+                case "data":
+                  frameDataLines.push(value);
+                  break;
+                case "event":
+                  frameEventName = value || undefined;
+                  break;
+                default:
+                  break;
+              }
+            }
+          } else {
+            // NDJSON
+            textBuffer += chunk;
+            const lines = splitLines(textBuffer);
+            textBuffer = lines.pop() ?? "";
+            for (const line of lines) {
+              if (!line) continue;
+              await processData(line);
             }
           }
-        } else if (mode === "ndjson") {
-          textBuffer += value;
-          const lines = splitLines(textBuffer);
-          textBuffer = lines.pop() ?? "";
-
-          for (const line of lines) {
-            const l = line;
-            if (!l) continue;
-            if (DEBUG_STREAM) console.log("[ndjson line]", l);
-            await processData(l);
-          }
-        } else {
-          if (!hasReceivedFirstChunk.current) {
-            setPhase?.("writing");
-          }
-          await appendChunk(value);
         }
-      }
 
-      if (textBuffer) {
-        if (DEBUG_STREAM) console.log("[tail buffer]", textBuffer);
-        await processData(textBuffer);
-      }
-    } catch (err) {
-      if ((err as Error).name === "AbortError") {
-        if (DEBUG_STREAM) console.warn("[stream] aborted by user");
+        // Process remaining buffer
+        if (textBuffer) {
+          if (mode === "sse") {
+            const lines = splitLines(textBuffer);
+            let frameEventName: string | undefined;
+            let frameDataLines: string[] = [];
+            for (const line of lines) {
+              const bare = line.endsWith("\r") ? line.slice(0, -1) : line;
+              if (!bare || bare.startsWith(":")) continue;
+              const idx = bare.indexOf(":");
+              const field = idx === -1 ? bare : bare.slice(0, idx);
+              const rest = idx === -1 ? "" : bare.slice(idx + 1);
+              const value0 = rest.startsWith(" ") ? rest.slice(1) : rest;
+              const value = value0.replace(/\r$/, "").replace(/\|$/, "");
+              if (field === "event") frameEventName = value || undefined;
+              else if (field === "data") frameDataLines.push(value);
+            }
+            if (frameDataLines.length) {
+              const data = frameDataLines.join("\n");
+              if (data.trim() !== "[DONE]")
+                await processData(data, frameEventName);
+            }
+          } else {
+            await processData(textBuffer);
+          }
+        }
+      } catch (err) {
+        if ((err as Error).name !== "AbortError") {
+          const msg = getReadableErrorMessage(err);
+          safeToastError("Stream error", msg);
+        }
         return "";
+      } finally {
+        try {
+          reader.releaseLock();
+        } catch {
+          // Ignore
+        }
+        readerRef.current = null;
+
+        if (timeoutRef.current) {
+          clearTimeout(timeoutRef.current);
+          timeoutRef.current = null;
+        }
+        setIsTyping(false);
+        setPhase?.(null);
       }
-      const msg = getReadableErrorMessage(err);
-      console.error("Stream read error:", msg);
-      safeToastError("Stream error", msg);
+
       return "";
-    } finally {
-      try {
-        reader.releaseLock();
-      } catch {}
-    }
+    },
+    [
+      endpoint,
+      nResults,
+      appendChunk,
+      appendDirectly,
+      processData,
+      setIsTyping,
+      setPhase,
+    ]
+  );
 
-    return "";
-  };
-
+  /** SWR Mutation */
   const { trigger, data, error, isMutating, reset } = useSWRMutation(
     endpoint,
     fetcher,
     {
       revalidate: false,
       onError: (err) => {
-        // احتياطيًا لو حد نادى trigger مباشرة
         const msg = getReadableErrorMessage(err);
         safeToastError("Failed to process request", msg);
       },
     }
   );
 
-  const mutate = async (queryText: string) => {
-    setIsTyping(true);
-    setPhase?.("thinking");
+  /** Public API */
+  const mutate = useCallback(
+    async (queryText: string) => {
+      if (isMutating || controllerRef.current) {
+        console.warn("Request already in progress");
+        return null;
+      }
+
+      // ✅ IMPROVEMENT 3: Rate limiting
+      const now = Date.now();
+      const timeSinceLastRequest = now - lastRequestTimeRef.current;
+
+      if (timeSinceLastRequest < MIN_REQUEST_INTERVAL) {
+        const waitTime = Math.ceil(
+          (MIN_REQUEST_INTERVAL - timeSinceLastRequest) / 1000
+        );
+        safeToastError(
+          "Too fast!",
+          `Please wait ${waitTime} second${waitTime > 1 ? "s" : ""}`
+        );
+        return null;
+      }
+
+      lastRequestTimeRef.current = now;
+
+      setIsTyping(true);
+      setPhase?.("thinking");
+      try {
+        const result = await trigger(queryText);
+        return result;
+      } catch (err) {
+        const msg = getReadableErrorMessage(err);
+        safeToastError("Request failed", msg);
+        return null;
+      } finally {
+        setIsTyping(false);
+        setPhase?.(null);
+        controllerRef.current = null;
+      }
+    },
+    [isMutating, trigger, setIsTyping, setPhase]
+  );
+
+  const abort = useCallback(() => {
     try {
-      const result = await trigger(queryText);
-      return result;
-    } catch (err) {
-      const msg = getReadableErrorMessage(err);
-      console.error("Stream error (mutate):", msg);
-      safeToastError("Request failed", msg);
-      return null;
-    } finally {
-      setIsTyping(false);
-      setPhase?.(null);
-      controllerRef.current = null;
+      controllerRef.current?.abort();
+    } catch {
+      // Ignore
     }
-  };
+    controllerRef.current = null;
+    setIsTyping(false);
+    setPhase?.(null);
+  }, [setIsTyping, setPhase]);
 
   return {
     mutate,
+    abort,
     data,
     error,
     isMutating,

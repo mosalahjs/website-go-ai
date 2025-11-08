@@ -41,11 +41,7 @@ const BlogSection: React.FC = React.memo(function BlogSection() {
   return (
     <section
       aria-labelledby="blog-section-title"
-      className={cn(
-        "relative min-h-screen py-16 sm:py-20",
-        "bg-gradient-to-br from-sky-50 via-white to-sky-50",
-        "dark:from-slate-950 dark:via-slate-900 dark:to-slate-950"
-      )}
+      className={cn("relative min-h-screen py-16 sm:py-20")}
     >
       <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
         {/* Header */}
@@ -66,7 +62,7 @@ const BlogSection: React.FC = React.memo(function BlogSection() {
           >
             <span
               className={cn(
-                "rounded-full px-4 py-2 text-sm font-medium backdrop-blur",
+                "rounded-sm px-4 py-2 text-sm font-medium backdrop-blur",
                 "text-white  bg-gradient-to-r from-primary-from to-primary-to border border-primary/20"
               )}
             >

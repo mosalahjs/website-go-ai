@@ -4,7 +4,7 @@ import React, { memo } from "react";
 import { motion } from "framer-motion";
 
 import MessageBubble from "./MessageBubble";
-import MessageComposer from "./MessageComposer";
+// import MessageComposer from "./MessageComposer";
 import { Message, Session } from "@/types/dashboard/sessions.type";
 
 type Props = {
@@ -28,6 +28,12 @@ const ConversationView = memo(function ConversationView({
   onEdit,
   onDeleteMessage,
 }: Props) {
+  void newMessageRole;
+  void newMessageContent;
+  void onRoleChange;
+  void onContentChange;
+  void onSend;
+
   return (
     <>
       {/* Header */}
@@ -70,13 +76,13 @@ const ConversationView = memo(function ConversationView({
       </div>
 
       {/* Composer */}
-      <MessageComposer
+      {/* <MessageComposer
         value={newMessageContent}
         role={newMessageRole}
         onChange={onContentChange}
         onRoleChange={onRoleChange}
         onSend={onSend}
-      />
+      /> */}
     </>
   );
 });

@@ -15,7 +15,7 @@ import {
   CardTitle,
 } from "@/components/ui/card";
 import { Toaster, toast } from "sonner";
-import { Sparkles, ArrowRight } from "lucide-react";
+import { Sparkles, ArrowRight, Eye, EyeOff } from "lucide-react";
 
 type LoginBody = { email: string; password: string };
 
@@ -67,6 +67,16 @@ export default function LoginForm() {
 
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+
+  // 👁️ Toggle password visibility (مودرن + أكسسبل)
+  const [showPassword, setShowPassword] = useState(false);
+  const togglePassword = useCallback(() => {
+    setShowPassword((v) => !v);
+  }, []);
+  const holdFocus = useCallback((e: React.MouseEvent) => {
+    // يمنع فقدان تركيز الحقل أثناء الضغط على الزر
+    e.preventDefault();
+  }, []);
 
   const { trigger, isMutating } = useSWRMutation<
     LoginResponse,
@@ -149,6 +159,7 @@ export default function LoginForm() {
                   value={email}
                   onChange={(e) => setEmail(e.target.value)}
                   required
+                  autoComplete="email"
                   className="h-11 rounded-xl border-2 transition-smooth focus:border-[hsl(var(--dash-primary))]"
                 />
               </div>
@@ -157,15 +168,43 @@ export default function LoginForm() {
                 <Label htmlFor="password" className="text-sm font-medium">
                   {t("passwordLabel")}
                 </Label>
-                <Input
-                  id="password"
-                  type="password"
-                  placeholder={t("passwordPlaceholder")}
-                  value={password}
-                  onChange={(e) => setPassword(e.target.value)}
-                  required
-                  className="h-11 rounded-xl border-2 transition-smooth focus:border-[hsl(var(--dash-primary))]"
-                />
+
+                {/* حاوية نسبية لزر العين */}
+                <div className="relative">
+                  <Input
+                    id="password"
+                    type={showPassword ? "text" : "password"}
+                    placeholder={t("passwordPlaceholder")}
+                    value={password}
+                    onChange={(e) => setPassword(e.target.value)}
+                    required
+                    autoComplete="current-password"
+                    // padding داخلي لعدم تداخل زر العين
+                    className="h-11 rounded-xl border-2 transition-smooth focus:border-[hsl(var(--dash-primary))] pr-12 rtl:pl-12"
+                    aria-describedby="password-visibility-helper"
+                  />
+
+                  {/* زر إظهار/إخفاء الباسورد */}
+                  <button
+                    type="button"
+                    onMouseDown={holdFocus}
+                    onClick={togglePassword}
+                    aria-label={
+                      showPassword
+                        ? t("hidePassword", { default: "Hide password" })
+                        : t("showPassword", { default: "Show password" })
+                    }
+                    aria-pressed={showPassword}
+                    className="absolute inset-y-0 right-3 rtl:left-3 rtl:right-auto my-auto inline-flex items-center justify-center h-8 w-8 rounded-lg transition-smooth hover:bg-muted/60 focus:outline-none focus:ring-2 focus:ring-[hsl(var(--dash-primary))] focus:ring-offset-2"
+                    id="password-visibility-helper"
+                  >
+                    {showPassword ? (
+                      <EyeOff className="h-5 w-5 text-muted-foreground" />
+                    ) : (
+                      <Eye className="h-5 w-5 text-muted-foreground" />
+                    )}
+                  </button>
+                </div>
               </div>
 
               <Button

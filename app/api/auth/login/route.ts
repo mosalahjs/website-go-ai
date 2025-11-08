@@ -4,7 +4,9 @@ import { NextResponse } from "next/server";
 export const runtime = "nodejs";
 export const dynamic = "force-dynamic";
 
-const BACKEND_BASE = "http://209.38.184.210:5002";
+const BACKEND_BASE =
+  process.env.NEXT_PUBLIC_API_UR?.replace(/\/$/, "") ??
+  "https://www.goai-bot-backend.goai247.com";
 
 function filterUpstreamHeaders(upstream: Response) {
   const out = new Headers();
@@ -77,7 +79,7 @@ export async function POST(req: NextRequest) {
         secure: process.env.NODE_ENV === "production",
         sameSite: "lax",
         path: "/",
-        maxAge: 7 * 24 * 60 * 60,
+        maxAge: 30 * 60,
       });
 
       return res;

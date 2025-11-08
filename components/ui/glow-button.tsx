@@ -132,7 +132,7 @@ export const GlowButton = React.memo(
           aria-busy={loading || undefined}
           {...(asChild && isDisabled ? { "aria-disabled": true } : {})}
           className={cn(
-            "relative overflow-hidden rounded-full font-semibold inline-flex items-center justify-center select-none",
+            "relative overflow-hidden rounded-sm font-semibold inline-flex items-center justify-center select-none",
             "transition-all duration-300 will-change-transform backdrop-blur-md",
             interactiveStateClasses,
             "shadow-md hover:shadow-xl focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary/60",
@@ -140,7 +140,7 @@ export const GlowButton = React.memo(
             "border bg-[var(--gbg-light)] text-[var(--gtxt-light)] border-[color:var(--gborder-light)]",
             "dark:bg-[var(--gbg-dark)] dark:text-[var(--gtxt-dark)] dark:border-[color:var(--gborder-dark)]",
             // Glow Layer
-            "after:content-[''] after:absolute after:inset-0 after:rounded-full after:-z-10 after:pointer-events-none",
+            "after:content-[''] after:absolute after:inset-0 after:rounded-sm after:-z-10 after:pointer-events-none",
             "after:bg-gradient-to-r after:from-[var(--gglow-from)] after:to-[var(--gglow-to)]",
             isDisabled
               ? "after:opacity-0"

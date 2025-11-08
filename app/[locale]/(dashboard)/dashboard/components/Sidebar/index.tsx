@@ -22,6 +22,7 @@ import {
   ChevronLeft,
   ChevronRight,
   Sparkles,
+  Database,
 } from "lucide-react";
 
 type NavItem = {
@@ -37,6 +38,8 @@ const NAV_ITEMS: NavItem[] = [
     url: "/dashboard/sessions",
     icon: MessageSquare,
   },
+  { titleKey: "links.boot-data", url: "/dashboard/boot-data", icon: Database },
+
   { titleKey: "links.content", url: "/dashboard/content", icon: FileText },
   { titleKey: "links.settings", url: "/dashboard/settings", icon: Settings },
 ];

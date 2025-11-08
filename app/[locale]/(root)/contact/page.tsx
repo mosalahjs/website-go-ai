@@ -5,6 +5,7 @@ import { ContactHero } from "./components/ContactHero";
 import { ContactInfo } from "./components/ContactInfo";
 import { Metadata } from "next";
 import { createPageMetadata } from "@/lib/seo";
+// import ContactWithMap from "./components/ContactWithMap";
 
 type Props = { params: Promise<{ locale: "en" | "ar" }> };
 
@@ -22,12 +23,23 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
 
 export default function Contact() {
   return (
-    <Container>
-      <ContactHero />
-      <div className="grid grid-cols-1 md:grid-cols-3 gap-12 lg:gap-24 py-16">
-        <ContactInfo />
-        <ContactForm />
-      </div>
-    </Container>
+    <>
+      <Container>
+        <ContactHero />
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-12 lg:gap-24 py-16">
+          <ContactInfo />
+          <ContactForm />
+        </div>
+      </Container>
+      {/* <ContactWithMap
+        lat={25.2048}
+        lng={55.2708}
+        title="GoAI 247 — HQ"
+        address="Business Bay, Dubai, UAE"
+        phone="+971 50 123 4567"
+        email="hello@goai247.com"
+        mapStyleUrl="/api/map-style" 
+      /> */}
+    </>
   );
 }

@@ -48,9 +48,9 @@ export default function Services() {
   ] as const;
 
   return (
-    <section className="py-24 bg-muted/30 relative overflow-hidden">
+    <section className="py-24  relative overflow-hidden">
       {/* Background decoration */}
-      <div className="absolute inset-0 bg-gradient-mesh opacity-50 h-full" />
+      <div className="absolute inset-0 opacity-50 h-full" />
 
       <div className="container mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
         <motion.div
@@ -82,9 +82,9 @@ export default function Services() {
             <motion.div key={index} variants={item} className="h-full">
               <Card className="group h-full border-2 border-main/20 hover:border-main/60 hover:cursor-pointer transition-all duration-500 hover:shadow-intense backdrop-blur-sm bg-card/80 relative overflow-hidden">
                 {/* Background gradient on hover */}
-                <div
+                {/* <div
                   className={`absolute inset-0 bg-gradient-to-br ${service.color} opacity-0 group-hover:opacity-10 transition-opacity duration-500 pointer-events-none z-0`}
-                />
+                /> */}
 
                 <CardContent className="p-8 space-y-5 relative z-10">
                   <motion.div
@@ -108,7 +108,7 @@ export default function Services() {
                     initial={{ scale: 0, opacity: 0 }}
                     whileInView={{ scale: 1, opacity: 0.1 }}
                     transition={{ delay: index * 0.1 + 0.3 }}
-                    className={`absolute -bottom-10 -right-10 w-32 h-32 bg-gradient-to-br ${service.color} rounded-full blur-2xl`}
+                    className={`absolute -bottom-10 -right-10 w-32 h-32  rounded-full blur-2xl`}
                   />
                 </CardContent>
               </Card>

@@ -1,10 +1,11 @@
-// app/[locale]/(dashboard)/layout.tsx
 import type { ReactNode } from "react";
 import type { Metadata } from "next";
 import { cookies } from "next/headers";
 import { redirect } from "next/navigation";
 import nextDynamic from "next/dynamic";
 import { Suspense } from "react";
+
+import ClientProviders from "@/components/providers/ClientProviders";
 
 export const runtime = "nodejs";
 export const dynamic = "force-dynamic";
@@ -85,6 +86,8 @@ export default async function DashboardLayout({
           </main>
         </div>
       </div>
+
+      <ClientProviders locale={locale} />
     </section>
   );
 }

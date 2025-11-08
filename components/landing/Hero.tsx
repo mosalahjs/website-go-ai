@@ -243,7 +243,7 @@ function HeroComponent() {
                 <Image
                   src={heroImage}
                   alt="AI Technology Workspace"
-                  className="w-full h-auto rounded-3xl"
+                  className="w-full h-auto rounded-lg"
                   sizes="(min-width:1024px) 560px, 100vw"
                   placeholder="blur"
                 />
@@ -260,7 +260,7 @@ function HeroComponent() {
                   repeat: Infinity,
                   ease: "linear",
                 })}
-                className="absolute top-1/2 right-0 w-32 h-32 bg-gradient-primary opacity-20 rounded-full blur-2xl -z-10 will-change-transform"
+                className="absolute top-1/2 right-0 w-32 h-32 bg-gradient-primary opacity-20 rounded-full blur-lg -z-10 will-change-transform"
                 aria-hidden="true"
               />
             </motion.div>

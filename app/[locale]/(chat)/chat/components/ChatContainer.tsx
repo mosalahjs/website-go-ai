@@ -68,9 +68,11 @@ export const ChatContainer = memo(function ChatContainer({
       aria-live="polite"
       aria-relevant="additions"
     >
-      <Container fullHeight className="flex flex-col">
+      <Container fullHeight className="flex flex-col gap-y-5">
         {!hasMessages ? <EmptyState /> : <>{items}</>}
-        {isTyping && <TypingIndicator mode="words" phase={phase} />}
+        {isTyping && (
+          <TypingIndicator mode="words" phase={phase} className="pb-6" />
+        )}
         <div ref={endRef} aria-hidden className="h-0 w-0" />
       </Container>
     </div>

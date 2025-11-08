@@ -15,7 +15,7 @@ const Container = forwardRef<HTMLDivElement, ContainerProps>(
     return (
       <div
         ref={ref}
-        className={`container mx-auto px-2 sm:px-4 md:px-8 xl:px-16 ${heightClass} ${overflowClass} ${className}`}
+        className={`container mx-auto px-2 sm:px-4 md:px-8 xl:px-12 ${heightClass} ${overflowClass} ${className}`}
       >
         {children}
       </div>

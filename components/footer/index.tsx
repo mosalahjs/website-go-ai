@@ -44,18 +44,10 @@ export const Footer = memo(function Footer() {
   ];
 
   return (
-    <footer className="relative mt-16">
-      <div className="pointer-events-none h-px w-full bg-gradient-to-r from-transparent via-primary/40 to-transparent" />
+    <footer className="relative mt-16 border-t">
+      <div className="pointer-events-none h-px w-full" />
 
-      <div
-        className={cn(
-          "relative container mx-auto px-4 sm:px-6 lg:px-8 py-12 sm:py-14",
-
-          "before:absolute before:inset-0 before:-z-10 before:rounded-3xl",
-          "before:bg-gradient-to-br before:from-sky-500/15 before:via-blue-500/10 before:to-indigo-500/15",
-          "before:blur-2xl before:opacity-70"
-        )}
-      >
+      <div className={cn("relative container mx-auto px-4 sm:px-6 lg:px-8")}>
         <div className="relative">
           <div className="px-5 sm:px-8 lg:px-10 py-10">
             <div className="grid grid-cols-1 gap-10 md:grid-cols-5">

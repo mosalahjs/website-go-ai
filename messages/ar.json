@@ -440,7 +440,8 @@
       "INPUT": {
         "placeholder": "اكتب رسالتك هنا...",
         "sendAria": "إرسال الرسالة",
-        "inputAria": "حقل إدخال الرسالة"
+        "inputAria": "حقل إدخال الرسالة",
+        "stopAria": "إيقاف التوليد"
       },
       "MESSAGE": {
         "userLabel": "رسالة المستخدم",
@@ -514,7 +515,9 @@
     "failedTitle": "فشل تسجيل الدخول",
     "failedDesc": "بيانات غير صحيحة. جرّب admin@example.com / admin123",
     "errorTitle": "خطأ",
-    "errorDesc": "حدث خطأ غير متوقع"
+    "errorDesc": "حدث خطأ غير متوقع",
+    "showPassword": "إظهار كلمة المرور",
+    "hidePassword": "إخفاء كلمة المرور"
   },
   "dashboard": {
     "navbar": {
@@ -556,7 +559,8 @@
         "dashboard": "لوحة التحكم",
         "sessions": "الجلسات",
         "content": "المحتوى",
-        "settings": "الإعدادات"
+        "settings": "الإعدادات",
+        "boot-data": "بيانات البوت"
       },
       "actions": {
         "collapse": "طيّ الشريط الجانبي",

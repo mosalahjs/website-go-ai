@@ -1,14 +1,3 @@
-/**
- * Production-Ready Middleware
- * ✅ i18n Support (next-intl)
- * ✅ Protected Routes
- * ✅ Security Headers
- * ✅ Rate Limiting
- * ✅ JWT Validation
- * ✅ Nginx + Node.js Ready
- * ✅ Clean Code & Best Practices
- */
-
 import createMiddleware from "next-intl/middleware";
 import { NextRequest, NextResponse } from "next/server";
 import { routing } from "./i18n/routing";
@@ -20,6 +9,9 @@ const CONFIG = {
   protectedPaths: [
     "/dashboard",
     "/dashboard/settings",
+    "/dashboard/boot-data",
+    "/dashboard/content",
+    "/dashboard/sessions",
     "/dashboard/profile",
     "/profile",
     "/settings",
@@ -41,7 +33,7 @@ const CONFIG = {
 
   // JWT configuration
   jwt: {
-    maxAge: 7 * 24 * 60 * 60, // 7 days in seconds
+    maxAge: 30 * 60, // 30 minutes
     expiryBuffer: 30, // 30 seconds buffer before expiry
   },
 
@@ -110,7 +102,7 @@ function isProtectedPath(pathname: string): boolean {
   const cleanPath = stripLocale(pathname);
 
   // ==================== FEATURE FLAG OVERRIDE ====================
-  // 👇 لو DASHBOARD_PUBLIC=1 يبقى /dashboard وأي مسارات تحته ليست محمية مؤقتًا.
+  // If DASHBOARD_PUBLIC=1, then /dashboard and any subpaths are temporarily not protected.
   if (
     CONFIG.featureFlags.dashboardPublic &&
     (cleanPath === "/dashboard" || cleanPath.startsWith("/dashboard/"))
@@ -321,7 +313,6 @@ function addSecurityHeaders(
   if (CONFIG.security.enableCSP) {
     const isDev = process.env.NODE_ENV === "development";
 
-    // ✅ FIXED: Get base URL without /api path
     let apiUrl = process.env.NEXT_PUBLIC_API_URL || "";
 
     // Remove trailing /api or /api/ to allow all endpoints
@@ -335,7 +326,6 @@ function addSecurityHeaders(
       "style-src 'self' 'unsafe-inline'",
       "img-src 'self' data: https: blob:",
       "font-src 'self' data:",
-      // ✅ FIXED: Allow base URL which covers all /api/* endpoints
       `connect-src 'self' ${apiUrl}`.trim(),
       "frame-ancestors 'none'",
       "base-uri 'self'",
@@ -408,7 +398,7 @@ export async function middleware(req: NextRequest) {
   if (!rateCheck.allowed) {
     logSecurityEvent("RATE_LIMIT_EXCEEDED", { ip: clientIp }, req);
 
-    return new NextResponse("عدد الطلبات كثير جداً. يرجى المحاولة لاحقاً.", {
+    return new NextResponse("Too many requests. Please try again later.", {
       status: 429,
       headers: {
         "Content-Type": "text/plain; charset=utf-8",
@@ -454,6 +444,8 @@ export async function middleware(req: NextRequest) {
       loginUrl.searchParams.set("redirect", returnPath);
 
       const response = NextResponse.redirect(loginUrl);
+      // Delete any existing auth cookie
+      response.cookies.delete("auth_token");
       return addSecurityHeaders(response, req);
     }
   }
